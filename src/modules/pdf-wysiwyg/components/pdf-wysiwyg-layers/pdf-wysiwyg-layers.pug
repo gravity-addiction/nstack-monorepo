@@ -1,0 +1,28 @@
+.row.info_window.print_hide.noselect(
+  *ngIf!="pdfService.showLayers",
+  #layersPanel,
+  ngxDraggableDom="true",
+  [handle]="layersPanelHandlebar",
+  style="cursor: pointer;"
+)
+  .header.draggable_handlebar(#layersPanelHandlebar) Layers
+    div(style="float: right;", (click)="pdfService.showLayers = !pdfService.showLayers")
+      fa-icon([icon]='["fas", "times"]')
+
+  .content.container
+    .layer_item.row(
+      *ngFor!="let layer of pdfService.allItems; let i = index; let first = first; let last = last",
+      [class.highlight]="pdfService.activeItem == layer",
+      (click)="selectItem(layer)"
+    ) 
+      .col {{ layer.id }} [{{ layer.t }}]
+      .col-1 
+        fa-icon(
+          (click)="layerDown(i, $event)",
+          [icon]='["fas", "arrow-down"]'
+        )
+      .col-1 
+        fa-icon(
+          (click)="layerUp(i, $event)",
+          [icon]='["fas", "arrow-up"]'
+        )

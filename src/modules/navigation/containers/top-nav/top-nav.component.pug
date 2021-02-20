@@ -1,0 +1,109 @@
+nav.navbar.navbar-expand-lg.navbar-light.fixed-top#mainNav
+  .container
+    button.navbar-toggler.navbar-toggler-left(
+      type='button',
+      (click)='isMenuCollapsed = !isMenuCollapsed',
+      aria-controls='navbarResponsive',
+      aria-expanded='false',
+      aria-label='Toggle navigation'
+    )
+      fa-icon.ml-1([icon]='["fas", "bars"]')
+    a.navbar-brand(routerLink='/') Skydive Or Bust
+    
+    .collapse.navbar-collapse([ngbCollapse]='isMenuCollapsed')
+      ul.navbar-nav.ml-auto
+
+
+        //- Start Default
+        li.nav-item
+          a.nav-link(routerLink='/') Home
+        li.nav-item
+          a.nav-link(routerLink='/r') Records
+        li.nav-item([isLoggedIn]="true")
+          a.nav-link(routerLink='/e') Events
+        //- li.nav-item
+          a.nav-link(routerLink='/v') Videos
+        
+
+        li.nav-item(
+          dropdown,
+        )
+          a.nav-link.dropdown-toggle(
+            dropdownToggle,
+            data-toggle="dropdown",
+            aria-haspopup="true",
+            aria-expanded="false"
+          ) Tools
+
+          ul.dropdown-menu.dropdown-inherit(*dropdownMenu)
+            li(role="menuitem")
+              a.dropdown-item(
+                routerLink="/d"
+              ) PDF Draw Sheets
+
+        li.nav-item
+          a.nav-link(routerLink='/p/find') Profiles
+                
+
+
+                
+        //- Login: False
+        li.nav-item(
+          dropdown,
+          [isLoggedIn]="false"
+        )
+          a.nav-link.dropdown-toggle(
+            dropdownToggle,
+            data-toggle="dropdown",
+            aria-haspopup="true",
+            aria-expanded="false",
+            style="padding: 1px;",
+            routerLink="/login"
+          )
+            fa-icon.mr-2.adminNavIcon(
+              [icon]='["fas", "parachute-box"]',
+              size='sm',
+              style="color: white;"
+            )
+
+        //- Login: True
+        li.nav-item(
+          dropdown,
+          [isLoggedIn]="true"
+        )
+          a.nav-link.dropdown-toggle(
+            dropdownToggle,
+            data-toggle="dropdown",
+            aria-haspopup="true",
+            aria-expanded="false",
+            style="padding: 1px;"
+          )
+            fa-icon.mr-2.adminNavIcon(
+              [icon]='["fas", "parachute-box"]',
+              size='sm'
+            )
+
+          ul.dropdown-menu.dropdown-inherit(*dropdownMenu)
+            li(role="menuitem")
+              a.dropdown-item(
+                routerLink="/a"
+              ) Overview
+
+            li(role="menuitem")
+              a.dropdown-item(
+                routerLink="/admin/u"
+              ) Users
+
+            li(role="menuitem")
+              a.dropdown-item(
+                routerLink="/changepassword"
+              ) Change Password
+
+            li(role="menuitem")
+              a.dropdown-item(
+                routerLink="/logout"
+              ) Logout
+
+
+
+                

@@ -1,0 +1,104 @@
+div((onresize)="sendHeight()")
+
+  .row.text-center.m-5#loadingReg(*ngIf!="!regCode && !errorRegLookup")
+    .col-12.text-center
+      .spinner-border.text-center(role="status")
+        .sr-only Loading
+      p.h1 Loading Registration
+
+  .row.text-center.m-5#loadingReg(*ngIf!="errorRegLookup")
+    .col-12.text-center
+      p.h1 No Registration Found
+
+  .h4(*ngIf!="regCode") Uploading For  {{ regCode }}
+
+  form(
+    #uploadForm="ngForm",
+    name="form",
+    novalidate
+  )
+  
+  .row([hidden]="!regCode")
+    .col.p-3.text-danger(*ngIf="videoHasError") Video format not supported. Upload and we can transcode it for you.
+
+    .form-row.align-items-end
+
+      .col-auto
+        label Event:
+        br
+        select.form-control([(ngModel)]="uploadingDiscipline")
+          option(value="CF2S") 2-way Seq Open
+          option(value="CF2SPA") 2-way Seq Pro/Am
+          option(value="CF4S") 4-way Seq Open
+          option(value="CF4R") 4-way Rotes Open
+
+      .col-auto
+        label Round:
+        br
+        select.form-control([(ngModel)]="uploadingRound")
+          option(value="1") 1
+          option(value="2") 2
+          option(value="3") 3
+          option(value="4") 4
+          option(value="5") 5
+          option(value="6") 6
+          option(value="7") 7
+          option(value="8") 8
+
+
+      .col-auto
+        label File:
+        br
+        input(
+          [hidden]="!acceptFile",
+          #FileInput,
+          type="file",
+          (click)="FileInput.value = ''",
+          style="border:1px solid black;width: 70%;"
+        )
+        
+      .col-auto
+        button.btn.btn-outline-primary(
+          type="button",
+          (click)="playFile(videoPlayers[selectedPlayer])"
+        ) Play File
+      .col-auto
+        button.btn.btn-outline-primary.upload-button(
+          [hidden]="isUploading || !acceptFile",
+          type="button",
+          (click)="uploadFile()"
+        ) Upload File
+        button.btn.btn-outline-danger(
+          *ngIf!="isUploading",
+          (click)="cancelUpload()"
+        ) Cancel - {{ progressLoaded | byteconvert:2 }} / {{ progressTotal | byteconvert:2 }}
+
+  .row([hidden]="!regCode")
+    .col.col-12
+      app-aws-upload-queue
+
+  .row.mt-1([hidden]="!regCode")
+    .col(*ngFor!="let videoPlayer of videoPlayers;let vpI = index;")
+
+      div.videoPlayerDiv(
+        [ngStyle]="{'width': videoPlayer.player.videoBoxWidth}",
+        #VideoBox
+      )
+        app-video-player(
+          [videoPlayerService]="videoPlayer.player",
+          (videoLoaded)="videoLoaded()",
+          (videoError)="videoError($event)"
+        )
+
+        app-video-controls(
+          #VideoControls,
+          *ngIf="videoPlayer.player.showPlayer",
+          [videoPlayerService]="videoPlayer.player",
+          [videoTimeline]="videoTimelineItem",
+          [videoControlsStart]="videoControlsStartItem",
+        )
+        
+  .row.mt-5
+    .col-12 If there are any errors or issues with video upload to video player please contact Gary, gravity.addiction@gmail.com
+
+  

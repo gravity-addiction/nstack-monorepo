@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@app/*": ["./api/app/*"],
+      "@classes/*": ["../api/classes/*"],
+      "@lib/*": ["./api/lib/*"],
+      "@typings/*": ["../api/typings/*"],
+    }
+  },
+  "files": [ "./api/augmentations/fastify.ts" ]
+}

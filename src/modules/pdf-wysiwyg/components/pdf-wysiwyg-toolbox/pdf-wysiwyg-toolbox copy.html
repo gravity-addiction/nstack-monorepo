@@ -1,0 +1,14 @@
+<div class="pdfWysiwygControlsContainer mx-auto" #toolPanel>
+    <div class="controls_wrapper">
+        <div class="vl vbr vp" style="left: 0px;width:25px;"><fa-icon [icon]='["fas", "step-backward"]'></fa-icon></div>
+        <div class="vl vbr vp" style="left: 25px;width:25px;"><fa-icon [icon]='["fas", "backward"]'></fa-icon></div>
+        <div class="vl vbr vp" style="left: 50px;width:25px;"><fa-icon [icon]='["fas", "play"]'></fa-icon></div>
+        <div class="vl vbr vp" style="left: 75px;width:25px;"><fa-icon [icon]='["fas", "pause"]'></fa-icon></div>
+        <div class="vl vbr vp" style="left: 100px;width:25px;"><fa-icon [icon]='["fas", "forward"]'></fa-icon></div>
+        <div class="vl vbr vp" style="left: 125px;width:25px;"><fa-icon [icon]='["fas", "step-forward"]'></fa-icon></div>
+        <div class="vl vbr vp" style="right: 90px;width:25px;"><fa-icon [icon]='["fas", "minus"]'></fa-icon></div>
+        <div class="vl vbr vp" style="right: 50px;width:40px;font-size: 10pt;">{{ videoPlayerService.playbackRate }}%</div>
+        <div class="vl vbr vp" style="right: 25px;width:25px;"><fa-icon [icon]='["fas", "plus"]'></fa-icon></div>
+        <div class="vl vp" style="right: 0px;width:25px;"><fa-icon [icon]='["fas", "map-marker"]' [ngClass]="{'text-success': videoPlayerService.videoLastPause}"></fa-icon></div>
+    </div>
+</div>

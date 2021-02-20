@@ -1,0 +1,6 @@
+<app-layout-blog
+    ><app-header backgroundImage="https://source.unsplash.com/1900x1200/" heading="2020 CF Ghost Nationals" subHeading="Nov. 3rd - Nov 8th, 2020"></app-header><ng-container *ngIf="!actionCtrl.navLoading; else navLoadingEle"><app-event-admin-header></app-event-admin-header><app-spinner [showSpinner]="loading" textSpinner="Loading ..."></app-spinner></ng-container></app-layout-blog
+><ng-template #navLoadingEle
+    ><div>Changing Pages</div>
+    <app-spinner [textSpinner]="'Changing Pages'"></app-spinner
+></ng-template>

@@ -1,0 +1,11 @@
+@import 'styles/variables.scss';
+
+div > .active {
+  color: black;
+  background-color: $info;
+}
+
+.form-error {
+  border:2px solid red;
+  padding: 10px;
+}

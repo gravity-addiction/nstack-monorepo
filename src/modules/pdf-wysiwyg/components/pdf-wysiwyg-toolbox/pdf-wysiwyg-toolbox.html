@@ -1,0 +1,18 @@
+<div class="pdfWysiwygControlsContainer mx-auto" #toolPanel>
+    <div class="controls_wrapper" style="display: flex;flex-direction: row;flex-wrap: wrap;align-content: center;justify-content: end;">
+        <div class="vp vbr vc noselect" style="width:25px;" [class.active]="pdfService.showLayers" (click)="pdfService.showLayers = !pdfService.showLayers"><fa-icon [icon]='["fas", "layer-group"]'></fa-icon></div>
+        <div class="vbr vp vc noselect" style="width:25px;" [class.active]="pdfService.toolType === 'selection'"><fa-icon [icon]='["fas", "hand-pointer"]' (click)="setTool('selection')"></fa-icon></div>
+        <div class="vbr vp vc noselect" style="width:25px;" [class.active]="pdfService.toolType === 'line'"><fa-icon [icon]='["fas", "pencil-alt"]' (click)="setTool('line')"></fa-icon></div>
+        <div class="vbr vp vc noselect" style="width:25px;" [class.active]="pdfService.toolType === 'textbox'"><fa-icon [icon]='["fas", "font"]' (click)="setTool('textbox')"></fa-icon></div>
+        <div class="vp vc vbr noselect" style="width:70px;" (click)="pdfService.changePage(0)">Template</div>
+        <div class="vbr vp vc noselect" style="width:25px;" (click)="fontSizeChange(-1)" *ngIf="pdfService.activeItem?.t === 'textbox'"><fa-icon [icon]='["fas", "minus"]'></fa-icon></div>
+        <div class="vbr" style="width: auto;" *ngIf="pdfService.activeItem?.t === 'textbox'"><input class="p-0" type="text" style="width: 100%;position: relative;" [(ngModel)]="pdfService.activeItem?.obj.txt" (keyup)="txtChange()" (change)="txtChange()" placeholder="Text Input" /></div>
+        <div class="vbr vp vc noselect" style="width:25px;" (click)="fontSizeChange(1)" *ngIf="pdfService.activeItem?.t === 'textbox'"><fa-icon [icon]='["fas", "plus"]'></fa-icon></div>
+        <div class="vp vc noselect" style="width:25px;" *ngIf="pdfService.activeItem"><fa-icon [icon]='["fas", "times"]' (click)="removeItem(pdfService.activeItem)"></fa-icon></div>
+        <div class="vl vbl vbr vp vc noselect" style="right: 140px;width:25px;" (click)="pdfService.prevPage()"><fa-icon [icon]='["fas", "minus"]'></fa-icon></div>
+        <div class="vl vp vbr text-center noselect" style="right: 80px;width:60px;">{{ pdfService.pageNum }} of {{ pdfService.pagesOfItems.length - 1 }}</div>
+        <div class="vl vbr vp vc noselect" style="right: 55px;width:25px;" (click)="pdfService.nextPage()"><fa-icon [icon]='["fas", "plus"]'></fa-icon></div>
+        <div class="vl vbr vp vc noselect" style="right: 30px;width:25px;" (click)="pdfService.newPage()"><fa-icon [icon]='["far", "file-alt"]'></fa-icon></div>
+        <div class="vl vp vc noselect" style="right: 0px;width:25px;"><fa-icon [icon]='["fas", "download"]' (click)="pdfService.makePDF()"></fa-icon></div>
+    </div>
+</div>

@@ -1,0 +1,414 @@
+.form-content
+  form(#regForm="ngForm", (keydown.enter)="$event.preventDefault()", (ngSubmit)="submitRegistration($event)")
+    //- .m-0.p-2 At least a name and email, phone number, facebook, text message, let us know what works for you.
+    //- .form-group.row
+      .col
+        textarea.form-control(
+              #contact="ngModel",
+              [class.required]="regForm.errors",
+              required,
+              [(ngModel)]="form.contact",
+              name="contact",
+              placeholder="Please let us know how to contact you")
+
+    //- By Person
+    .form-group.row.mt-3
+      .col.px-0
+        .card
+          .card-header
+            .d-flex.justify-content-between.align-items-center
+              .w-100.text-left 2020 CF Ghost Nationals
+              .d-none.d-md-block.text-right.text-nowrap.price
+                sup $
+                | {{ eventsInfo.perPerson.costPer }}. per person
+              .d-md-none.text-right.text-nowrap.price.price_only
+                sup $
+                | {{ eventsInfo.perPerson.costPer }}.
+
+          .card-body([hidden]="!eventsInfo.perPerson.shown")
+            h5.w-100.card-title Add Registrations
+            
+            .row
+              .col-12.col-md-5
+                label(for="perPerson") Competitors Name
+
+              .col-12.col-md-5.d-none.d-md-block
+                label(for="perPersonEmail") Contact Email / Phone
+
+
+            .row
+              .col-12.col-md-5
+                .input-group.mb-3
+                  input.form-control(type="text",
+                    #perPerson="ngModel",
+                    [(ngModel)]="form.perPerson",
+                    name="perPerson",
+                    placeholder="Competitors Name",
+                  )
+
+              .col-12.d-md-none
+                label(for="perPersonEmail") Contact Email / Phone
+
+              .col-12.col-md-5
+                .input-group.mb-3
+
+                  input.form-control(type="text",
+                    #perPersonEmail="ngModel",
+                    [(ngModel)]="form.perPersonEmail",
+                    name="perPersonEmail",
+                    placeholder="you@email.com or 555-555-1212",
+                    (keydown.enter)="addPerson(form.perPerson, form.perPersonEmail);"
+                  )
+
+              .col-12.col-md-2.col-xl-1
+                .input-group-append.pl-1
+                  button.btn.btn-primary.w-100(type="button", id="perPerson",
+                      (click)="addPerson(form.perPerson, form.perPersonEmail);"
+                  ) Add
+
+            .d-flex.flex-wrap.text-primary.py-1.mt-1(
+              *ngFor!="let t of eventsInfo.perPerson?.entries; let tI = index;",
+            )
+              .px-3(
+                style="text-decoration: underline;",
+                (click)="promptRemoveEntry('perPerson', tI);"
+              ) {{ t.name }}
+              .d-none.d-sm-block.px-3 {{ t.email }}
+
+
+
+    //- 2-Way Pro-Am CF
+    //- .form-group.row.mt-3
+      .col.px-0
+        .card
+          .card-header
+            .d-flex.justify-content-between.align-items-center
+              button.btn.btn-outline.primary.mr-2(type="button", (click)="toggleEvent('cf2waySeqProAm')")
+                fa-icon.fa-xs(*ngIf="eventsInfo.cf2waySeqProAm.shown", [icon]='["fas", "minus"]')
+                fa-icon.fa-xs(*ngIf="!eventsInfo.cf2waySeqProAm.shown", [icon]='["fas", "plus"]')
+                  span(*ngIf="eventsInfo.cf2waySeqProAm.shown") -
+                  span(*ngIf="!eventsInfo.cf2waySeqProAm.shown") +  
+              .w-100.text-left 2-Way Sequential Pro-Am, CF
+              //- .d-none.d-md-block.text-right.text-nowrap.price
+                sup $
+                | {{ eventsInfo.cf2waySeqProAm.costPer }}. per team
+              //- .d-md-none.text-right.text-nowrap.price.price_only
+                sup $
+                | {{ eventsInfo.cf2waySeqProAm.costPer }}.
+            .d-flex.flex-wrap.text-primary
+              .px-3.py-1.mt-3(
+                style="text-decoration: underline;",
+                *ngFor!="let t of eventsInfo.cf2waySeqProAm?.entries; let tI = index;",
+                (click)="promptRemoveEntry('cf2waySeqProAm', tI);"
+              ) {{ t }}
+
+          .card-body([hidden]="!eventsInfo.cf2waySeqProAm.shown")
+            h5.card-title Additional Notes
+
+            label.d-lg-none(for="cf2waySeqProAm") Team Name
+            .input-group.mb-3
+              .input-group-prepend.pr-1.d-none.d-lg-block.text-primary
+                span.input-group-text.text-primary Team Name
+
+              input.form-control(type="text",
+                #cf2wayProAm="ngModel",
+                [(ngModel)]="form.cf2waySeqProAm",
+                name="cf2waySeqProAm",
+                placeholder="2way Sequential ProAm Team Name",
+                (keydown.enter)="addEntry('cf2waySeqProAm', form.cf2waySeqProAm);"
+              )
+              
+              .input-group-append.pl-1
+                button.btn.btn-primary(type="button", id="cf2waySeqProAmBtn",
+                    (click)="addEntry('cf2waySeqProAm', form.cf2waySeqProAm);"
+                ) Add
+
+
+    //- 2-Way Open CF
+    //- .form-group.row.mt-3
+      .col.px-0
+        .card
+          .card-header
+            .d-flex.justify-content-between.align-items-center
+              button.btn.btn-outline.primary.mr-2(type="button", (click)="toggleEvent('cf2waySeqOpen')")
+                fa-icon.fa-xs(*ngIf="eventsInfo.cf2waySeqOpen.shown", [icon]='["fas", "minus"]')
+                fa-icon.fa-xs(*ngIf="!eventsInfo.cf2waySeqOpen.shown", [icon]='["fas", "plus"]')
+                  span(*ngIf="eventsInfo.cf2waySeqOpen.shown") -
+                  span(*ngIf="!eventsInfo.cf2waySeqOpen.shown") +  
+              .w-100.text-left 2-Way Sequential Open, CF
+              //- .d-none.d-md-block.text-right.text-nowrap.price
+                sup $
+                | {{ eventsInfo.cf2waySeqOpen.costPer }}. per team
+              //- .d-md-none.text-right.text-nowrap.price.price_only
+                sup $
+                | {{ eventsInfo.cf2waySeqOpen.costPer }}.
+            .d-flex.flex-wrap.text-primary
+              .px-3.py-1.mt-3(
+                style="text-decoration: underline;",
+                *ngFor!="let t of eventsInfo.cf2waySeqOpen?.entries; let tI = index;",
+                (click)="promptRemoveEntry('cf2waySeqOpen', tI);"
+              ) {{ t }}
+          
+          .card-body([hidden]="!eventsInfo.cf2waySeqOpen.shown")
+            h5.card-title Additional Notes
+
+            label.d-lg-none(for="cf2waySeqProAm") Team Name
+            .input-group.mb-3
+              .input-group-prepend.pr-1.d-none.d-lg-block.text-primary
+                span.input-group-text Team Name
+
+              input.form-control(type="text",
+                #cf2wayOpen="ngModel",
+                [(ngModel)]="form.cf2waySeqOpen",
+                name="cf2waySeqOpen",
+                placeholder="2way Sequential Open Team Name",
+                (keydown.enter)="addEntry('cf2waySeqOpen', form.cf2waySeqOpen);"
+              )
+              
+              .input-group-append.pl-1
+                button.btn.btn-primary(type="button", id="cf2waySeqOpenBtn",
+                    (click)="addEntry('cf2waySeqOpen', form.cf2waySeqOpen);"
+                ) Add
+
+
+    //- 4-Way Sequential Open, CF
+    //- .form-group.row.mt-3
+      .col.px-0
+        .card
+
+          .card-header
+            .d-flex.justify-content-between.align-items-center
+              button.btn.btn-outline.primary.mr-2(type="button", (click)="toggleEvent('cf4waySeqOpen')")
+                fa-icon.fa-xs(*ngIf="eventsInfo.cf4waySeqOpen.shown", [icon]='["fas", "minus"]')
+                fa-icon.fa-xs(*ngIf="!eventsInfo.cf4waySeqOpen.shown", [icon]='["fas", "plus"]')
+                  span(*ngIf="eventsInfo.cf4waySeqOpen.shown") -
+                  span(*ngIf="!eventsInfo.cf4waySeqOpen.shown") +  
+              .w-100.text-left 4-Way Sequential Open, CF
+              //- .d-none.d-md-block.text-right.text-nowrap.price
+                sup $
+                | {{ eventsInfo.cf4waySeqOpen.costPer }}. per team
+              //- .d-md-none.text-right.text-nowrap.price.price_only
+                sup $
+                | {{ eventsInfo.cf4waySeqOpen.costPer }}.
+            .d-flex.flex-wrap.text-primary
+              .px-3.py-1.mt-3(
+                style="text-decoration: underline;",
+                *ngFor!="let t of eventsInfo.cf4waySeqOpen?.entries; let tI = index;",
+                (click)="promptRemoveEntry('cf4waySeqOpen', tI);"
+              ) {{ t }}
+          
+          .card-body([hidden]="!eventsInfo.cf4waySeqOpen.shown")
+            h5.card-title Additional Notes
+
+            label.d-lg-none(for="cf4waySeqOpen") Team Name
+            .input-group.mb-3
+              .input-group-prepend.pr-1.d-none.d-lg-block.text-primary
+                span.input-group-text Team Name
+
+              input.form-control(type="text",
+                #cf4wayOpen="ngModel",
+                [(ngModel)]="form.cf4waySeqOpen",
+                name="cf4waySeqOpen",
+                placeholder="4way Open Sequential Team Name",
+                (keydown.enter)="addEntry('cf4waySeqOpen', form.cf4waySeqOpen);"
+              )
+              
+              .input-group-append.pl-1
+                button.btn.btn-primary(type="button", id="cf4waySeqOpenBtn",
+                    (click)="addEntry('cf4waySeqOpen', form.cf4waySeqOpen);"
+                ) Add
+
+
+    //- 4-Way Rotations Open, CF
+    //- .form-group.row.mt-3
+      .col.px-0
+        .card
+          .card-header
+            .d-flex.justify-content-between.align-items-center
+              button.btn.btn-outline.primary.mr-2(type="button", (click)="toggleEvent('cf4wayRotsOpen')")
+                fa-icon.fa-xs(*ngIf="eventsInfo.cf4wayRotsOpen.shown", [icon]='["fas", "minus"]')
+                fa-icon.fa-xs(*ngIf="!eventsInfo.cf4wayRotsOpen.shown", [icon]='["fas", "plus"]')
+                  span(*ngIf="eventsInfo.cf4wayRotsOpen.shown") -
+                  span(*ngIf="!eventsInfo.cf4wayRotsOpen.shown") +  
+              .w-100.text-left 4-Way Rotations Open, CF
+              //- .d-none.d-md-block.text-right.text-nowrap.price
+                sup $
+                | {{ eventsInfo.cf4wayRotsOpen.costPer }}. per team
+              //- .d-md-none.text-right.text-nowrap.price.price_only
+                sup $
+                | {{ eventsInfo.cf4wayRotsOpen.costPer }}.
+            .d-flex.flex-wrap.text-primary
+              .px-3.py-1.mt-3(
+                style="text-decoration: underline;",
+                *ngFor!="let t of eventsInfo.cf4wayRotsOpen?.entries; let tI = index;",
+                (click)="promptRemoveEntry('cf4wayRotsOpen', tI);"
+              ) {{ t }}
+          
+          .card-body([hidden]="!eventsInfo.cf4wayRotsOpen.shown")
+            h5.card-title Additional Notes
+
+            label.d-lg-none(for="cf4wayRotsOpen") Team Name
+            .input-group.mb-3
+              .input-group-prepend.pr-1.d-none.d-lg-block.text-primary
+                span.input-group-text Team Name
+
+              input.form-control(type="text",
+                #cf4wayOpen="ngModel",
+                [(ngModel)]="form.cf4wayRotsOpen",
+                name="cf4wayRotsOpen",
+                placeholder="4way Open Rotations Team Name",
+                (keydown.enter)="addEntry('cf4wayRotsOpen', form.cf4wayRotsOpen);"
+              )
+              
+              .input-group-append.pl-1
+                button.btn.btn-primary(type="button", id="cf4wayRotsOpenBtn",
+                    (click)="addEntry('cf4wayRotsOpen', form.cf4wayRotsOpen);"
+                ) Add
+
+
+
+    //- 8-Way Speed, CF
+    //- .form-group.row.mt-3
+      .col.px-0
+        .card
+          .card-header
+            .d-flex.justify-content-between.align-items-center
+              button.btn.btn-outline.primary.mr-2(type="button", (click)="toggleEvent('cf8waySpeed')")
+                fa-icon.fa-xs(*ngIf="eventsInfo.cf8waySpeed.shown", [icon]='["fas", "minus"]')
+                fa-icon.fa-xs(*ngIf="!eventsInfo.cf8waySpeed.shown", [icon]='["fas", "plus"]')
+              .w-100.text-left 8-Way Speed, CF
+              .d-none.d-md-block.text-right.text-nowrap.price
+                sup $
+                | {{ eventsInfo.cf8waySpeed.costPer }}. per team
+              .d-md-none.text-right.text-nowrap.price.price_only
+                sup $
+                | {{ eventsInfo.cf8waySpeed.costPer }}.
+            .d-flex.flex-wrap.text-primary
+              .px-3.py-1.mt-3(
+                style="text-decoration: underline;",
+                *ngFor!="let t of eventsInfo.cf8waySpeed?.entries; let tI = index;",
+                (click)="promptRemoveEntry('cf8waySpeed', tI);"
+              ) {{ t }}
+          
+          
+          .card-body([hidden]="!eventsInfo.cf8waySpeed.shown")
+            h5.card-title Additional Notes
+
+            label.d-lg-none(for="cf8waySpeed") Team Name
+            .input-group.mb-3
+              .input-group-prepend.pr-1.d-none.d-lg-block.text-primary
+                span.input-group-text Team Name
+
+              input.form-control(type="text",
+                #cf4wayOpen="ngModel",
+                [(ngModel)]="form.cf8waySpeed",
+                name="cf8waySpeed",
+                placeholder="8way Speed Team Name",
+                (keydown.enter)="addEntry('cf8waySpeed', form.cf8waySpeed);"
+              )
+              
+              .input-group-append.pl-1
+                button.btn.btn-primary(type="button", id="cf8waySpeedBtn",
+                    (click)="addEntry('cf8waySpeed', form.cf8waySpeed);"
+                ) Add
+
+
+    //- .form-group.row
+      label.col-sm-2.col-form-label E-Mail
+      .col-sm-10
+        input.form-control(type="email",
+              [(ngModel)]="form.email",
+              name="email",
+              placeholder="love@firstsit.org")
+
+
+    //- .form-group.row
+      label.col-sm-2 Phone
+      .col-sm-2
+        input.form-control(type="tel",
+              [(ngModel)]="form.phone_area",
+              name="phone_area",
+              maxlength="3",
+              placeholder="###")
+
+      .col-sm-8
+        input.form-control(type="tel",
+              [(ngModel)]="form.phone",
+              name="phone",
+              placeholder="###-####")
+      
+
+
+    .form-group.row.mt-3.justify-content-center(
+      [class.form-error]="sendAttempt && form.remote === ''"
+    )
+      label.col-xs-12.col-md-4 Will you be jumping On Site or uploading video Remotely?
+
+      .col-6.col-md-3.form-check.text-center.d-flex.justify-content-center.align-items-center(
+        style="border:1px solid #ccc;min-height:50px;",
+        (click)="form.remote = 'OnSite'; changedHeight.emit()",
+        [ngClass]="{'active': form.remote === 'OnSite'}"
+      )
+        .h5.form-check-label
+          input.form-check-input(type="radio",
+                #jumpingOnSite="ngModel",
+                [(ngModel)]="form.remote",
+                id="onsite",
+                value="OnSite",
+                name="remote",
+                required)
+          span.h5 On Site
+
+      .col-6.col-md-3.offset-md-1.form-check.text-center.d-flex.justify-content-center.align-items-center(
+        style="border:1px solid #ccc;min-height:50px;",
+        (click)="form.remote = 'Remote'; changedHeight.emit()",
+        [ngClass]="{'active': form.remote === 'Remote'}"
+      )
+        label.form-check-label.w-100
+          input.form-check-input(type="radio",
+                #jumpingRemote="ngModel",
+                [(ngModel)]="form.remote",
+                id="remote",
+                value="Remote",
+                name="remote",
+                required)
+          span.h5 Remotely
+        
+
+    .form-group.row.mt-3.justify-content-center(
+      *ngIf!="form.remote === 'Remote'",
+      [class.form-error]="sendAttempt && form.remote === 'Remote' && form.dropzone === ''"
+    )
+      label.col-xs-12.col-md-4 Dropzone you'll be jumping at and submitting videos from remotely?
+      .col-xs-12.col-md-8 
+        input.form-control(type="text",
+          #dropzone="ngModel",
+          [(ngModel)]="form.dropzone",
+          name="dropzone",
+          placeholder="your home dz"
+        )
+
+
+    //- div(id="g-recaptcha", [class.required]="!gotCaptcha", style="width: 305px;")
+
+    .form-group.row.mt-3
+      .col.col-12.col-md-5.h3.text-center.w-100 Registration Total:&nbsp;&nbsp;
+        sup $
+        | {{ eventsInfo.perPerson.costTotal }}.
+
+      .col.col-12.col-md-7.text-center
+        button.btn.btn-info.btn-lg(
+          type="submit",
+          *ngIf="!sending",
+          [class.btn-danger]="!sending && sendAttempt && form.remote === ''"
+        ) Register For CF Ghost Nationals!
+          div(
+            *ngIf="!sending && sendAttempt && form.remote === ''",
+            class="h6"
+          ) Select On Site or Remotely!
+          div(
+            *ngIf="!sending && sendAttempt && form.remote === 'Remote' && form.dropzone === ''",
+            class="h6"
+          ) Select On Site or Remotely!
+        button.btn.btn-danger(type="button", *ngIf="sending", [disabled]="true") ... Please Wait, Processing ...
+

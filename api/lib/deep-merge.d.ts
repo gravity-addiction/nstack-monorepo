@@ -1,0 +1,14 @@
+export declare const isMergeableObject: (value: any) => boolean;
+export declare const isNonNullObject: (value: any) => boolean;
+export declare const isSpecial: (value: any) => boolean;
+export declare const emptyTarget: (val: any) => {};
+export declare const cloneUnlessOtherwiseSpecified: (value: any, options: any) => any;
+export declare const defaultArrayMerge: (target: any, source: any, options: any) => any;
+export declare const getMergeFunction: (key: any, options: any) => any;
+export declare const getEnumerableOwnPropertySymbols: (target: any) => any;
+export declare const getKeys: (target: any) => string[];
+export declare const propertyIsOnObject: (object: any, property: any) => any;
+export declare const propertyIsUnsafe: (target: any, key: any) => boolean;
+export declare const mergeObject: (target: any, source: any, options: any) => any;
+export declare const deepmerge: (target: any, source: any, options?: any) => any;
+export declare const deepmergeAll: (array: any, options?: any) => any;

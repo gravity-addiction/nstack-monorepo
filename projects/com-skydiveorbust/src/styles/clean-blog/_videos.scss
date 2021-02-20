@@ -1,0 +1,141 @@
+// Styling for the records page
+.videoPlayerDiv {
+  float: left;
+}
+
+.videoDummy {
+  border: 1px solid $black;
+  background-color: $gray-200;
+}
+
+.videoContainer {
+  margin: 0 auto;
+  width: 100%;
+  background-size: cover;
+
+  position: relative;
+  object-fit: fill;
+
+  .videoPlayer {
+    z-index: 3;
+    display: block;
+    border: 1px solid $gray-200;
+    // margin: 0 auto;
+    max-height: 90%;
+    width: 100%;
+  }
+
+  .videoPlayerSelected {
+    border: 1px solid $primary;
+  }
+  .canvas {
+    position: absolute;
+    z-index: 10;
+    width: 720px;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: transparent; // rgba(255, 255, 255, 0);
+    // margin-left: auto;
+    // margin-right: auto;
+  }
+}
+
+.selectedPlayer {
+  border: 1px solid $primary;
+}
+
+.videoControlsContainer {
+  display: block;
+  width: 100%;
+  height: 22px;
+  background-color: $white;
+  color: $primary;
+  border: 1px solid black;
+  // margin: 0 auto;
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.videoTimesheetContainer {
+  display: block;
+  width: 100%;
+  height: 20px;
+  padding: 0;
+  background-color: #DEE;
+  background-image: url("data:image/svg+xml,%3Csvg width='35' height='35' viewBox='15 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23003300' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+
+  .timeline_wrapper {
+    position: relative;
+    height: 100%;
+    padding-bottom: 5px;
+
+    .vl {
+      height: inherit;
+      position: absolute;
+      pointer-events: none;
+    }
+    
+    .progress_marker {
+      border: 1px solid $white;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .buffer_marker {
+      background-color: $black;
+      z-index: 0;
+    }    
+
+    .point {
+      border: 1px solid rgb(255, 145, 0);
+      z-index: 3;
+      height: 12px;
+    }
+
+    .bust {
+      border: 1px solid $red;
+      z-index: 3;
+      height: 12px;
+    }
+
+    .omit {
+      border: 1px solid $pink;
+      z-index: 3;
+      height: 12px;
+    }
+
+    .nv {
+      border: 1px solid $purple;
+      z-index: 3;
+      height: 12px;
+    }
+
+    .blank {
+      border: 0px;
+      z-index: 0;
+    }
+
+    .prestart_time {
+      background-color: rgba(255, 255, 0, 0.6);
+      z-index: 1;
+      height: 6px;
+    }
+
+    .working_time {
+      background-color: rgba(0, 192, 0, 0.6);
+      z-index: 1;
+      height: 6px;
+    }
+
+    .current_score {
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 3;
+      padding: 2px;
+      font-weight: 800;
+      font-size: 18px;
+    }
+  }
+}

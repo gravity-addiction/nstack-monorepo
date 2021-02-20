@@ -1,0 +1,36 @@
+.stats {
+  display: block;
+  width: 100%;
+  min-height: 22px;
+  background-color: rgb(254, 254, 254);
+  margin: 0 auto;
+  padding: 0;
+}
+
+ol {
+    --min-height: 40px;
+}
+.col {
+  .itemPoint {
+    --background: rgba(85, 85, 255, 0.25);
+    --background-color: rgba(85, 85, 255, 0.25);
+    --background-activated: rgba(85, 85, 255, 0.25);
+  }
+
+  .itemBust {
+    --background: rgba(255, 85, 85, 0.25);
+    --background-color: rgba(255, 85, 85, 0.25);
+    --background-activated: rgba(255, 85, 85, 0.25);
+  }
+
+  .itemOmnit {
+    --background: rgba(255, 255, 85, 0.25);
+    --background-color: blue;
+    --background-activated: blue;
+  }
+  .itemNV {
+    --background: rgba(85, 255, 255, 0.25);
+    --background-color: blue;
+    --background-activated: blue;
+  }
+}

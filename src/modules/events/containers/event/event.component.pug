@@ -1,0 +1,44 @@
+app-layout-blog
+  app-header(
+    [backgroundImage]='event?.backgroundImage',
+    [heading]='event?.heading',
+    [subHeading]='event?.sub_heading',
+    [meta]='event?.meta'
+  )
+
+  ng-container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+
+    .container.mb-3([isLoggedIn]="true")
+      .row
+        .col-12 Event Admin Functions
+      .row
+        .col-4([rolePermission]="['admin', 'user']")
+          button.btn.btn-outline-primary(type="button", routerLink="judging") Judging
+        .col-4(rolePermission='admin', *ngIf!="event?.short_id")
+          button.btn.btn-outline-primary(type="button", (click)="editEvent()") Edit Event
+        .col-4(rolePermission='admin', *ngIf!="event?.sheet_id")
+          button.btn.btn-outline-primary(type="button", (click)="openEventSheet()") Open Google Sheet
+
+    //- app-events-form-component(
+      #formComponent,
+      [eventSlug]="eventSlug",
+      [event]="event",
+      [regCode]="regCode",
+      *ngIf!="event && !failedEventLookup && !regCode"
+     )
+
+    //- app-events-registered(
+      #regComponent,
+      [eventSlug]="eventSlug",
+      [regCode]="regCode",
+      [event]="event",
+      [eventReg]="eventReg",
+      *ngIf!="eventReg && !failedRegLookup"
+     )
+
+    app-event-comp-layout([eventSlug]="eventSlug", [EventComps]="event?.comps")
+
+    app-spinner([showSpinner]="loading", textSpinner="Loading Event")
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

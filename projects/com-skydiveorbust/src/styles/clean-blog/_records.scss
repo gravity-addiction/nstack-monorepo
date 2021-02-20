@@ -1,0 +1,124 @@
+// Styling for the records page
+.recordsContainer {
+  min-height: 100px;
+
+  h2.record-header-title {    
+    text-align: center;
+    color: $primary;
+  }
+
+  .record-subclass-title {
+    text-align: center;
+    margin-top: 5px;
+  }
+
+
+  .record-preview {
+
+    .fa-stack-2x {
+      color: $teal;
+    }
+
+    .fa-inverse {
+      color: $gray-900;
+    }
+
+    .record-group {
+      font-size: 1rem;
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
+    .record-title {
+      text-align: left;
+      color: $secondary;
+    }
+
+    .record-subtitle {
+      margin: 0;
+      text-align: left;
+      padding: 4px;
+      color: $white;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .record-subclass-row {
+      margin-bottom: 60px;
+    }
+    
+
+
+    .record-subtitle-header {
+      font-size: 1rem;
+      background-color: $gray-700;
+      padding: 4px;
+      -webkit-border-radius: 4px; 
+      -moz-border-radius: 4px; 
+      border-radius: 4px;  
+    }  
+
+    .record-performance {
+      margin: 0;
+      text-align: left;
+      font-size: .9rem;
+    }
+    .record-category {
+      font-weight: 300;
+      margin: 0;
+      text-align: right;
+      font-size: .9rem;
+    }
+    .record-date {
+      font-weight: 300;
+      font-size: .7rem;
+      margin: 0;
+      text-align: right;
+    }
+    .record-dropzone {
+      font-weight: 300;
+      font-size: .7rem;    
+      margin: 0;
+      text-align: left;
+    }
+
+    .record-entry {
+      padding: 15px 0px;
+      background-color: $black;
+      color: $white;
+      border-bottom: 3px solid $gray-900;
+      -webkit-border-radius: 4px; 
+      -moz-border-radius: 4px; 
+      border-radius: 4px;  
+    }
+
+    
+    .record-meta {
+      font-size: .9rem;
+      font-style: italic;
+      margin-top: 0;
+      color: $gray-600;
+      > a {
+        text-decoration: none;
+        color: $teal;
+        &:focus,
+        &:hover {
+          text-decoration: underline;
+          color: $primary;
+        }
+      }
+    }
+
+  }
+
+  .record-subclass-link {
+    padding: 6px 6px 6px 0px;
+    overflow: hidden;
+  }
+
+  @include media-breakpoint-up(lg) {
+    .record-subclass-link {
+      padding: 2px 2px 2px 0px;
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import 'styles/variables.scss';
+
+#mainNav {
+  @media only screen and (min-width: 992px) {
+    .navbar-brand {
+      color: $black;
+      &:focus,
+      &:hover {
+        color: fade-out($black, .2);
+      }
+    }
+    .navbar-nav {
+      > li.nav-item {
+        > a {
+          color: $black;
+          &:focus,
+          &:hover {
+            color: fade-out($black, .2);
+          }
+        }
+      }
+    }
+  }
+}

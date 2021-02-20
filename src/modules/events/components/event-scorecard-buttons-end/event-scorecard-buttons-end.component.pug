@@ -1,0 +1,67 @@
+//- .vl.vp.video_timestamp.noselect.nopointer(
+  *ngIf!="showTimestamp",
+  style="right: 100px;width:75px;font-size:12pt;font-weight:800;padding-top:5px;"
+  ) {{ playbackTimestamp }}
+
+//- .vl.vbr.vp(style="right: 90px;width:25px;", (click)="videoPlayerService.videoPlaybackRateMove(-5)")
+  fa-icon([icon]='["fas", "minus"]')
+//- .vl.vbr.vp(
+  style="right: 25px;width:40px;font-size: 10pt;",
+  (click)="videoPlayerService.videoPlaybackRate(1)"
+  ) {{ videoPlayerService.playbackRate }}%
+//- .vl.vbr.vp(style="right: 25px;width:25px;", (click)="videoPlayerService.videoPlaybackRateMove(5)")
+  fa-icon([icon]='["fas", "plus"]')
+
+          //- select.custom-select.mt-1(
+              [(ngModel)]="videoPlayers[selectedPlayer].timesheet.videoSettings",
+              (change)="videoPlayers[selectedPlayer].timesheet.updateWorkingTime();"
+            )
+            option(
+              *ngFor!="let preset of presetKeys",
+              [ngValue]="timingPresets[preset]"
+              ) {{ timingPresets[preset].currentPreset }}
+
+.dropup.vl.vbr.vp(style="right: 75px;width:50px;")
+  .dropbtn {{ videoTimesheetService?.videoSettings?.currentPreset | slice:0:4 }}
+  .dropup-content
+    a(*ngFor!="let preset of configService.config.videoTimesheetSettings | keyvalue;",
+      (click)="changeVideoSettings(preset.value)"
+    ) {{ preset.key | slice:0:4 }}
+
+  //- .dropbtn() {{ videoTimesheetService?.videoSettings?.currentPreset | slice:0:4 }}
+  //- .dropup-content(style="background-color: black;bottom: -5px;width:50px;")
+    a.text-center(
+      (click)="changeVideoSettings(preI)",
+      *ngFor!="let preset of configService.config.videoTimesheetSettings; let preI = index;"
+     ) {{ preset.currentPreset }}
+    a.text-center() {{ videoPlayers[selectedPlayer].timesheet.videoSettings.currentPreset }}
+
+.dropup.vl.vbr.vp.noselect(style="right: 25px;width:50px;")
+  .dropbtn((click)="videoPlayerService.videoPlaybackRate(1)") {{ videoPlayerService.playbackRate }}%
+  .dropup-content(style="background-color: black;bottom: -5px;width:50px;")
+    a.text-center((click)="videoPlayerService.videoPlaybackRateMove(5)")
+      fa-icon([icon]='["fas", "plus"]')
+    a.text-center((click)="videoPlayerService.videoPlaybackRateMove(-5)")
+      fa-icon([icon]='["fas", "minus"]')
+    a.text-center() {{ videoPlayerService.playbackRate }}%
+
+.vl.vp(
+  *ngIf!="!videoService.isFullscreen",
+  style="right: 0px;width:25px;",
+  (click)="goFullscreen()"
+)
+  fa-icon([icon]='["fas", "expand-arrows-alt"]')
+
+.vl.vp(
+  *ngIf!="videoService.isFullscreen",
+  style="right: 0px;width:25px;",
+  (click)="videoService.exitFullscreen()"
+)
+  fa-icon([icon]='["fas", "compress-arrows-alt"]')
+
+//- div.vl.vp(
+  style="right: 0px;width:25px;",
+  (click)="videoPlayerService.saveSyncMark()"
+  )
+    fa-icon([icon]='["fas", "map-marker"]', [ngClass]="{'text-success': videoPlayerService.videoLastPause}")
+

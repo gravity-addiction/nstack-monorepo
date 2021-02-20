@@ -1,0 +1,35 @@
+{
+  "extends": "../tsconfig-base.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "esnext",
+    "declaration": true,
+    "composite": true,
+    "sourceMap": false,
+    "outDir": "./tsc",
+    "rootDir": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["./api/app/*"],
+      "@classes/*": ["./classes/*.ts"],
+      "@lib/*": ["./api/lib/*.ts"],
+      "@typings/*": ["./typings/*.d.ts"],
+    },
+    "typeRoots": [
+      "../typings", "./typings", "../node_modules/@types"
+    ],
+  },
+  "exclude": [
+    "node_modules/**/*",
+    "_transpiled",
+    "_templates",
+    "migrations/**/*",
+    "../src/**/*",
+  ],
+  "files": ["./augmentations/fastify.ts"],
+  "include": [
+    "./typings/**/*",
+    "../typings/**/*"
+  ]
+}

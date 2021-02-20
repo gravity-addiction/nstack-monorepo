@@ -1,0 +1,53 @@
+<app-top-nav><app-header backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")' heading="Event Scoring" subHeading="Tool For Judging Videos Online" [siteHeading]="true"></app-header></app-top-nav
+><ng-container
+    ><div #videoPlayerTop style="margin-top: 90px;">
+        <div class="row flex-nowrap">
+            <div class="col" #fullscreenContainer dndDropzone (dndDrop)="dropVideo($event)"><app-video-player *ngIf="selectedPlayer &gt; -1" [videoPlayerService]="videoPlayers[selectedPlayer].player"></app-video-player><app-video-controls *ngIf="selectedPlayer &gt; -1" [videoPlayerService]="videoPlayers[selectedPlayer].player" [videoTimeline]="videoTimelineItem" [videoControlsStart]="videoControlsStartItem" [videoControlsEnd]="videoControlsEndItem"></app-video-controls></div>
+            <div class="col d-none d-md-block mr-2" *ngIf="!videoService.isFullscreen && videoInfo?.video?.preset === 'cf2WaySequentials'">
+                <div class="d-flex align-self-center noselect" [ngClass]='{"flex-row": videoInfo.draw.length &lt; 3, "flex-column": videoInfo.draw.length &gt;= 3}'><img class="mb-1 mr-1" *ngFor="let d of videoInfo.draw" style="min-width:75px;max-width:150px;width:60%;" [src]="'/assets/divepool/cf-2/'+d+'.png'" /></div>
+            </div>
+            <div class="col d-none d-md-block" *ngIf="!videoService.isFullscreen && videoInfo?.video?.preset === 'cf4WaySequentials'">
+                <div class="d-flex align-self-center noselect" [ngClass]='{"flex-row": videoInfo.draw.length &lt; 3, "flex-column": videoInfo.draw.length &gt;= 3}'><img class="mb-1 mr-1" *ngFor="let d of videoInfo.draw" style="min-width:75px;max-width:150px;width 60%;" [src]="'/assets/divepool/cf-4/'+d+'.png'" /></div>
+            </div>
+        </div>
+        <div class="row" style="clear: left;" *ngIf="selectedPlayer > -1">
+            <div class="col-12 col-md-10 offset-md-1">
+                <div class="d-flex flex-row justify-content-around align-self-center noselect">
+                    <fa-icon class="fa-md p-2 mr-1 text-center" (click)="showKeyboard();" [icon]="['far', 'keyboard']"></fa-icon><fa-icon class="fa-md p-2 mr-1 text-center" (click)="showHelp();" [icon]="['fas', 'question']"></fa-icon><fa-icon class="fa-md p-2 mr-1 text-center" (click)="videoPlayers[selectedPlayer].timesheet.isFreezing = !videoPlayers[selectedPlayer].timesheet.isFreezing" [icon]="[(videoPlayers[selectedPlayer].timesheet.isFreezing)?'fas':'far', 'snowflake']" [ngStyle]="{'color': (videoPlayers[selectedPlayer].timesheet.isFreezing)?'white':'', 'background-color': (videoPlayers[selectedPlayer].timesheet.isFreezing)?'blue':''}"></fa-icon>
+                    <div class="text-right"><button class="btn btn-outline-primary" type="button" (click)="addPoint('bust')">Bust</button></div>
+                    <div class="text-left"><button class="btn btn-outline-primary" type="button" (click)="addPoint('point')">Point</button></div>
+                    <div class="text-center"><button class="btn btn-outline-primary" type="button" (click)="addPoint('omit')">{{ omissionBtnTxt }}</button></div>
+                    <div class="text-center"><button class="btn btn-outline-primary" type="button" (click)="addPoint('nv')">{{ nvBtnTxt }}</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-10 offset-md-1"><app-event-scorecard *ngIf="selectedPlayer &gt; -1 &amp;&amp; videoPlayers[selectedPlayer].scoring" [videoInfo]="videoInfo" [eventSlug]="eventSlug" [videoPlayer]="videoPlayers[selectedPlayer].player" [videoTimesheet]="videoPlayers[selectedPlayer].timesheet" (PlayFile)="playFile($event)"></app-event-scorecard></div>
+        </div>
+        <div class="row" *ngIf="videoInfo?.video?.preset === 'cf2WaySequentials'">
+            <div class="col-12 col-md-10 offset-md-1">
+                <div class="d-flex flex-row align-items-start noselect"><img *ngFor="let d of videoInfo.draw" style="max-width:100px;" [src]="'/assets/divepool/cf-2/'+d+'.png'" /></div>
+            </div>
+        </div>
+        <div class="row" *ngIf="videoInfo?.video?.preset === 'cf4WaySequentials'">
+            <div class="col-12 col-md-10 offset-md-1">
+                <div class="d-flex flex-row align-items-start align-self-start noselect"><img *ngFor="let d of videoInfo.draw" style="max-width:100px;" [src]="'/assets/divepool/cf-4/'+d+'.png'" /></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-10 offset-md-1">
+                <h3>Video Queue</h3>
+                <app-event-videos [videos$]="evqService.videoQueue$" (PlayFile)="playFile($event)"></app-event-videos>
+            </div>
+        </div>
+        <div class="w-25" style="float: left;"></div>
+        <br style="clear: both;" /></div></ng-container
+><app-footer></app-footer
+><ng-template #modalDeletePostWarning let-modal
+    ><div class="modal-header">
+        <h5 class="modal-title">Confirm Delete</h5>
+        <button class="close" type="button" aria-label="Close" (click)='modal.dismiss("CANCEL")'><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="modal-body small"><div class="text-danger">Warning: Deleting a post is permamnent. This action cannot be undone.</div></div>
+    <div class="modal-footer"><button class="btn btn-danger" type="button" (click)='modal.close("CONFIRM")'>Delete Post</button><button class="btn btn-secondary" type="button" (click)='modal.close("CANCEL")'>Cancel</button></div></ng-template
+>

@@ -1,0 +1,10 @@
+import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2';
+export declare const comparePassword: (userPassword: string, hashedPassword: string) => boolean;
+export declare const hashPassword: (password: string) => string;
+export declare const authenticateUser: (username: string, password: string, db?: PoolConnection) => Promise<number>;
+export declare const authenticateAuthKeyGenerate: () => string;
+export declare const authenticateUserKeyLastUsed: (authKeyId: number, db?: PoolConnection) => Promise<RowDataPacket[]>;
+export declare const authenticateUserKey: (authKey: string, db?: PoolConnection) => Promise<number>;
+export declare const setUserChangePassword: (id: number, v: boolean, db?: PoolConnection) => Promise<ResultSetHeader>;
+export declare const resetChangePassword: (userId: number, db?: PoolConnection) => Promise<string>;
+export declare const updateUserPassword: (userId: number, password: string, db?: PoolConnection) => Promise<ResultSetHeader>;

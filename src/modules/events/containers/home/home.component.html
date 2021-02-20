@@ -1,0 +1,17 @@
+<app-layout-blog
+    ><app-header backgroundImage='url("assets/img/ron_shipp/2019-uspa-group-1.jpg")' heading="Events" subHeading="Upcoming Competitions" [siteHeading]="true"></app-header
+    ><ng-container
+        ><div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-preview" *ngFor="let event of events">
+                        <a [routerLink]='"/e/" + (event.slug | encodeURIComponent)'
+                            ><h2 class="post-title">{{event.heading}}</h2>
+                            <h3 class="post-subtitle">{{event.subHeading}}</h3></a
+                        >
+                        <p class="post-meta">{{event.meta}}</p>
+                    </div>
+                    <app-spinner [showSpinner]="loading" textSpinner="Loading ..."></app-spinner>
+                </div>
+            </div></div></ng-container
+></app-layout-blog>

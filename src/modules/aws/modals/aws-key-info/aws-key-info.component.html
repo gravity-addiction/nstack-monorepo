@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-leftAWS">Security Key</h4>
+    <button class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()" type="button"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body">
+    <div *ngIf="awsInfo && key" lines="full" style="width: 100%; height: 100%; background-color: #fff;">
+        <div class="row">
+            <div class="col" offset="1" size="2">Host:</div>
+            <div class="col"><label>s3.{{ awsInfo.aws_region }}.amazonaws.com</label></div>
+        </div>
+        <div class="row">
+            <div class="col" offset="1" size="2">Key:</div>
+            <div class="col"><label>{{ key.aws_key }}</label></div>
+        </div>
+        <div class="row">
+            <div class="col" offset="1" size="2">Secret:</div>
+            <div class="col"><label *ngIf="!isSecretLoading">{{ key.aws_secret }}</label></div>
+        </div>
+        <div class="row">
+            <div class="col" offset="1" size="2">Path:</div>
+            <div class="col"><label>/{{ awsInfo.aws_bucket }}/{{ awsInfo.aws_home_folder }}</label></div>
+        </div>
+        <div class="row">
+            <div class="col" size="6"><button>Close</button></div>
+            <div class="col"><button color="danger">Delete</button></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="row">
+        <div class="col" size="6"></div>
+        <button class="btn btn-default" (click)="bsModalRef.hide()" type="button">Close</button>
+        <div class="col"></div>
+        <button class="btn btn-default" color="danger" type="button">Delete</button>
+    </div>
+</div>

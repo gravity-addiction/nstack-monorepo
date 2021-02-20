@@ -1,0 +1,3 @@
+.row
+  .col-12.col-lg-10.offset-lg-1
+    app-event-teams-list(*ngFor!="let comp of eventComps; let eI = index;", [eventSlug]="eventSlug", [EventComp]="comp")

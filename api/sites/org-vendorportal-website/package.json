@@ -1,0 +1,32 @@
+{
+  "id": "org,vendorportal.api",
+  "name": "org.vendorportal.api",
+  "version": "1.0.1",
+  "description": "Vendor Portal API Build",
+  "main": "index.js",
+  "author": "Gary Taylor, Strict Development, Inc",
+  "scripts": {
+    "start": "npm run webhooks",
+    "governor": "PORT=4022 node governor.js --confdir governor",
+    "website": "PORT=4020 node website.js --confdir website",
+    "webhooks": "PORT=4022 node webhooks.js --confdir webhooks"
+  },
+  "dependencies": {
+    "@inip/http-codes": "^1.1.0",
+    "aws-cloudfront-sign": "^2.2.0",
+    "aws-sdk": "^2.740.0",
+    "bcryptjs": "^2.4.3",
+    "change-case": "^4.1.1",
+    "crypto-js": "^4.0.0",
+    "fastify": "^3.2.1",
+    "fastify-cookie": "^4.0.2",
+    "fastify-cors": "^4.1.0",
+    "fastify-helmet": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "minimist": "^1.2.5",
+    "mysql2": "^2.1.0",
+    "pino-pretty": "^4.1.0",
+    "rxjs": "6.6.2",
+    "shortid32": "^0.1.1"
+  }
+}

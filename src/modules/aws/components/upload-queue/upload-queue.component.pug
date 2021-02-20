@@ -1,0 +1,23 @@
+.container
+  //- .row(*ngIf!="!(s3UploadService.uploadQueue || []).length")
+    .col No Uploads in Queue
+  
+  .d-flex.flex-row.pt-1.flex-wrap(*ngFor!="let queue of s3UploadService.uploadQueue;let queuei = index;")
+    
+    button.btn.btn-outline.float-right(
+      *ngIf!="queue.started && !queue.finished",
+      (click)="cancelUpload(queue)"
+    )  
+      fa-icon([icon]="['fas', 'times']", size="lg")
+
+    .pl-2 File: {{ queue.f?.name }}
+    .pl-2(*ngIf!="queue.meta?.discipline") Event: {{ queue.meta?.discipline }}
+    .pl-2(*ngIf!="queue.meta?.rnd") Round: {{ queue.meta?.rnd }}
+    .pl-2
+      fa-icon.text-success.ml-2(*ngIf!="queue.started && !queue.finished", [icon]="['fas', 'step-forward']")
+      fa-icon.text-success.ml-2(*ngIf!="queue.started && queue.finished && queue.progress === 1", [icon]="['fas', 'thumbs-up']")
+      fa-icon.text-danger.ml-2(*ngIf!="queue.started && queue.finished && queue.progress !== 1", [icon]="['fas', 'thumbs-down']")
+    
+    .pl-3(*ngIf!="s3UploadService.currentTransferRate") {{ s3UploadService.currentTransferRate | byteconvert:2 }}/s
+    //- ProgressBar *ngIf="queue.started && !queue.finished && queue.progress !== -1" color="primary" [value]="queue.progress" size="12"></ion-progress-bar>
+

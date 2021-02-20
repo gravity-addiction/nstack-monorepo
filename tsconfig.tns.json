@@ -1,0 +1,58 @@
+{
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmitHelpers": false,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "target": "es2015",
+    "lib": [
+      "es2018",
+      "es2017",
+      "dom",
+      "es6"
+    ],
+    "typeRoots": ["typings"],
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": [
+        "src/app/*.android.ts",
+        "src/app/*.ios.ts",
+        "src/app/*.tns.ts",
+        "src/app/*.ts"
+      ],
+      "@classes/*": [
+        "classes/*.android.ts",
+        "classes/*.ios.ts",
+        "classes/*.tns.ts",
+        "classes/*.ts"
+      ],
+      "@src/*": [
+        "src/*.android.ts",
+        "src/*.ios.ts",
+        "src/*.tns.ts",
+        "src/*.ts"
+      ],
+      "@modules/*": [
+        "src/modules/*.android.ts",
+        "src/modules/*.ios.ts",
+        "src/modules/*.tns.ts",
+        "src/modules/*.ts"
+      ],
+      "@typings/*": ["typings/*", "typings/index.d"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "platforms",
+    "e2e",
+    "_transpiled",
+    "_templates",
+    "migrations",
+    "api",
+  ]
+}

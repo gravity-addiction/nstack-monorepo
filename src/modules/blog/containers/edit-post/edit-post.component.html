@@ -1,0 +1,8 @@
+<app-top-nav></app-top-nav>
+<div class="full-background">
+    <div class="container" *ngIf="(post$ | async) as post;">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto"><app-post-form [post]="post"></app-post-form></div>
+        </div>
+    </div>
+</div>

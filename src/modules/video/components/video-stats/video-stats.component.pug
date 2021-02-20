@@ -1,0 +1,16 @@
+//- .container.no-padding.no-margin
+  .row
+    .col.no-padding.no-margin(
+      size="3", size-md="2" size-lg="1",
+      #VideoStats,
+      *ngFor!="let mark of videoTimesheetService.markList;let i = index;"
+    )
+      div(
+        [ngClass]="{'itemPoint': mark.class === 'point', 'itemBust': mark.class === 'bust', 'itemOmit': mark.class === 'omit', 'itemNV': mark.class === 'nv'}"
+      )
+        label(*ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime && i === 0") Exit
+        label(*ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime && i === 1") Start
+        label(*ngIf!="(!videoTimesheetService.videoSettings || !videoTimesheetService.videoSettings.prestartTime) && i === 0") Start
+        label(*ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime && i > 1") {{ (videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime) ? i - 1 : i }}
+        label(*ngIf!="(!videoTimesheetService.videoSettings || !videoTimesheetService.videoSettings.prestartTime) && i > 0") {{ (videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime) ? i : i }}
+        div {{ ((i === 0) ? mark.time : '+' + (mark.time - videoTimesheetService.markList[i - 1].time) ) | number:'0.1-2' }}

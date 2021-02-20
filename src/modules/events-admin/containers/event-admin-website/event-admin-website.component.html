@@ -1,0 +1,24 @@
+<app-layout-blog
+    ><app-header backgroundImage="https://source.unsplash.com/1900x1200/" heading="2020 CF Ghost Nationals" subHeading="Nov. 3rd - Nov 8th, 2020"></app-header
+    ><ng-container *ngIf="!actionCtrl.navLoading; else navLoadingEle"
+        ><app-event-admin-header></app-event-admin-header>
+        <div class="container mb-3">
+            <div class="row" [hidden]="!showEditor">
+                <div class="col-12"><angular-editor [placeholder]="'Loading Page'" [(ngModel)]="eventHtml"></angular-editor></div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center" *ngIf="!showEditor">Loading Event Page<app-spinner [textSpinner]="'Loading Event Page'"></app-spinner></div>
+            </div>
+            <div class="row" *ngIf="eventHistoryDate"><div class="text-left h4 p-4 bg-danger">Using History of {{ eventHistoryDate | date:'medium' }}</div></div>
+            <div class="row">
+                <div class="col col-4 text-center"><button class="btn btn-outline-primary m-2 h5" type="button" (click)="reloadHtml()">Reload</button></div>
+                <div class="col col-4 text-center" [hidden]="!showEditor"><button class="btn btn-outline-primary m-2 h5" type="button" (click)="saveHtml()">{{ saveTxt }}</button></div>
+                <div class="col col-4 text-center" [hidden]="!showEditor"><button class="btn btn-outline-primary m-2 h5" type="button" (click)="publishHtml()">Publish</button></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><app-event-admin-page-history [eventSlug]="eventSlug" [pageHistory$]="eapService.pageHistory$" (openPage)="loadHtmlPage($event)"></app-event-admin-page-history></div>
+            </div></div></ng-container></app-layout-blog
+><ng-template #navLoadingEle
+    ><div>Changing Pages</div>
+    <app-spinner [textSpinner]="'Changing Pages'"></app-spinner
+></ng-template>

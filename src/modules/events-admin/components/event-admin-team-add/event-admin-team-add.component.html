@@ -1,0 +1,7 @@
+<form class="p-0 m-0" id="newEventTeamForm" (ngSubmit)="onSubmit()">
+    <div class="d-flex">
+        <div class="mx-1"><input class="form-control" type="text" placeholder="####" [(ngModel)]="newTeam.teamNumber" [ngModelOptions]="{standalone: true}" size="6" /></div>
+        <div class="flex-grow-1 mx-1"><input class="form-control" type="text" [(ngModel)]="newTeam.teamName" [ngModelOptions]="{standalone: true}" placeholder="Add Team Name" /></div>
+        <div class="mx-1"><button class="btn btn-primary" [disabled]="(newTeam.teamNumber == '' &amp;&amp; newTeam.teamName == '')" type="submit">Create Team</button></div>
+    </div>
+</form>

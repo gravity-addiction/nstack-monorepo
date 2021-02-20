@@ -1,0 +1,16 @@
+    
+button(
+  *ngIf!="mediaInfoProcessing === ''",
+  type="button",
+  (click)="mediainfo(videoService.passLocalFile)"
+) More Video Details
+
+div(*ngIf!="!mediaInfoResult && mediaInfoProcessing !== ''") {{ mediaInfoProcessing }}
+
+div(*ngFor!="let track of ((mediaInfoResult || {}).File || {}).track;let trackI = index;")
+  label {{ track._type }}
+  .container
+    .row
+      .col(size="6", size-sm="4", size-md="3", *ngFor!="let t of track | keyvalue")
+        label {{ t.key }}
+        div {{ t.value }}

@@ -1,0 +1,15 @@
+header.masthead(
+  [style.background-image]='safeBackgroudImage'
+)
+  .overlay
+  .container
+    .row
+      .col-xl-8.col-lg-10.mx-auto
+        ng-container
+          .post-heading(#mastHeading)
+            h1 {{heading}}
+            h2.subheading {{subHeading}}
+            span.meta {{meta}}
+            app-find-profile-input(*ngIf='profileSearching;')
+            span.meta(*ngIf="errorMsg") {{ errorMsg }}
+  

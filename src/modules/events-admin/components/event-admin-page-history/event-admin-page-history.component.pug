@@ -1,0 +1,7 @@
+.h4.text-left Page History
+ng-container(*ngIf!='(pageHistory$ | async) as pageHistory;')
+  div(*ngFor!="let page of pageHistory; let i = index;")
+    button.btn.btn-outline-primary.px-2.py-1.text-left(
+      (click)="openPage.emit(page.id)"
+    ) {{ page.datestamp | date:'medium' }}
+   

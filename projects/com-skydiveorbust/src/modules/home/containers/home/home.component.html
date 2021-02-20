@@ -1,0 +1,17 @@
+<app-layout-sdob
+    ><app-header backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")' heading="Skydive Or Bust" subHeading="Striving to be your source for World Skydiving and Indoor Freefall Info" [siteHeading]="true"></app-header
+    ><ng-container *ngIf="!actionCtrl.navLoading; else navLoadingEle"
+        ><div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-preview" *ngFor="let post of posts">
+                        <a [routerLink]='"blog/" + post.slug'
+                            ><h2 class="post-title">{{post.heading}}</h2>
+                            <h3 class="post-subtitle">{{post.subHeading}}</h3></a
+                        >
+                        <p class="post-meta">{{post.meta}}</p>
+                    </div>
+                    <app-spinner [showSpinner]="loading" textSpinner="Loading ..."></app-spinner>
+                </div>
+            </div></div></ng-container></app-layout-sdob
+><ng-template #navLoadingEle><app-spinner [textSpinner]="'Changing Pages'"></app-spinner></ng-template>

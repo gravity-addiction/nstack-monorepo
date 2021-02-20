@@ -1,0 +1,13 @@
+@import 'styles/variables.scss';
+
+.presetContainer {
+  .singleBlock {
+    max-width: 125px;
+    max-height: 125px;
+  }
+
+  .tripleBlock {
+    max-width: 125px;
+    max-height: 375px;
+  }
+}

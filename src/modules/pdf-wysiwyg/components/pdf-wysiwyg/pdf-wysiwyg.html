@@ -1,0 +1,8 @@
+<app-pdf-wysiwyg-toolbox class="print_hide" *ngIf="service.editable" #toolbox [pdfService]="service" (runDraw)="draw()" (runClearCanvas)="service.clearCanvas()" (runMakePDF)="service.makePDF()" (stopArrows)="stopArrows($event)"></app-pdf-wysiwyg-toolbox>
+<div style="background-color: #FFFFFF;position: relative;" dndDropzone (dndDrop)="dropEvent($event, service.dragOffsets)">
+    <div class="background" #editBackground [style.width]="'100%'" [hidden]="!service.pdfSvg"><img class="svg" #imgRef [src]="service.pdfSvg" [attr.width]="service.pixelWidth + 'px'" (load)="resizeCanvas()" alt="" /></div>
+    <div class="canvas_overlay" [hidden]="!service.editable" [style.width]="'100%'"><canvas class="canvas" #editCanvas [attr.width]="service.pixelWidth + 'px'" (mousedown)="canvasEvent($event)" (mouseup)="canvasEvent($event)" (mousemove)="canvasEvent($event)" (mouseout)="canvasEvent($event)" (touchstart)="canvasEvent($event)" (touchmove)="canvasEvent($event)" (touchend)="canvasEvent($event)" (touchcancel)="canvasEvent($event)"></canvas></div>
+    <div class="canvas_overlay pdf" [style.width]="'100%'" *ngIf="service.displayMode === 'input' && service.allItems.length">
+        <ng-template ngFor let-f="$implicit" [ngForOf]="service.allItems" let-i="index"><app-pdf-wysiwyg-textbox *ngIf="f.t === 'textbox'" [scale]="viewScale" [obj]="f.obj" [id]="f.id" (itemChanged)="itemChanged($event, f)" (itemFocused)="itemFocused($event, f)" (itemLost)="itemLost($event)"></app-pdf-wysiwyg-textbox><app-pdf-wysiwyg-cross *ngIf="f.t === 'cross'" [scale]="viewScale" [obj]="f.obj" (itemClicked)="itemClicked($event, f)"></app-pdf-wysiwyg-cross></ng-template>
+    </div>
+</div>

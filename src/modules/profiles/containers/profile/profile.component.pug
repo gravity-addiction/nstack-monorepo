@@ -1,0 +1,21 @@
+app-layout-blog(
+  *ngIf!='(profile$ | async) as profile;',
+)
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-2-bg.jpg")',
+    [heading]='profile.name',
+    subHeading='',
+    [siteHeading]='true'
+  )
+
+  ng-container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    app-records-profile-a(
+      *ngIf!="profile.peopleId",
+      [peopleId]='profile.peopleId'
+    )
+
+    app-spinner([showSpinner]='loading', textSpinner='Loading Profile')
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

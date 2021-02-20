@@ -1,0 +1,26 @@
+app-top-nav
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")',
+    heading='Videos',
+    subHeading='Tool For Judging Videos Online',
+    [siteHeading]='true'
+  )
+
+ng-container
+  div(style="margin-top: 90px;")
+
+    app-video-player(
+      [videoPlayerService]="videoPlayer.player"
+    )
+
+    app-video-controls(
+      [videoPlayerService]="videoPlayer.player",
+      [videoTimeline]="videoPlayer.timeline",
+      [videoControlsStart]="videoPlayer.startbtns",
+      [videoControlsEnd]="videoPlayer.endbtns"
+    )
+
+    app-video-queue-list([videoQueueListArr]="videoQueueListArr", (PlayFile)="playFile($event)")
+
+app-footer

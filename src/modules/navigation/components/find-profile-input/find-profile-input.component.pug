@@ -1,0 +1,13 @@
+div.profileSearchWrapper
+    input#searchString.profileSearchInp(
+        #searchString,
+        type='text',
+        size='40',
+        [formControl]="queryField",
+        name='searchString',
+        autofocus
+    )
+    button.profileSearchBtn(
+        type='button',
+        (click)='profileService.searchProfile$(searchString)'
+    ) Search

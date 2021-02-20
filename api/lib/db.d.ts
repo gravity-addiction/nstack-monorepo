@@ -1,0 +1,14 @@
+import { OkPacket, Pool, PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2';
+export declare let conn: Pool;
+export declare const checkAlphaNum: (data: any, key: string) => boolean;
+export declare const extractSQL: (data: any, key: string) => string;
+export declare const createConnection: (poolConfig: any) => Promise<void>;
+export declare const connection: () => Promise<PoolConnection>;
+export declare const beginTransaction: (db: PoolConnection) => Promise<any>;
+export declare const commit: (db: PoolConnection) => Promise<any>;
+export declare const rollback: (db: PoolConnection) => Promise<any>;
+export declare const query: <T extends ResultSetHeader | OkPacket | RowDataPacket[] | RowDataPacket[][] | OkPacket[]>(sql: string, values: (string | number)[], db?: PoolConnection) => Promise<T>;
+export declare const first: (rows: RowDataPacket[]) => RowDataPacket;
+export declare const insert: (data: any, table: string, db?: PoolConnection) => Promise<ResultSetHeader>;
+export declare const update: (data: any, table: string, id: number, db?: PoolConnection) => Promise<ResultSetHeader>;
+export declare const upsert: (data: any, table: string, onDupDropFields?: string[], db?: PoolConnection) => Promise<ResultSetHeader>;

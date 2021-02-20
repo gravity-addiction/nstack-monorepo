@@ -1,0 +1,81 @@
+.fileList(#FileList)
+  .container(style="padding: 0px 0px 2px 0px;")
+    .pathHeader
+      .row(style="min-height: 50px;")
+        .col-12 Current Folder: /
+          span(*ngIf!="folderService.shownBucket")
+            select(
+              [(ngModel)]="selectedBucket",
+              (ngModelChange)="changeBucket($event, folderList)",
+              *ngIf!="folderService.folderList | async as folderList"
+            )
+              option(
+                [value]="folder.bucket",
+                *ngFor!="let folder of folderList"
+              ) {{ folder.title }}
+
+          span.pl-1 /{{ folderService.shownFolder }}
+
+  .container(style="background-color: unset;")
+    .row.justify-content-center.fileHeader
+      .col.header-shadow File
+      .col-md-2.hidden-md.header-shadow Size
+      .col-md-3.hidden-md.header-shadow Modified
+
+    .row.systemEntry(
+      *ngIf!="folderService.shownFolder",
+      (click)="folderService.upFolder($event)"
+    )
+      .col
+        fa-icon.mr-1([icon]='["fas", "reply"]', size='xs')
+        span Previous Folder
+        
+      .col-md-2.hidden-md &nbsp;
+      .col-md-3.hidden-md &nbsp;
+      
+    .row(*ngIf!="folderService.isLoadingFiles")
+      .col-12(style="text-align: center;padding-top:20px;") Loading
+      
+    .row(*ngIf!="folderService.isAccessDenied")
+      .col-12(style="text-align: center;padding-top:20px;")
+        fa-icon([icon]='["fas", "times-circle"]')
+        br
+        div(style="font-size: 28px;color: red;") Access Denied
+
+    .row(*ngIf!="folderService.isLoadingError")
+      .col-12(style="text-align: center;padding-top:20px;")
+        div(style="font-size: 28px;color: black;") Loading Error
+        div(style="font-size: 16px;color: black;padding-top:10px;") Please try selecting a different folder
+
+    .row(*ngIf!="folderService.hasNoFiles")
+      .col-12(style="text-align: center;padding-top:20px;")
+        div(style="font-size: 28px;color: black;") No Files
+
+    ng-container(*ngFor!="let file of fileList | async")
+      .row.justify-content-center.folderEntry.entry(
+        *ngIf!="!folderService.isLoadingFiles && !file.Size",
+        (click)="folderService.execFolder($event, file)"
+      )
+        .col
+          fa-icon.mr-1([icon]='["fas", "folder"]', size='xs')
+          span {{ file.name }}
+        .col-md-2.hidden-md &nbsp;
+        .col-md-3.hidden-md {{ file.LastModified | date:'short' }}
+
+      .row.justify-content-center.fileEntry.entry(
+        [dndDraggable]="file",
+        (dblclick)="playFile($event, file)",
+        *ngIf!="!folderService.isLoadingFiles && file.Size > 0"
+      )
+        .col(draggable="true")
+          fa-icon.mr-1([icon]='["fas", "file-video"]', size='xs')
+          span {{ file.name }}
+        
+        
+        .col-md-2.hidden-md(style="text-align: right;") {{ file.Size | byteconvert:2 }}
+        .col-md-3.hidden-md
+          span {{ file.LastModified.replace(' ', 'T').substr(0, file.LastModified.indexOf('.')) | date:'short' }}
+
+        //- .col-1
+          fa-icon.mr-1([icon]='["fas", "play"]', size='xs', style="float: right;", (click)="scoreFile($event, file)")
+

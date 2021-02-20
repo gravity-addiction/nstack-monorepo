@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-left" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><fa-icon class="ml-1" [icon]='["fas", "bars"]'></fa-icon></button><a class="navbar-brand" routerLink="/">Skydive Or Bust</a>
+        <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/r">Records</a></li>
+                <li class="nav-item" [isLoggedIn]="true"><a class="nav-link" routerLink="/e">Events</a></li>
+                <li class="nav-item" dropdown>
+                    <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tools</a>
+                    <ul class="dropdown-menu dropdown-inherit" *dropdownMenu>
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/d">PDF Draw Sheets</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" routerLink="/p/find">Profiles</a></li>
+                <li class="nav-item" dropdown [isLoggedIn]="false">
+                    <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 1px;" routerLink="/login"><fa-icon class="mr-2 adminNavIcon" [icon]='["fas", "parachute-box"]' size="sm" style="color: white;"></fa-icon></a>
+                </li>
+                <li class="nav-item" dropdown [isLoggedIn]="true">
+                    <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 1px;"><fa-icon class="mr-2 adminNavIcon" [icon]='["fas", "parachute-box"]' size="sm"></fa-icon></a>
+                    <ul class="dropdown-menu dropdown-inherit" *dropdownMenu>
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/a">Overview</a></li>
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/admin/u">Users</a></li>
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/changepassword">Change Password</a></li>
+                        <li role="menuitem"><a class="dropdown-item" routerLink="/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

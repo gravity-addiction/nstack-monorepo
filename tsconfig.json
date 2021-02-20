@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": [
+        "src/app/*.android.ts",
+        "src/app/*.ios.ts",
+        "src/app/*.tns.ts",
+        "src/app/*.web.ts",
+        "src/app/*.ts"
+      ],
+      "@classes/*": [
+        "classes/*.android.ts",
+        "classes/*.ios.ts",
+        "classes/*.tns.ts",
+        "classes/*.web.ts",
+        "classes/*.ts"
+      ],
+      "@src/*": [
+        "src/*.android.ts",
+        "src/*.ios.ts",
+        "src/*.tns.ts",
+        "src/*.web.ts",
+        "src/*.ts"
+      ],
+      "@modules/*": [
+        "src/modules/*.android.ts",
+        "src/modules/*.ios.ts",
+        "src/modules/*.tns.ts",
+        "src/modules/*.web.ts",
+        "src/modules/*.ts"
+      ],
+      "@typings/*": ["typings/*", "typings/index.d"]
+    }
+  }
+}

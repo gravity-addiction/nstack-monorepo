@@ -1,0 +1,8 @@
+<app-top-nav><app-header backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")' heading="Videos" subHeading="Tool For Judging Videos Online" [siteHeading]="true"></app-header></app-top-nav
+><ng-container
+    ><div style="margin-top: 90px;">
+        <div class="videoPlayerDiv" *ngFor="let player of videoPlayers;let i = index;" (click)="selectPlayer(i)" dndDropzone (dndDrop)="dropVideo($event, i)" [ngStyle]="{'width': player.player.videoBoxWidth}" #VideoBoxes><app-video-player [videoPlayerService]="player.player"></app-video-player><app-video-controls [videoPlayerService]="player.player" [videoTimeline]="player.timeline" [videoControlsStart]="player.startbtns" [videoControlsEnd]="player.endbtns"></app-video-controls></div>
+    </div>
+    <div class="clear"><button class="btn btn-outline-primary" type="button" (click)="addPlayer()">Add Player</button><button class="btn btn-outline-primary" type="button" (click)="syncVideos()">Sync Setup</button><button class="btn btn-outline-primary" type="button" (click)="playStart()">Play Start</button></div>
+    <div class="container noselect" [isLoggedIn]="true"><app-aws-s3-file-listing [folderService]="videoFolderService.folderService" (PlayFile)="playFile($event)"></app-aws-s3-file-listing></div></ng-container
+><app-footer></app-footer>

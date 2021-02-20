@@ -1,0 +1,55 @@
+table.table.table-bordered.table-fixed.mx-auto(#GroupTop)
+  thead
+    th.text-primary.h5(colspan="4")
+      fa-stack(
+        style='float: left;cursor: pointer;',
+        size='xs',
+        (click)='scrollTop()'
+      )
+        fa-icon.fa-stack-2x([icon]='["fas", "circle"]', stackItemSize="2x")
+        fa-icon.fa-stack-1x.fa-inverse([icon]='["fas", "chevron-up"]', stackItemSize='1x')
+      | {{ vGroup.name }}
+  
+  tbody
+    tr
+      td.text-center Play
+      td(colspan="2").text-center Title
+
+    tr(*ngFor!="let qVideo of vGroup.queue;")
+      td(style="width: 20px;cursor: pointer;", (click)="emitPlayFile(qVideo)")
+        fa-icon.pr-2([icon]='["fas", "video"]')
+      td(colspan="2")
+        span.pr-2(*ngIf!="qVideo?.draw.length") [{{ qVideo.draw.join(', ') | uppercase }}]
+        | {{ qVideo?.name }}
+        div(style="font-size:.75rem;") {{ qVideo?.notes }}
+
+    tr(*ngIf!="vGroup.watched.length")
+      td.text-center.p-1(style="font-size: .75rem;") Your
+        br
+        | Score
+      td.text-center Play
+      td.text-center Title
+
+    ng-container(*ngFor!="let qVideo of vGroup.watched;")
+
+      tr
+        td.px-1.text-center.text-nowrap.judged(
+          style="width: 35px;cursor: pointer;",
+          *ngIf!="qVideo.score != null",
+          (click)="fetchScores(qVideo);"
+        ) {{ qVideo?.score }} / {{ qVideo?.maxScore }}
+
+        td.px-1.text-right.text-nowrap.not-judged(style="width: 35px;", *ngIf!="qVideo.score == null") &nbsp;
+        td(style="width: 20px;cursor: pointer;", (click)="emitPlayFile(qVideo)")
+          fa-icon.pr-2([icon]='["fas", "video"]')
+        td 
+          span.pr-2(*ngIf!="qVideo?.draw") [{{ qVideo.draw.join(', ') | uppercase  }}]
+          | {{ qVideo?.name }}
+          div(style="font-size:.75rem;") {{ qVideo?.notes }}
+
+      tr(*ngIf!="qVideo?.loadScores")
+        td.p-0.mb-3(colspan="4") 
+          .px-2 ... Loading Scoresheets ...
+      tr(*ngIf!="qVideo?.scores")
+        td.p-0.mb-3(colspan="4")
+          app-event-scoresheet([scoreSheets]="qVideo?.scores || []")

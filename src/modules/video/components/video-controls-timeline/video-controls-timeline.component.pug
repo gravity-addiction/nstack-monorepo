@@ -1,0 +1,7 @@
+.videoTimesheetContainer(#timeline, (click)="timelineClick($event)")
+  .timeline_wrapper
+    .vl.progress_marker([style.left.%]="progressPercent")
+    .vl.buffer_marker(
+      [style.width.%]="videoPlayerService?.bufferedStartPercent",
+      [style.left.%]="videoPlayerService?.bufferedStart"
+    )

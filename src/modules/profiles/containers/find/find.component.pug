@@ -1,0 +1,35 @@
+app-layout-blog
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-2-bg.jpg")',
+    heading='Search Profiles',
+    subHeading='Skydiving Record & Performance Database',
+    [siteHeading]='true',
+    [profileSearching]='true'
+  )
+
+  ng-container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    div(
+      *ngIf!='profileService.profileSearch$ | async as profiles; else noEntry'
+    )
+      .container(
+        *ngIf!="profiles.results.length; else noEntry"
+      )
+      .row
+        .col
+          h3.text-left Select Profile:
+      .row
+        .col-md-3.col-sm-6.col-xs-12(
+          style='text-align: left; white-space: nowrap;',
+          *ngFor!='let profile of profiles.results;let pi = index;'
+        )
+          a([routerLink]='"/p/" + profile.slug') {{ profile.name }}
+      hr
+
+    app-spinner([showSpinner]='profileService.profileSearching', textSpinner='Loading Profile Details')
+
+ng-template(#noEntry)
+  div.text-center Enter a name into the box above to find profiles
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

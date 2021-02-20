@@ -1,0 +1,24 @@
+<div class="h3">This is your Registration Code!</div>
+<div class="text-center" style="font-size:4rem;letter-spacing:1.25rem;color: red;">{{ regCode }}</div>
+<div class="text-center h3">You will use this code for creating or joining teams and uploading videos remotely.</div>
+<div class="text-center h5">We're always looking for feedback on ways to prove this process. e-mail gravity.addiction@gmail.com</div>
+<div class="row mt-5">
+    <div class="col-10 offset-1 h5">
+        Current Registrations
+        <table cellpadding="4" cellspacing="4" width="100%">
+            <thead>
+                <tr>
+                    <th style="border-bottom: 1px solid">Dropzone</th>
+                    <th style="border-bottom: 1px solid">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-primary py-1 mt-1" *ngFor="let t of eventReg?.entries; let tI = index;">
+                    <td style="min-width:150px;">{{ (t.remote === 'On-Site') ? 'Skydive Elsinore' : t.dropzone }}</td>
+                    <td>{{ t.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-5"><div class="col-12">If there are any errors or issues with registrations please contact Kyle, ktaylo48@yahoo.com or Gary, gravity.addiction@gmail.com</div></div>

@@ -1,0 +1,291 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "cli": {
+    "defaultCollection": "@nativescript/schematics"
+  },
+  "projects": {
+    "org-vendorportal-website": {
+      "root": "",
+      "sourceRoot": "projects/org-vendorportal-website",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@nativescript/schematics:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "projects/org-vendorportal-website/dist/html",
+            "index": "projects/org-vendorportal-website/src/index.html",
+            "main": "projects/org-vendorportal-website/src/main.ts",
+            "polyfills": "projects/org-vendorportal-website/src/polyfills.ts",
+            "tsConfig": "projects/org-vendorportal-website/tsconfig.web.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./projects/org-vendorportal-website/src/assets",
+                "output": "/assets/"
+              },
+              "./projects/org-vendorportal-website/src/favicon.ico",
+              "./projects/org-vendorportal-website/src/favicon.png"
+            ],
+            "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./projects/org-vendorportal-website/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./src",
+                "./projects/org-vendorportal-website/src",
+                "./node_modules"
+              ]
+            },
+            "scripts": [
+              "./node_modules/alasql/dist/alasql.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/org-vendorportal-website/src/environments/environment.ts",
+                  "with": "projects/org-vendorportal-website/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "org-vendorportal-website:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "org-vendorportal-website:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "org-vendorportal-website:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/org-vendorportal-website/src/test.ts",
+            "karmaConfig": "karma.conf.js",
+            "polyfills": "projects/org-vendorportal-website/src/polyfills.ts",
+            "tsConfig": "projects/org-vendorportal-website/src/tsconfig.spec.json",
+            "scripts": [
+              "projects/org-vendorportal-website/src/assets/js/datetimepicker_css.js",
+              "projects/org-vendorportal-website/src/assets/js/xlsx.core.min.js"
+            ],
+            "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "projects/org-vendorportal-website/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src",
+                "./node_modules"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./projects/org-vendorportal-website/src/assets",
+                "output": "/assets/"
+              },
+              "projects/org-vendorportal-website/src/favicon.ico"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html",
+              "projects/org-vendorportal-website/src/**/*.ts",
+              "projects/org-vendorportal-website/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "com-skydiveorbust": {
+      "root": "",
+      "sourceRoot": "projects/com-skydiveorbust",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@nativescript/schematics:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "projects/com-skydiveorbust/dist/html",
+            "index": "projects/com-skydiveorbust/src/index.html",
+            "main": "projects/com-skydiveorbust/src/main.ts",
+            "polyfills": "projects/com-skydiveorbust/src/polyfills.ts",
+            "tsConfig": "projects/com-skydiveorbust/tsconfig.web.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./projects/com-skydiveorbust/src/assets",
+                "output": "/assets/"
+              },
+              "./projects/com-skydiveorbust/src/favicon.ico",
+              "./projects/com-skydiveorbust/src/favicon.png"
+            ],
+            "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./projects/com-skydiveorbust/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./src",
+                "./projects/com-skydiveorbust/src",
+                "./node_modules"
+              ]
+            },
+            "scripts": [
+              "./node_modules/alasql/dist/alasql.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/com-skydiveorbust/src/environments/environment.ts",
+                  "with": "projects/com-skydiveorbust/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "2mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "com-skydiveorbust:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "com-skydiveorbust:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "com-skydiveorbust:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/com-skydiveorbust/src/test.ts",
+            "karmaConfig": "karma.conf.js",
+            "polyfills": "projects/com-skydiveorbust/src/polyfills.ts",
+            "tsConfig": "projects/com-skydiveorbust/src/tsconfig.spec.json",
+            "scripts": [
+              "projects/com-skydiveorbust/src/assets/js/datetimepicker_css.js",
+              "projects/com-skydiveorbust/src/assets/js/xlsx.core.min.js"
+            ],
+            "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "projects/com-skydiveorbust/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src",
+                "./node_modules"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./projects/com-skydiveorbust/src/assets",
+                "output": "/assets/"
+              },
+              "projects/com-skydiveorbust/src/favicon.ico"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html",
+              "projects/com-skydiveorbust/src/**/*.ts",
+              "projects/com-skydiveorbust/src/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "com-skydiveorbust"
+}

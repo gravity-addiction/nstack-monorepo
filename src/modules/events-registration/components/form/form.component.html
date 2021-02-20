@@ -1,0 +1,63 @@
+<div class="form-content">
+    <form #regForm="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="submitRegistration($event)">
+        <div class="form-group row mt-3">
+            <div class="col px-0">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="w-100 text-left">2020 CF Ghost Nationals</div>
+                            <div class="d-none d-md-block text-right text-nowrap price"><sup>$</sup>{{ eventsInfo.perPerson.costPer }}. per person</div>
+                            <div class="d-md-none text-right text-nowrap price price_only"><sup>$</sup>{{ eventsInfo.perPerson.costPer }}.</div>
+                        </div>
+                    </div>
+                    <div class="card-body" [hidden]="!eventsInfo.perPerson.shown">
+                        <h5 class="w-100 card-title">Add Registrations</h5>
+                        <div class="row">
+                            <div class="col-12 col-md-5"><label for="perPerson">Competitors Name</label></div>
+                            <div class="col-12 col-md-5 d-none d-md-block"><label for="perPersonEmail">Contact Email / Phone</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-5">
+                                <div class="input-group mb-3"><input class="form-control" type="text" #perPerson="ngModel" [(ngModel)]="form.perPerson" name="perPerson" placeholder="Competitors Name" /></div>
+                            </div>
+                            <div class="col-12 d-md-none"><label for="perPersonEmail">Contact Email / Phone</label></div>
+                            <div class="col-12 col-md-5">
+                                <div class="input-group mb-3"><input class="form-control" type="text" #perPersonEmail="ngModel" [(ngModel)]="form.perPersonEmail" name="perPersonEmail" placeholder="you@email.com or 555-555-1212" (keydown.enter)="addPerson(form.perPerson, form.perPersonEmail);" /></div>
+                            </div>
+                            <div class="col-12 col-md-2 col-xl-1">
+                                <div class="input-group-append pl-1"><button class="btn btn-primary w-100" type="button" id="perPerson" (click)="addPerson(form.perPerson, form.perPersonEmail);">Add</button></div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap text-primary py-1 mt-1" *ngFor="let t of eventsInfo.perPerson?.entries; let tI = index;">
+                            <div class="px-3" style="text-decoration: underline;" (click)="promptRemoveEntry('perPerson', tI);">{{ t.name }}</div>
+                            <div class="d-none d-sm-block px-3">{{ t.email }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row mt-3 justify-content-center" [class.form-error]="sendAttempt &amp;&amp; form.remote === ''">
+            <label class="col-xs-12 col-md-4">Will you be jumping On Site or uploading video Remotely?</label>
+            <div class="col-6 col-md-3 form-check text-center d-flex justify-content-center align-items-center" style="border:1px solid #ccc;min-height:50px;" (click)="form.remote = 'OnSite'; changedHeight.emit()" [ngClass]="{'active': form.remote === 'OnSite'}">
+                <div class="h5 form-check-label"><input class="form-check-input" type="radio" #jumpingOnSite="ngModel" [(ngModel)]="form.remote" id="onsite" value="OnSite" name="remote" required /><span class="h5">On Site</span></div>
+            </div>
+            <div class="col-6 col-md-3 offset-md-1 form-check text-center d-flex justify-content-center align-items-center" style="border:1px solid #ccc;min-height:50px;" (click)="form.remote = 'Remote'; changedHeight.emit()" [ngClass]="{'active': form.remote === 'Remote'}">
+                <label class="form-check-label w-100"><input class="form-check-input" type="radio" #jumpingRemote="ngModel" [(ngModel)]="form.remote" id="remote" value="Remote" name="remote" required /><span class="h5">Remotely</span></label>
+            </div>
+        </div>
+        <div class="form-group row mt-3 justify-content-center" *ngIf="form.remote === 'Remote'" [class.form-error]="sendAttempt &amp;&amp; form.remote === 'Remote' &amp;&amp; form.dropzone === ''">
+            <label class="col-xs-12 col-md-4">Dropzone you'll be jumping at and submitting videos from remotely?</label>
+            <div class="col-xs-12 col-md-8"><input class="form-control" type="text" #dropzone="ngModel" [(ngModel)]="form.dropzone" name="dropzone" placeholder="your home dz" /></div>
+        </div>
+        <div class="form-group row mt-3">
+            <div class="col col-12 col-md-5 h3 text-center w-100">Registration Total:&nbsp;&nbsp;<sup>$</sup>{{ eventsInfo.perPerson.costTotal }}.</div>
+            <div class="col col-12 col-md-7 text-center">
+                <button class="btn btn-info btn-lg" type="submit" *ngIf="!sending" [class.btn-danger]="!sending &amp;&amp; sendAttempt &amp;&amp; form.remote === ''">
+                    Register For CF Ghost Nationals!
+                    <div class="h6" *ngIf="!sending &amp;&amp; sendAttempt &amp;&amp; form.remote === ''">Select On Site or Remotely!</div>
+                    <div class="h6" *ngIf="!sending &amp;&amp; sendAttempt &amp;&amp; form.remote === 'Remote' &amp;&amp; form.dropzone === ''">Select On Site or Remotely!</div></button
+                ><button class="btn btn-danger" type="button" *ngIf="sending" [disabled]="true">... Please Wait, Processing ...</button>
+            </div>
+        </div>
+    </form>
+</div>

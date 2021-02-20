@@ -1,0 +1,4 @@
+<div class="h4 text-left">Page History</div>
+<ng-container *ngIf="(pageHistory$ | async) as pageHistory;"
+    ><div *ngFor="let page of pageHistory; let i = index;"><button class="btn btn-outline-primary px-2 py-1 text-left" (click)="openPage.emit(page.id)">{{ page.datestamp | date:'medium' }}</button></div></ng-container
+>

@@ -1,0 +1,13 @@
+import { IAM, S3 } from 'aws-sdk';
+export declare const checkUser: (iam: IAM, username: string) => Promise<unknown>;
+export declare const createUser: (iam: IAM, username: string) => Promise<unknown>;
+export declare const addUserToGroup: (iam: IAM, username: string, group: string) => Promise<unknown>;
+export declare const createAccessKey: (iam: IAM, username: string) => Promise<unknown>;
+export declare const deleteAccessKey: (iam: IAM, username: string, key: string) => Promise<unknown>;
+export declare const listObjectsV2: (s3: S3, bucket: string, prefix?: string, delimiter?: string, max?: number, startAfter?: string, continueToken?: string) => Promise<unknown>;
+export declare const listBuckets: (s3: S3) => Promise<unknown>;
+export declare const getSignedUrl: (s3: S3, bucket: string, key: string) => Promise<unknown>;
+export declare const putObject: (s3: S3, bucket: string, key: string, body: any, acl: any) => Promise<unknown>;
+export declare const _grantRead: (s3: S3, bucket: string, key: string, grant: string) => Promise<unknown>;
+export declare const putObjectAcl: (s3: S3, bucket: string, key: string, body: any, acl: any) => Promise<unknown>;
+export declare const deleteObject: (s3: S3, bucket: string, key: string) => Promise<unknown>;

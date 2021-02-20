@@ -1,0 +1,38 @@
+app-layout-blog
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-2-bg.jpg")',
+    heading='Records Admin',
+    [siteHeading]='false'
+  )
+
+  div.container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    h3 Records Admin
+    table.w-100
+      thead
+        tr
+          td(colspan="8") Record List
+      tbody
+        ng-container(*ngFor="let record of records | async")
+          tr
+            td.px-2
+              button(*ngIf="record.found !== null && !record.found", (click)="updateRecord(record)") Add
+              button(*ngIf="record.dirty", (click)="updateRecord(record)") Update
+            td.px-2 {{ record.recordno }}
+            td.px-2 {{ record.status }}
+            td.px-2 {{ record.uspadate }}
+            td.px-2 {{ record.zone }}
+            td.px-2 {{ record.category }}
+            td.px-2 {{ record.record }}
+            td.px-2 {{ record.performance }}
+          ng-container(*ngIf="record.dirty")
+            tr(*ngFor="let dirty of record.dirtynotes")
+              td.text-center {{ dirty.key }}
+              td(colspan="8") 
+                pre.small {{ dirty.old }}
+                pre.small {{ dirty.new }}
+    div
+      textarea([(ngModel)]="inputxt", rows="2", style="font-size: 11px; width: 60%;", (change)="processLineByLine()")
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

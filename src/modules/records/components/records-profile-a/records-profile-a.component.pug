@@ -1,0 +1,52 @@
+ng-container(
+  *ngIf!='recordStats$ | async as records',
+)        
+  .container.recordsContainer(#pageTop)
+    .row
+      .col-md-3.col-sm-6.col-xs-12(
+        style='text-align: left; white-space: nowrap;',
+        *ngFor!='let recordGroup of records;let ri = index;'
+      )
+        a(
+          style='cursor: pointer;text-decoration:underline;',
+          (click)='scrollToSubclass(ri)'
+        ) {{ recordGroup.subclass }}
+      hr
+      .row
+        .col-xl-12
+          .record-preview(
+              *ngFor!='let recordGroup of records'
+          )
+            .row(
+                #recordSubclass
+            )
+              .col-xl-12
+                  h3.record-title 
+                    fa-stack(
+                      style='float: left;',
+                      size='xs',
+                      (click)='scrollToTop()'
+                    )
+                      fa-icon.fa-stack-2x([icon]='["fas", "circle"]', stackItemSize="2x")
+                      fa-icon.fa-stack-1x.fa-inverse([icon]='["fas", "arrow-up"]', stackItemSize="1x")
+                    p {{ recordGroup.subclass }}
+            .row.record-subclass-row(
+                *ngFor!='let recordSubgroup of recordGroup.records'
+            )
+              .col-xs-12.col-lg-11.mx-auto.record-subtitle-header
+                  p.record-subtitle {{ recordSubgroup.record }}
+              .col-lg-10.mx-auto
+
+                .row.record-entry(
+                  *ngFor!='let record of recordSubgroup.records'
+                )
+                  .col-7
+                    p.record-performance {{ record.performance }} {{ record.zone }}: {{ record.state }}
+                  .col-5
+                    p.record-category {{ record.category }} - {{ record.status }}
+                  .col-8
+                    p.record-dropzone {{ record.location }}
+                  .col-4
+                    p.record-date {{ record.uspadate | date }}
+            hr
+                          

@@ -1,0 +1,203 @@
+app-top-nav
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")',
+    heading='Event Scoring',
+    subHeading='Tool For Judging Videos Online',
+    [siteHeading]='true'
+  )
+
+ng-container
+  div(#videoPlayerTop, style="margin-top: 90px;")
+    .row.flex-nowrap
+      .col(
+        #fullscreenContainer,
+        dndDropzone,
+        (dndDrop)="dropVideo($event)"
+      )
+        app-video-player(
+          *ngIf="selectedPlayer > -1",
+          [videoPlayerService]="videoPlayers[selectedPlayer].player"
+          )
+
+        app-video-controls(
+          *ngIf="selectedPlayer > -1",
+          [videoPlayerService]="videoPlayers[selectedPlayer].player",
+          [videoTimeline]="videoTimelineItem",
+          [videoControlsStart]="videoControlsStartItem",
+          [videoControlsEnd]="videoControlsEndItem"
+          )
+      .col.d-none.d-md-block.mr-2(*ngIf!="!videoService.isFullscreen && videoInfo?.video?.preset === 'cf2WaySequentials'")
+        .d-flex.align-self-center.noselect([ngClass]='{"flex-row": videoInfo.draw.length < 3, "flex-column": videoInfo.draw.length >= 3}')
+          img.mb-1.mr-1(*ngFor!="let d of videoInfo.draw", style="min-width:75px;max-width:150px;width:60%;", [src]="'/assets/divepool/cf-2/'+d+'.png'")
+
+      .col.d-none.d-md-block(*ngIf!="!videoService.isFullscreen && videoInfo?.video?.preset === 'cf4WaySequentials'")
+        .d-flex.align-self-center.noselect([ngClass]='{"flex-row": videoInfo.draw.length < 3, "flex-column": videoInfo.draw.length >= 3}')
+          img.mb-1.mr-1(*ngFor!="let d of videoInfo.draw", style="min-width:75px;max-width:150px;width 60%;", [src]="'/assets/divepool/cf-4/'+d+'.png'")
+
+    .row(style="clear: left;", *ngIf!="selectedPlayer > -1")
+      .col-12.col-md-10.offset-md-1
+        .d-flex.flex-row.justify-content-around.align-self-center.noselect
+          fa-icon.fa-md.p-2.mr-1.text-center(
+            (click)="showKeyboard();",
+            [icon]="['far', 'keyboard']"
+          )
+          fa-icon.fa-md.p-2.mr-1.text-center(
+            (click)="showHelp();",
+            [icon]="['fas', 'question']"
+          )
+          
+          fa-icon.fa-md.p-2.mr-1.text-center(
+            (click)="videoPlayers[selectedPlayer].timesheet.isFreezing = !videoPlayers[selectedPlayer].timesheet.isFreezing",
+            [icon]="[(videoPlayers[selectedPlayer].timesheet.isFreezing)?'fas':'far', 'snowflake']",
+            [ngStyle]="{'color': (videoPlayers[selectedPlayer].timesheet.isFreezing)?'white':'', 'background-color': (videoPlayers[selectedPlayer].timesheet.isFreezing)?'blue':''}"
+          )
+          //- .score_title.mt-2 Score Card For: {{ videoPlayerService?.videoTitle }}
+          //- .score_subtitle Press p for point, b - bust, o - omit
+          //- select.custom-select.mt-1(
+              [(ngModel)]="videoPlayers[selectedPlayer].timesheet.videoSettings",
+              (change)="videoPlayers[selectedPlayer].timesheet.updateWorkingTime();"
+            )
+            option(
+              *ngFor!="let preset of presetKeys",
+              [ngValue]="timingPresets[preset]"
+              ) {{ timingPresets[preset].currentPreset }}
+
+          .text-right
+            button.btn.btn-outline-primary(type="button", (click)="addPoint('bust')") Bust
+          .text-left
+            button.btn.btn-outline-primary(type="button", (click)="addPoint('point')") Point
+
+          .text-center
+            button.btn.btn-outline-primary(type="button", (click)="addPoint('omit')") {{ omissionBtnTxt }}
+          .text-center
+            button.btn.btn-outline-primary(type="button", (click)="addPoint('nv')") {{ nvBtnTxt }}
+
+
+
+    .row
+      .col-12.col-md-10.offset-md-1
+        app-event-scorecard(
+          *ngIf="selectedPlayer > -1 && videoPlayers[selectedPlayer].scoring",
+          [videoInfo]="videoInfo",
+          [eventSlug]="eventSlug",
+          [videoPlayer]="videoPlayers[selectedPlayer].player",
+          [videoTimesheet]="videoPlayers[selectedPlayer].timesheet",
+          (PlayFile)="playFile($event)"
+        )
+    
+
+    //- Add Draw under Scorecard always
+    .row(*ngIf!="videoInfo?.video?.preset === 'cf2WaySequentials'")
+      .col-12.col-md-10.offset-md-1
+        .d-flex.flex-row.align-items-start.noselect
+          img(*ngFor!="let d of videoInfo.draw", style="max-width:100px;", [src]="'/assets/divepool/cf-2/'+d+'.png'")
+
+    .row(*ngIf!="videoInfo?.video?.preset === 'cf4WaySequentials'")
+      .col-12.col-md-10.offset-md-1
+        .d-flex.flex-row.align-items-start.align-self-start.noselect
+          img(*ngFor!="let d of videoInfo.draw", style="max-width:100px;", [src]="'/assets/divepool/cf-4/'+d+'.png'")
+
+
+    .row
+      .col-12.col-md-10.offset-md-1
+        h3 Video Queue
+        app-event-videos(
+          [videos$]="evqService.videoQueue$",
+          (PlayFile)="playFile($event)"
+        )
+    //- .w-75(style="clear: left;float: left;")
+      //- app-aws-s3-file-listing(
+        [folderService]="videoFolderService.folderService",
+        (PlayFile)="playFile($event)"
+       )
+
+
+    .w-25(style="float: left;")
+      //- button(
+        type="button",
+        (click)="addPlayer()"
+       ) Add Player
+
+      //- button(
+        type="button",
+        (click)="syncVideos()"
+       ) Sync Setup
+
+      //- button(
+        type="button",
+        (click)="playStart()"
+       ) Play Start
+    
+    br(style="clear: both;")
+    //- app-video-timesheet(
+      [hidden]="!videoPlayerService.showTimesheet || !videoPlayerService",
+      [videoPlayer]="videoPlayerService",
+      [videoTimesheet]="videoTimesheetService"
+     )
+
+    //- .container([hidden]="!videoPlayerService.showTimesheet || !videoPlayerService")
+      .row
+        .col Scorecard Settings
+          pre {{ videoTimesheetService.videoSettings | json }}
+        //- .col-6
+          pre {{ videoFileData | json }}
+
+    //- .container.clear
+      .row
+        .col.text-center(
+          (click)="videoTimesheetService.isFreezing = !videoTimesheetService.isFreezing"
+        )
+          fa-icon.fa-2x.p-4(
+            [icon]="[(videoTimesheetService.isFreezing)?'fas':'far', 'snowflake']",
+            [ngStyle]="{'color': (videoTimesheetService.isFreezing)?'white':'', 'background-color': (videoTimesheetService.isFreezing)?'blue':''}"
+          )
+        .col(
+          *ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime && videoTimesheetService.prestartTimeStart",
+          (click)="videoPlayerService.videoGoto(videoTimesheetService.prestartTimeStart)"
+        ) E
+        .col(
+          *ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.workingTime && videoTimesheetService.workingTimeStart",
+          (click)="videoPlayerService.videoGoto(videoTimesheetService.workingTimeStart)"
+        ) S
+        .col(
+          *ngIf!="videoTimesheetService.workingTimeEnd",
+          (click)="videoPlayerService.videoGoto(((videoTimesheetService.workingTimeEnd > 0)?videoTimesheetService.workingTimeEnd:videoTimesheetService.totalDuration))"
+        ) F
+
+        .col(style="background-color:rgba(0, 255, 242, 0.5)", (click)="cleanWorkingTime()")
+          fa-icon([icon]="['fas', 'times-circle']", size="md")
+        
+  //- .videoLocalInput(
+      style="max-width: 720px;margin: 0 auto;"
+    )
+      .sub-header Play A Video From Your Computer
+        input(
+          #LocalFile,
+          type="file",
+          style="width: 100%",
+          accept=".mp4,.webm,.ogg",
+          (click)="LocalFile.value = ''"
+        )
+app-footer
+
+ng-template(#modalDeletePostWarning, let-modal)
+    .modal-header
+        h5.modal-title Confirm Delete
+        button.close(
+            type='button',
+            aria-label='Close',
+            (click)='modal.dismiss("CANCEL")'
+        )
+            span(aria-hidden='true') ×
+    .modal-body.small
+        .text-danger Warning: Deleting a post is permamnent. This action cannot be undone.
+    .modal-footer
+        button.btn.btn-danger(
+            type='button',
+            (click)='modal.close("CONFIRM")'
+        ) Delete Post
+        button.btn.btn-secondary(
+            type='button',
+            (click)='modal.close("CANCEL")'
+        ) Cancel

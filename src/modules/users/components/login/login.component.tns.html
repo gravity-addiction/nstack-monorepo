@@ -1,0 +1,80 @@
+<ScrollView [height]="screenService.screenHeight">
+  <StackLayout [orientation]="(screenService.screenOrientation === 'landscape') ? 'horizontal' : 'vertical'">
+    <StackLayout class="form"
+        [width]="(screenService.screenOrientation === 'landscape') ? screenService.screenWidth / 2 : screenService.screenWidth"
+        [ngStyle]="{'border-bottom-width': (screenService.screenOrientation === 'landscape') ? 0 : 1}"
+        style="margin-top: 5;">
+      <GridLayout rows="auto, auto, auto" style="margin: 0; padding: 0;">
+        <StackLayout row="0">
+          <TextField #tfStore name="tfStore" class="vp_input font-2" 
+              (textChange)="tfStoreTxtChanged($event)"
+              autofocus hint="Store Identifier" autocapitalizationType="none"
+              autocorrect="false" returnKeyType="done" keyboardType="email"
+              [(ngModel)]="model.store"
+          ></TextField>
+
+          <StackLayout *ngIf="storeList$ | async as storeList" style="margin-left: 15; margin-right: 15; margin-bottom: 10;">
+            <Label text="Select Store Identifier" class="font-2" style="margin: 0; padding: 2; font-weight: 600; text-align: center; color: #FFFFFF; background-color: #DD904A;"></Label>
+            <Button [text]="store" style="padding: 10; border-bottom-width: 1; border-color: #DD904A; color: #000000; text-align: left;" class="font-2" *ngFor="let store of storeList" (tap)="tfStoreTxtSelected($event, store);"></Button>
+          </StackLayout>
+        </StackLayout>
+
+        <TextField #tfUsername name="tfUserName" row="1" class="vp_input font-2" id="tfUser" hint="Vendor #" autocapitalizationType="none" 
+            autocorrect="false" returnKeyType="next" [keyboardType]="usernameKB"
+            [(ngModel)]="model.username"
+        ></TextField>
+
+        <TextField #tfPassword name="tfPassword" row="2" class="vp_input font-2" id="tfPass" hint="Password" autocapitalizationType="none"
+            secure="true" autocorrect="false" returnKeyType="done" (returnPress)="login()"
+            [(ngModel)]="model.password"
+        ></TextField>
+      </GridLayout>
+
+      <GridLayout columns="*" rows="60, 60">
+        <StackLayout row="0">
+          <Button *ngIf="!loading && !authFailed" class="btn btn-primary" style="background-color: #DD904A; text-align: center;" text="Login" (tap)="login()"></Button>
+          <Button *ngIf="!loading && authFailed" class="btn btn-danger" style="background-color: #FF7979; text-align: center;" [text]="authFailed" (tap)="login()"></Button>
+          <Button *ngIf="loading" class="btn btn-primary" text="Logging In" (tap)="stopLogin()"></Button>
+        </StackLayout>
+        <StackLayout row="1" orientation="horizontal" verticalAlignment="middle" style="padding: 0; margin: 0; padding-left: 10;">
+          <Switch secure="true" checked="true" style="padding: 0; padding-left: 10; padding-right: 10; margin: 0;" [(ngModel)]="model.rememberme" #tfRememberMe id="tfRememberMe"></Switch>
+          <Label text="Remember Me" style="padding: 0; margin: 0;" (tap)="model.rememberme = !model.rememberme;"></Label>
+        </StackLayout>
+      </GridLayout>
+    </StackLayout>
+    
+    <StackLayout
+      [width]="(screenService.screenOrientation === 'landscape') ? screenService.screenWidth / 2 : screenService.screenWidth"
+      [ngStyle]="{'border-left-width': (screenService.screenOrientation === 'landscape') ? 1 : 0}"
+    >
+      <StackLayout>
+        <!-- <GridLayout columns="*" rows="30" style="background-color: #DD904A; border-bottom-width: 1;">
+          <Label text='Logged In Portal Stores' style="text-align: center;"></Label>
+        </GridLayout>  -->
+        <GridLayout *ngFor="let login of tokenService.loginToken$ | async" columns="80, *" rows="50, auto" style="border-bottom-width: 1;" [ngClass]="{'vp_shaded': (login.ident === showIdent)}">
+          <Label col="0" [text]="login.username" style="padding-top: 15; padding-bottom: 5; padding-left: 10; background-color:#ff7979;" *ngIf="login.expired" (tap)="identHeaderClick(login);"></Label>
+          <Label col="0" [text]="login.username" style="padding-top: 15; padding-bottom: 5; padding-left: 10;" *ngIf="!login.expired" (tap)="identHeaderClick(login)"></Label>
+
+          <Label col="1" [text]="login.store" style="padding-top: 15; padding-bottom: 5; background-color:#ff7979;" *ngIf="login.expired" (tap)="identHeaderClick(login)"></Label>
+          <Label col="1" [text]="login.store" style="padding-top: 15; padding-bottom: 5;" *ngIf="!login.expired" (tap)="identHeaderClick(login)"></Label>
+
+          <!-- <Label col="2" text="&#xf2ed;" class="far vp_login_track" style="text-align: center; padding: 10; padding-top: 15;" (tap)="cleanToken(login)"></Label> -->
+
+          <StackLayout col="0" colspan="2" row="1" orientation="vertical" [visibility]="(showIdent === login.ident) ? 'visible' : 'collapse'">
+
+            <ActivityIndicator busy="true" color="#DD904A" width="25" height="25" *ngIf="login.pushing === null"></ActivityIndicator>
+
+            <GridLayout columns="50, *" rows="auto" style="padding-top: 8; padding-bottom: 8;" *ngIf="login.pushing === true" (tap)="identPushChanged(login, false);">
+              <Label col="0" text="&#xf058;" class="fas font-2" style="text-align: center; padding: 2; padding-left: 10; color: #DD904A;"></Label>
+              <Label col="1" text="Receieving Sale Notifications"></Label>
+            </GridLayout>
+
+            <Button text="Click Here To Receieve Notifications" *ngIf="!login.pushing && login.pushing !== null" style="padding: 10; margin: 5; margin-top: 0; width: 90%; text-align: center; background-color:#DD904A; color: #FFFFFF;" (tap)="identPushChanged(login, true);"></Button>
+            <!-- <Label text='Testing a bunch of dumb stu ff going on here, wrapping text is pry a good thing here too' textWrap="true" style="padding: 10; background-color: #A4D3F1;"></Label> -->
+            <Button text="Logout of Store" style="padding: 10; margin: 5; margin-top: 15; margin-bottom: 15; width: 90%; text-align: center; background-color:#ff7979;" (tap)="cleanToken(login)"></Button>
+          </StackLayout>
+        </GridLayout>
+      </StackLayout>
+    </StackLayout>
+  </StackLayout>
+</ScrollView>

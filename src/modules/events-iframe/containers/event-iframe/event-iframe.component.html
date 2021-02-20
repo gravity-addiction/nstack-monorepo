@@ -1,0 +1,6 @@
+<div (onresize)="sendHeight()">
+    <div class="h3 text-center" *ngIf="errorEventLookup">Error with database server, please try again.</div>
+    <div class="h3 text-center" *ngIf="failedEventLookup">No active event found in database.</div>
+    <div class="h3 text-center" *ngIf="regCodeHold && failedRegLookup">No registration found for ID: {{ regCodeHold }}</div>
+    <app-events-form-component #formComponent (changedHeight)="sendHeight()" (isRegistering)="sendHeight()" (isRegistered)="completedReg($event)" [eventSlug]="eventSlug" [event]="event" [regCode]="regCode" *ngIf="event && !failedEventLookup && !regCode && !regCodeHold && !failedRegLookup"></app-events-form-component><app-events-registered #regComponent (changedHeight)="sendHeight()" [eventSlug]="eventSlug" [regCode]="regCode" [event]="event" [eventReg]="eventReg" *ngIf="eventReg && !failedRegLookup"></app-events-registered>
+</div>

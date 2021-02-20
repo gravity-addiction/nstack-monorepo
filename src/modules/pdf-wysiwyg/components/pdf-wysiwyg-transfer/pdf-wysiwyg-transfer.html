@@ -1,0 +1,21 @@
+<!-- Modal window starts -->
+
+    <div>
+      <span class="col-md-4">Save As: </span>
+      <select [(ngModel)]="saveType" (change)='changeSaveType()'>
+        <option ngValue="Database">Database</option>
+        <option ngValue="Text File">Text File</option>
+      </select>
+    </div>
+    <br>
+
+    <div [ngSwitch]="_db">
+      <ng-template [ngSwitchCase]=true></ng-template>
+      <ng-template ngSwitchDefault>
+        <span class="col-md-4">Enter File Name: </span>
+        <input class="full" type="text" [(ngModel)]="saveData" (input)="notEmpty($event)"/>
+      </ng-template>
+    </div>
+
+    <button type="button" class="btn btn-default pull-right" (click)="closeModal()">Close</button>
+    <button class="btn btn-default pull-right" type='button' (click)="saveDataInfo()">Save</button>

@@ -1,0 +1,41 @@
+// Import Clean Blog
+@import "clean-blog/clean-blog.scss";
+
+.pointer {
+    cursor: pointer;
+}
+
+.full-background {
+  background-color: $gray-800;
+  width: 100vw;
+  min-height: 100vh;
+  padding-bottom: 10rem;
+}
+
+.pageContainer {
+  background-color: $gray-800;
+}
+
+.clear {
+  clear: both;
+}
+
+.ngx-draggable {
+  cursor: move;
+}
+
+.ngx-dragging {
+  cursor: grabbing !important;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #212529;
+  opacity: 0.3;
+}
+

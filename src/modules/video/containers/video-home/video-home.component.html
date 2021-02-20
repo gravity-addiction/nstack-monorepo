@@ -1,0 +1,10 @@
+<app-layout-blog
+    ><app-header #appHeader backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")' heading="Videos" subHeading="Tool For Judging Videos Online" meta="Drag and Drop Videos Here To Play From Your Computer" [siteHeading]="!dragAndDropSupported"></app-header
+    ><ng-container
+        ><div class="container">
+            <div class="mt-3">
+                <div class="float-right"><input class="localInput" #LocalFile type="file" name="localFile" style="width: 100%" accept=".mp4,.webm,.ogg" (click)="LocalFile.value = ''" /><label for="localFile" (click)="LocalFile.click()">Open Local Files</label></div>
+                <div class="listingHeader">Videos Hosted By SkydiveOrBust.com</div>
+                <app-aws-s3-file-listing [folderService]="videoFolderService.folderService"></app-aws-s3-file-listing>
+            </div></div></ng-container></app-layout-blog
+><ng-template #navLoadingEle><app-spinner [textSpinner]="'Changing Pages'"></app-spinner></ng-template>

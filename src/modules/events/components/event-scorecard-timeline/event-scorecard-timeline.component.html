@@ -1,0 +1,10 @@
+<div class="videoTimesheetContainer" #timeline (click)="timelineClick($event)">
+    <div class="timeline_wrapper">
+        <div class="vl progress_marker" [style.left.%]="progressPercent"></div>
+        <div class="vl buffer_marker" [style.width.%]="videoPlayerService?.bufferedStartPercent" [style.left.%]="videoPlayerService?.bufferedStart"></div>
+        <div class="vl prestart_time" [style.width.%]="videoTimesheetService?.prestartTimePercent" [style.left.%]="videoTimesheetService?.prestartTimeStartPercent"></div>
+        <div class="vl working_time" [ngStyle]="{'background-color': (videoTimesheetService?.workingTimeEnd < 0)?'red':'', 'margin-top': (videoTimesheetService?.videoSettings.prestartTime)?'6px':''}" [style.width.%]="videoTimesheetService?.workingTimePercent" [style.left.%]="videoTimesheetService?.workingTimeStartPercent"></div>
+        <div class="vl" *ngFor="let mark of videoTimesheetService?.markList;let i = index;" [style.left.%]="mark.left" [ngClass]="mark.class" (click)="videoGoto(mark.time, $event)"></div>
+        <div class="vl current_score pl-2" *ngIf="videoTimesheetService?.workingTimeStart > -1 || videoTimesheetService?.prestartTimeStart > -1">{{ totalScore | number:'1.0-2' }} / {{ pointsInTime | number:'1.0-2' }}</div>
+    </div>
+</div>

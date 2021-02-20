@@ -1,0 +1,220 @@
+app-layout-vendor-portal-website
+    
+  app-header(
+    backgroundImage='url("assets/img/bg-2.jpg")',
+    heading='Vendor Portal Payments',
+    subHeading='Thank you for your business!',
+    [siteHeading]='true'
+  )
+
+  ng-container
+    .container
+      .row(style.height="100%")
+        .col-lg-8.col-md-10.mx-auto
+          div.pt-3(*ngIf="!payid && !findingAccount") Enter Payment Code: 
+            input.ml-2(#PaymentCode, type="text", [(ngModel)]="paymentCode", (keyup.enter)="lookupPayment()", autofocus, (focus)="paymentScroll()")
+            button.ml-2.btn.btn-sm.btn-primary((click)="lookupPayment()") Search
+
+          div.text-center.pt-3.text-primary(*ngIf="findingAccount")
+            .h4.text-center Searching For Invoice
+            fa-icon([icon]="['fas', 'spinner']", [spin]="true", size="6x")
+
+          div.h4.text-center.pt-3(*ngIf="noAccountFound && !findingAccount && findingError === ''") Unfortunitly we were not able to find a payment invoice for this URL.
+          div.h4.text-center.pt-3(*ngIf="!findingAccount && findingError !== ''", style="white-space: pre-wrap;") {{ findingError }}
+
+          .row([hidden]="!hasAccount")
+            .col-12.mb-3.bl-1(*ngIf="invoiceInfo")
+              .row
+                .col-6.p-2.text-left.border-bottom.border-primary.h5 {{ invoiceInfo.invoice_date }}
+                .col-6.p-2.text-right.border-bottom.border-primary.h5
+                  button.btn.btn-primary.p-1.pl-2((click)="showInvoice()") #: {{ invoiceInfo.invoice_num }}
+                  button.btn.btn-primary.p-1((click)="showInvoice(true)")
+                    fa-icon.px-1.text-white([icon]="['fas', 'download']")
+
+              .row
+                .col-md-6.p-1.border-bottom.border-primary.h6.pb-2
+                  h5 {{ invoiceInfo.sender_one }}
+                  div(*ngIf="invoiceInfo.sender_two !== ''") {{ invoiceInfo.sender_two }}
+                  div(*ngIf="invoiceInfo.sender_three !== ''") {{ invoiceInfo.sender_three }}
+                  div(*ngIf="invoiceInfo.sender_four !== ''") {{ invoiceInfo.sender_four }}
+                  div(*ngIf="invoiceInfo.sender_five !== ''") {{ invoiceInfo.sender_five }}
+
+                .col-md-6.border-left-md.border-bottom.border-primary.h6.pb-2
+                  h6.text-primary Bill To:
+                  h5 {{ invoiceInfo.receiver_one }}
+                  div(*ngIf="invoiceInfo.sender_two !== ''") {{ invoiceInfo.receiver_two }}
+                  div(*ngIf="invoiceInfo.sender_three !== ''") {{ invoiceInfo.receiver_three }}
+                  div(*ngIf="invoiceInfo.sender_four !== ''") {{ invoiceInfo.receiver_four }}
+                  div(*ngIf="invoiceInfo.sender_five !== ''") {{ invoiceInfo.receiver_five }}
+
+              .row(*ngFor="let item of invoiceInfo.items;")
+                .col-8.p-2
+                  div.h5
+                    span(*ngIf="item.qty > 1") {{ item.qty }}&nbsp;@&nbsp;
+                    | {{ item.item_title }}
+                  div.mx-3.h6(*ngIf="item.item_desc") {{ item.item_desc }}
+                .col-4.p-2.text-right.h5 ${{ item.cost_total | number:'1.2-2' }}
+
+              .row
+                .col-8.pt-2.text-right.h4.border-top.border-primary Total:
+                .col-4.pt-2.h3.text-right.text-primary.border-top.border-primary ${{ invoiceInfo.invoice_total | number:'1.2-2' }}
+
+              .row(*ngIf="paidUp && tenderTotal === (invoiceInfo.invoice_total * 100)")
+                .col-8.pt-2.text-right.h4 Invoice Paid:
+                .col-4.pt-2.h3.text-right ${{ (tenderTotal / 100) * -1 | number:'1.2-2' }}
+              
+              ng-container(*ngIf="tenderTotal && tenderTotal !== (invoiceInfo.invoice_total * 100)")
+                .row
+                  .col-8.pt-2.text-right.h4.border-primary(*ngIf="tenderTotal >= (invoiceInfo.invoice_total * 100)") Invoice Paid:
+                  .col-8.pt-2.text-right.h4.border-primary(*ngIf="tenderTotal < (invoiceInfo.invoice_total * 100)") Transactions:
+                  .col-4.pt-2.h3.text-right ${{ (tenderTotal / 100) * -1 | number:'1.2-2' }}  
+
+                .row()
+                  .col-8.pt-2.text-right.h4 Difference:
+                  .col-4.pt-2.h3.text-right.text-primary.border-top.border-primary ${{ ((invoiceInfo.invoice_total * 100) - tenderTotal) / 100 | number:'1.2-2' }}
+
+            .col-lg-9.d-flex.flex-row.pt-2(*ngIf="!paidUp", style="text-align: left")
+              #sq-card.flex-grow-1
+
+            .col-lg-3.p-2.text-center(*ngIf="!paidUp")
+              button.btn.btn-primary.w-100.mt-1(type="button", *ngIf="squareLoading")
+                fa-icon.pr-1([icon]="['fas', 'spinner']", [spin]="true")
+                | Loading Square
+
+              button.btn.btn-primary.w-100.mt-1(
+                type="button", [disabled]="processingPayment",
+                *ngIf="!squareLoading && !processingPayment",
+                (click)="requestCardNonce($event)"
+              ) Pay ${{ amount | number:'1.2-2' }}
+ 
+              button.btn.btn-primary.w-100.mt-1(type="button", *ngIf="processingPayment") Processing
+
+            .col-12.cardErrors(*ngIf="hasCardErrors && hasCardErrors.length")
+              h3.text-danger Encountered Errors
+
+              .row.p-2(*ngFor="let cardErr of hasCardErrors")
+                .col-md-10.offset-md-1(*ngIf="cardErr.detail", style="white-space: pre-wrap;") {{ cardErr.detail }}
+                .col-md-10.offset-md-1(*ngIf="!cardErr.detail", style="white-space: pre-wrap;") {{ cardErr }}
+
+              
+            .col-12.pt-2.text-center(*ngIf="!paidUp")
+              img(src="assets/img/built-with-square.png")
+
+            //- Payment List
+            .col-12.pt-2(style="text-align: left")
+              div(*ngIf="invoiceInfo?.payments && invoiceInfo?.payments.length")
+                table.w-100
+                  thead
+                    tr
+                      td.p-2.border-bottom.border-primary
+                        .h5.text-primary Date
+                      td.p-2.border-bottom.border-primary(colspan="2")
+                        .h5.text-primary Amount
+                  tbody 
+                    ng-container(*ngFor="let invoicePay of invoiceInfo?.payments")
+                      ng-container(*ngIf="invoicePay.status === 200 || invoicePay.status === 201")
+                        tr(style="vertical-align: top")
+                          td.p-2.pb-0.border-bottom.border-primary {{ invoicePay.datestamp | date:'shortDate' }}
+                          td.p-2.pb-0.border-bottom.border-primary ${{ invoicePay.amount / 100 | number:'1.2-2' }}
+                          td.p-2.pt-0.border-bottom.border-primary.text-primary(style="white-space: pre-wrap;", colspan="2") {{ invoicePay.notes }}
+
+                      ng-container(*ngIf="invoicePay.status === 0")
+                        tr(style="vertical-align: top")
+                          td.p-2.pb-0.border-bottom.border-primary {{ invoicePay.created_at | date:'shortDate' }}
+                          td.p-2.pb-0.border-bottom.border-primary.text-danger ${{ invoicePay.amount / 100 | number:'1.2-2' }}
+                          td.p-2.pt-0.border-bottom.border-primary(style="white-space: pre-wrap;", colspan="2") {{ invoicePay.notes }}
+
+
+            //- Charges List
+            .col-12.pt-2(style="text-align: left")
+              ng-container(*ngIf="screenService.screenWidth > 976; else mobileChargesTable")
+                div(*ngIf="invoiceInfo?.charges && invoiceInfo?.charges.length")
+                  table.w-100
+                    thead
+                      tr
+                        td.p-2.border-bottom.border-primary(colspan="2")
+                          .h5.text-primary Date
+                        td.p-2.border-bottom.border-primary
+                          .h5.text-primary Amt
+                        td.p-2.border-bottom.border-primary(colspan="2")
+                          .h5.text-primary Card
+                    tbody 
+                      ng-container(*ngFor="let invoicePay of invoiceInfo?.charges")
+                        ng-container(*ngIf="invoicePay.status === 200 || invoicePay.status === 201")
+                          tr(*ngFor="let invoiceTenders of invoicePay.transaction?.tenders", style="vertical-align: top")
+                            td.p-2.border-bottom.border-primary {{ invoiceTenders.created_at | date:'medium' }}
+                            td.p-2.border-bottom.border-primary
+                              a.btn.p-0.px-2.btn-primary([href]="'https://squareup.com/receipt/preview/' + invoiceTenders.id", target="_blank", role="button") {{ invoicePay.token }}
+                            td.p-2.border-bottom.border-primary.text-success ${{ invoiceTenders.amount_money.amount / 100 | number:'1.2-2' }}
+                            td.p-2.border-bottom.border-primary.text-success(*ngIf="invoiceTenders.type === 'CARD'") 
+                               fa-icon.p-1([icon]="['fas', 'thumbs-up']")
+                               | {{ invoiceTenders.card_details.card.card_brand }} {{ invoiceTenders.card_details.card.last_4 }}
+
+                            td.p-2.border-bottom.border-primary.text-success(*ngIf="invoiceTenders.type !== 'CARD'") Success!
+                              fa-icon.p-1([icon]="['fas', 'thumbs-up']")
+                              | Success
+
+                        ng-container(*ngIf="invoicePay.status === 0")
+                          tr(style="vertical-align: top")
+                            td.p-2.border-bottom.border-primary {{ invoicePay.datestamp | date:'medium' }}
+                            td.p-2.pl-3.border-bottom.border-primary {{ invoicePay.token }}
+                            td.p-2.border-bottom.border-primary ${{ invoicePay.amount / 100 | number:'1.2-2' }}
+                            td.p-2.border-bottom.border-primary(colspan="2") Submitted
+
+                        ng-container(*ngIf="invoicePay.status > 201")
+                          tr(style="vertical-align: top")
+                            td.p-2.border-bottom.border-primary {{ invoicePay.datestamp | date:'medium' }}
+                            td.p-2.border-bottom.border-primary {{ invoicePay.token }}
+                            td.p-2.border-bottom.border-primary.text-danger(colspan="3")
+                              fa-icon.p-1([icon]="['fas', 'thumbs-down']")
+                              div(*ngFor="let payErrors of invoicePay.transaction?.data?.errors") {{ payErrors.detail }}
+              
+ng-template(#mobileChargesTable)
+  div(*ngIf="invoiceInfo?.charges && invoiceInfo?.charges.length")
+    table(width="100%")
+      thead
+        tr
+          td.p-2.border-bottom.border-primary(colspan="2")
+            .h5.text-primary Date
+          td.p-2.border-bottom.border-primary
+            .h5.text-primary Amt
+      tbody 
+        ng-container(*ngFor="let invoicePay of invoiceInfo?.charges")
+          ng-container(*ngIf="invoicePay.status === 200 || invoicePay.status === 201")
+            ng-container(*ngFor="let invoiceTenders of invoicePay.transaction?.tenders")
+              tr(style="vertical-align: top")
+                td.p-2.pb-0 {{ invoiceTenders.created_at | date:'shortDate' }}
+                td.p-2.pl-3
+                  a.btn.btn-primary([href]="'https://squareup.com/receipt/preview/' + invoiceTenders.id", target="_blank", role="button") {{ invoicePay.token }}
+                td.p-2.pb-0.text-success ${{ invoiceTenders.amount_money.amount / 100 | number:'1.2-2' }}
+              tr(style="vertical-align: top")
+                td.w-100.p-2.pt-0.border-bottom.border-primary.text-success(*ngIf="invoiceTenders.type === 'CARD'", colspan="3")
+                  fa-icon.p-1([icon]="['fas', 'thumbs-up']")
+                  | {{ invoiceTenders.card_details.card.card_brand }} {{ invoiceTenders.card_details.card.last_4 }}
+                td.w-100.p-2.pt-0.border-bottom.border-primary.text-success(*ngIf="invoiceTenders.type !== 'CARD'", colspan="3")
+                  fa-icon.p-1([icon]="['fas', 'thumbs-up']")
+                  | Success!
+
+          ng-container(*ngIf="invoicePay.status === 0")
+            tr(style="vertical-align: top")
+              td.p-2.pb-0 {{ invoicePay.datestamp | date:'shortDate' }}
+              td.p-2.pb-0 {{ invoicePay.token }}
+              td.p-2.pb-0 ${{ invoicePay.amount / 100 | number:'1.2-2' }}
+            tr(style="vertical-align: top")
+              td.w-100.p-2.pt-0.border-bottom.border-primary(colspan="3") Submitted
+
+          ng-container(*ngIf="invoicePay.status > 201")
+            tr(style="vertical-align: top")
+              td.p-2.pb-0 {{ invoicePay.datestamp | date:'shortDate' }}
+              td.p-2.pb-0 {{ invoicePay.token }}
+              td.p-2.pb-0 ${{ invoicePay.amount / 100 | number:'1.2-2' }}
+            tr(style="vertical-align: top")
+              td.p-2.pt-0.border-bottom.border-primary.text-danger(colspan="3")
+                fa-icon.p-1([icon]="['fas', 'thumbs-down']")
+                div(*ngFor="let payErrors of invoicePay.transaction?.data?.errors") {{ payErrors.detail }}
+
+
+
+            
+
+                
