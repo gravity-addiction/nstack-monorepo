@@ -2,6 +2,8 @@
 
 **Work In Progress** The goal with this is to have multiple nativescript projects in the same monorepo. I been having good success with angular/api typescripted together in the same monorepo. Nativescript code sharing seems ideal. I have a few tweeks to the nativescript webpack.config.ts file that it ships with, renamed it to webpack-tns.config.ts with some adjustments.
 
+Huge shoutout to the guy over at StartBootstrap https://github.com/startbootstrap for his work. Their folder structures helped me to conform to standards and also turned me onto using fastify over expressjs.
+
 ## Quickstart
 
 Download github source repo, Install nativescript globally, install npm modules to repo root. Then proceed to either startup the web and api services or the mobile interface.
