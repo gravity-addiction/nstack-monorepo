@@ -3,6 +3,7 @@
   "version": "4.0.0",
   "types": "./typings/index.d.ts",
   "scripts": {
+    "start": "npm run com-skydiveorbust",
     "api:lint": "eslint ./api",
     "build:pug": "node scripts/build-pug.js",
     "postinstall": "ngcc --tsconfig \"./src/tsconfig.json\" && ngcc --tsconfig \"./tsconfig.spec.json\"",
