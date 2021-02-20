@@ -1,0 +1,129 @@
+
+.timesheet_wrapper(#VideoTimesheetElem)
+  //- *ngFor!="let line of [].constructor(1);
+  ng-container(*ngIf!="videoTimesheetService.marks$ | async as tsMarks")
+    .d-flex.flex-row.p-0.align-content-start.noselect(*ngIf!="tsMarks.length")
+      .d-flex.flex-row.flex-wrap.flex-grow-1.score_line_wrapper
+        .overlay(*ngIf!="isSaving")
+        .score_line_entry.px-2.py-3(
+          *ngFor!="let item of tsMarks; let i = index",
+          [class]="item.class",
+          [ngStyle]!="{'background-color': (videoTimesheetService.markSelected === i)?'yellow':''}",
+        ) 
+          .score_ident(*ngIf!="i === 0", (click)="videoPlayerService.videoGoto(item.time)") E
+          .score_ident(*ngIf!="i === 1 && i <= videoTimesheetService.videoSettings.tossStartCount", (click)="videoPlayerService.videoGoto(item.time)") S
+          .score_ident(*ngIf!="i > videoTimesheetService.videoSettings.tossStartCount", (click)="videoPlayerService.videoGoto(item.time)") {{ (i - videoTimesheetService.videoSettings.tossStartCount) }}
+
+          .score_class(
+            *ngIf!="i <= videoTimesheetService.videoSettings.tossStartCount",
+            (click)="editPoint($event, i, item.class)",
+            (dblclick)="removePoint($event, i)"
+          ) &nbsp;
+          .score_class(
+            *ngIf!="i > videoTimesheetService.videoSettings.tossStartCount",
+            (click)="editPoint($event, i, item.class)",
+            (dblclick)="removePoint($event, i)"
+          ) {{ item.class | classToScoremark }}
+
+      .p-2.text-center.flex-shrink-1
+        .btn.btn-sm.btn-outline-danger.px-2(
+          (click)="clearClick($event)",
+          (dblclick)="clearDblClick($event)"
+        )
+          fa-icon([icon]='["fas", "toilet"]')
+
+    .d-flex.flex-row.align-content-start.flex-wrap.p-1.noselect(*ngIf!="tsMarks.length")
+      ng-container(*ngFor!="let mark of tsMarks; let l = index")
+        .btn-group.w-100.border-bottom.mb-2(dropdown,
+            *ngIf!="mark.class === 'bust'",
+            [ngStyle]!="{'background-color': (!mark.reason) ? 'rgba(255, 0, 0, .25)' : ''}"
+        )
+          .btn.btn-primary.dropdown-toggle(dropdownToggle, aria-controls="dropdown-basic")
+            span.caret
+            span.pr-2(style="width:2em;") {{ (l - videoTimesheetService.videoSettings.tossStartCount) }}:
+            | {{ mark.reason }}
+            
+          ul#dropdown-basic.dropdown-menu(*dropdownMenu, role="menu", aria-labelledby="button-basic")
+            li(role="menuitem", *ngFor!="let fract of configService.config.videoInfractions;")
+              .dropdown-item((click)="editMarkReason($event, l, fract)") {{ fract }}
+          input.border.score_infraction(
+            [(ngModel)]="videoTimesheetService.markList[l].explain",
+            type="text",
+            (focus)="videoService.allowInput = true;",
+            (blur)="videoService.allowInput = false;"
+          )
+
+  .text-left.p-3.h4(*ngIf!="isScoreSaved") Score Saved!
+
+  .d-flex.flex-row.align-self-center.score_line_name.p-0
+    .p-2.text-left {{ totalScore }} / {{ pointsInTime }}
+      
+      .btn.btn-sm.btn-outline-primary.px-2(
+        (click)="saveClick($event)",
+        style="height:2em"
+      )
+        fa-icon(*ngIf!="!isSaving", [icon]='["far", "save"]')
+        fa-icon(*ngIf!="isSaving", [spin]="true", [icon]='["fas", "cog"]')
+
+      .btn.btn-sm.btn-outline-danger.px-2(*ngIf!="!setPenalty")
+        fa-icon([icon]='["fas", "bullhorn"]', (click)="penaltyClick($event)")
+
+
+    .p-2.flex-grow-1 
+    
+      .p-1(*ngIf!="setPenalty")
+        label(for="penaltyAmt") Points
+        br
+        input.border-1#penaltyAmt(
+          [(ngModel)]="penaltyAmt",
+          [ngStyle]!="{'background-color': (videoService.allowInput) ? 'rgba(0, 255, 0, .25)' : ''}",
+          type="number",
+          (focus)="videoService.allowInput = true;",
+          (blur)="videoService.allowInput = false;updatePenaltyPercent()",
+          (change)="updatePenaltyPercent()",
+          style="width:50px;"
+        )
+      .p-1(*ngIf!="setPenalty")
+        label(for="penaltyPercent") Percent
+        br
+        input.border-1#penaltyPercent(
+          [(ngModel)]="penaltyPercent",
+          [ngStyle]!="{'background-color': (videoService.allowInput) ? 'rgba(0, 255, 0, .25)' : ''}",
+          type="number",
+          (focus)="videoService.allowInput = true;",
+          (blur)="videoService.allowInput = false;updatePenaltyAmt()",
+          (change)="updatePenaltyAmt()",
+          style="width:50px;"
+        )
+      .p-1(*ngIf!="setPenalty")
+        label(for="penaltyReason") Penalty Reason
+        br
+        input.border-1#penaltyPercent(
+          [(ngModel)]="penaltyReason",
+          [ngStyle]!="{'background-color': (videoService.allowInput) ? 'rgba(0, 255, 0, .25)' : ''}",
+          type="text",
+          (focus)="videoService.allowInput = true;",
+          (blur)="videoService.allowInput = false;",
+          style="width:160px;"
+        )
+
+      | {{ videoPlayerService?.videoTitle }}
+      .p-1.score_name(*ngIf!="userInfo?.id") Judged By (Official):
+        input.border-0(
+          [(ngModel)]="scorecardName",
+          [ngStyle]!="{'background-color': (videoService.allowInput) ? 'rgba(0, 255, 0, .25)' : ''}",
+          type="text",
+          (focus)="videoService.allowInput = true;",
+          (blur)="videoService.allowInput = false;"
+        )
+
+      .p-1.score_name(*ngIf!="!userInfo?.id") Judged By:
+        input.border-0(
+          [(ngModel)]="scorecardName",
+          [ngStyle]!="{'background-color': (videoService.allowInput) ? 'rgba(0, 255, 0, .25)' : ''}",
+          type="text",
+          (focus)="videoService.allowInput = true;",
+          (blur)="videoService.allowInput = false;"
+        )
+
+

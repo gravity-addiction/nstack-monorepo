@@ -1,0 +1,40 @@
+{
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmitHelpers": false,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "outDir": "./out-tsc/app",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "paths": {
+      "@app/*": ["src/app/*.web.ts", "src/app/*"],
+      "@classes/*": ["classes/*.web.ts", "classes/*"],
+      "@src/*": [ "src/*.web.ts", "src/*" ],
+      "@modules/*": [ "src/modules/*.web.ts", "src/modules/*", "src/modules/*/index.ts" ],
+      "@typings/*": [ "typings/*", "typings/index.d" ]
+    },
+    "lib": [
+      "es2018",
+      "dom",
+      "es6"
+    ]
+  },
+  "include": [
+    "./typings/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "platforms",
+    "e2e",
+    "_transpiled",
+    "_templates",
+    "migrations",
+    "api",
+  ]
+}

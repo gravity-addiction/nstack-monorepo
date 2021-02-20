@@ -1,0 +1,23 @@
+form(
+  #uploadForm="ngForm",
+  name="form",
+  novalidate
+)
+  input(
+    *ngIf="acceptFile",
+    #FileInput,
+    type="file",
+    (click)="FileInput.value = ''",
+    style="border:1px solid black;width: 70%;"
+  )
+  button.btn.btn-outline-primary.upload-button(
+    *ngIf!="!isUploading && acceptFile",
+    type="button",
+    (click)="uploadFile()"
+  ) Upload File
+  button.btn.btn-outline-danger(
+    *ngIf!="isUploading",
+    (click)="cancelUpload()"
+  ) Cancel - {{ progressLoaded | byteconvert:2 }} / {{ progressTotal | byteconvert:2 }}
+    
+

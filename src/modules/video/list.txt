@@ -1,0 +1,215 @@
+/*public 
+    {
+      id: '/17US',
+      title: '2017 USPA Nationals',
+      expanded: false,
+      subs: new BehaviorSubject<Array<IFolder>>([
+        {
+          id: '/17US/CF4R',
+          title: 'CF Rotations',
+          expanded: false,
+          style: { },
+          subs: new BehaviorSubject<Array<IFolder>>([
+            {
+              id: '/17US/CF4R/Test 1.web.mp4',
+              title: 'Test 1',
+              expanded: null
+            },
+            {
+              id: '/17US/CF4R/Test 2.web.mp4',
+              title: 'Test 2',
+              expanded: false,
+              subs: new BehaviorSubject<Array<IFolder>>([
+                {
+                  id: '/17US/CF4R/Test 2/Test 3.web.mp4',
+                  title: 'Test 3',
+                  expanded: null
+                },
+                {
+                  id: '/17US/CF4R/Test 2/Test 4.web.mp4',
+                  title: 'Test 4',
+                  expanded: null
+                }
+              ])
+            }
+          ])
+        },{
+          id: '/17US/CF2SO',
+          title: 'CF 2-way Seq Open',
+          expanded: null
+        },{
+          id: '/17US/CF2SA',
+          title: 'CF 2-way Seq Adv',
+          expanded: null
+        },{
+          id: '/17US/CF4SO',
+          title: 'CF 4-way Seq Open',
+          expanded: null
+        }
+      ])
+    },
+    {
+      id: '/18US',
+      title: '2018 USPA Nationals',
+      expanded: false
+    }
+  ]
+*/
+
+
+
+
+
+  public videoKeys_CF4R = [
+    { r: '1', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R1_301.web.mp4', '2017/CF4R/17US_CF4R_R1_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R1_302.web.mp4', '2017/CF4R/17US_CF4R_R1_302.sd.mp4']
+    ]},
+    { r: '2', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R2_301.web.mp4', '2017/CF4R/17US_CF4R_R2_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R2_302.web.mp4', '2017/CF4R/17US_CF4R_R2_302.sd.mp4']
+    ]},
+    { r: '3', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R3_301.web.mp4', '2017/CF4R/17US_CF4R_R3_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R3_302.web.mp4', '2017/CF4R/17US_CF4R_R3_302.sd.mp4']
+    ]},
+    { r: '4', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R4_301.web.mp4', '2017/CF4R/17US_CF4R_R4_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R4_302.web.mp4', '2017/CF4R/17US_CF4R_R4_302.sd.mp4']
+    ]},
+    { r: '5', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R5_301.web.mp4', '2017/CF4R/17US_CF4R_R5_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R5_302.web.mp4', '2017/CF4R/17US_CF4R_R5_302.sd.mp4']
+    ]},
+    { r: '6', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R6_301.web.mp4', '2017/CF4R/17US_CF4R_R6_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R6_302.web.mp4', '2017/CF4R/17US_CF4R_R6_302.sd.mp4']
+    ]},
+    { r: '7', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R7_301.web.mp4', '2017/CF4R/17US_CF4R_R7_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R7_302.web.mp4', '2017/CF4R/17US_CF4R_R7_302.sd.mp4']
+    ]},
+    { r: '8', d: '', v: [
+      ['Elsinore Too Wrapped Up', '2017/CF4R/17US_CF4R_R8_301.web.mp4', '2017/CF4R/17US_CF4R_R8_301.sd.mp4'],
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4R/17US_CF4R_R8_302.web.mp4', '2017/CF4R/17US_CF4R_R8_302.sd.mp4']
+    ]}
+  ];
+
+  public videoKeys_CF4S = [
+    { r: '1', d: '14 D 9', v: [
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4S/17US_CF4S_R1_401.web.mp4', '2017/CF4S/17US_CF4S_R1_401.sd.mp4'],
+      ['Group Shame', '2017/CF4S/17US_CF4S_R1_402.web.mp4', '2017/CF4S/17US_CF4S_R1_402.sd.mp4'],
+      ['Elsinore Too Wrapped Up', '2017/CF4S/17US_CF4S_R1_403.web.mp4', '2017/CF4S/17US_CF4S_R1_403.sd.mp4']
+    ]},
+    { r: '2', d: 'B 4 C', v: [
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4S/17US_CF4S_R2_401.web.mp4', '2017/CF4S/17US_CF4S_R2_401.sd.mp4'],
+      ['Group Shame', '2017/CF4S/17US_CF4S_R2_402.web.mp4', '2017/CF4S/17US_CF4S_R2_402.sd.mp4'],
+      ['Elsinore Too Wrapped Up', '2017/CF4S/17US_CF4S_R2_403.web.mp4', '2017/CF4S/17US_CF4S_R2_403.sd.mp4']
+    ]},
+    { r: '3', d: 'E F L A', v: [
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4S/17US_CF4S_R3_401.web.mp4', '2017/CF4S/17US_CF4S_R3_401.sd.mp4'],
+      ['Group Shame', '2017/CF4S/17US_CF4S_R3_402.web.mp4', '2017/CF4S/17US_CF4S_R3_402.sd.mp4'],
+      ['Elsinore Too Wrapped Up', '2017/CF4S/17US_CF4S_R3_403.web.mp4', '2017/CF4S/17US_CF4S_R3_403.sd.mp4']
+    ]},
+    { r: '4', d: 'M N H 11', v: [
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4S/17US_CF4S_R4_401.web.mp4', '2017/CF4S/17US_CF4S_R4_401.sd.mp4'],
+      ['Group Shame', '2017/CF4S/17US_CF4S_R4_402.web.mp4', '2017/CF4S/17US_CF4S_R4_402.sd.mp4'],
+      ['Elsinore Too Wrapped Up', '2017/CF4S/17US_CF4S_R4_403.web.mp4', '2017/CF4S/17US_CF4S_R4_403.sd.mp4']
+    ]},
+    { r: '5', d: 'J 10 1', v: [
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4S/17US_CF4S_R5_401.web.mp4', '2017/CF4S/17US_CF4S_R5_401.sd.mp4'],
+      ['Group Shame', '2017/CF4S/17US_CF4S_R5_402.web.mp4', '2017/CF4S/17US_CF4S_R5_402.sd.mp4'],
+      ['Elsinore Too Wrapped Up', '2017/CF4S/17US_CF4S_R5_403.web.mp4', '2017/CF4S/17US_CF4S_R5_403.sd.mp4']
+    ]},
+    { r: '6', d: '6 8', v: [
+      ['Elsinore Baaaaaaaa\'D Goats', '2017/CF4S/17US_CF4S_R6_401.web.mp4', '2017/CF4S/17US_CF4S_R6_401.sd.mp4'],
+      ['Group Shame', '2017/CF4S/17US_CF4S_R6_402.web.mp4', '2017/CF4S/17US_CF4S_R6_402.sd.mp4'],
+      ['Elsinore Too Wrapped Up', '2017/CF4S/17US_CF4S_R6_403.web.mp4', '2017/CF4S/17US_CF4S_R6_403.sd.mp4']
+    ]}
+  ];
+
+  public videoKeys_CF2O = [
+    { r: '1', d: 'A F E C E', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R1_201.web.mp4', '2017/CF2SO/17US_CF2SO_R1_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R1_202.web.mp4', '2017/CF2SO/17US_CF2SO_R1_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R1_203.web.mp4', '2017/CF2SO/17US_CF2SO_R1_203.sd.mp4']
+    ]},
+    { r: '2', d: 'A F D C B', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R2_201.web.mp4', '2017/CF2SO/17US_CF2SO_R2_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R2_202.web.mp4', '2017/CF2SO/17US_CF2SO_R2_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R2_203.web.mp4', '2017/CF2SO/17US_CF2SO_R2_203.sd.mp4']
+    ]},
+    { r: '3', d: 'D C A B C', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R3_201.web.mp4', '2017/CF2SO/17US_CF2SO_R3_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R3_202.web.mp4', '2017/CF2SO/17US_CF2SO_R3_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R3_203.web.mp4', '2017/CF2SO/17US_CF2SO_R3_203.sd.mp4']
+    ]},
+    { r: '4', d: 'C F A F A', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R4_201.web.mp4', '2017/CF2SO/17US_CF2SO_R4_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R4_202.web.mp4', '2017/CF2SO/17US_CF2SO_R4_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R4_203.web.mp4', '2017/CF2SO/17US_CF2SO_R4_203.sd.mp4']
+    ]},
+    { r: '5', d: 'E D C F A', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R5_201.web.mp4', '2017/CF2SO/17US_CF2SO_R5_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R5_202.web.mp4', '2017/CF2SO/17US_CF2SO_R5_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R5_203.web.mp4', '2017/CF2SO/17US_CF2SO_R5_203.sd.mp4']
+    ]},
+    { r: '6', d: 'C F B E A', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R6_201.web.mp4', '2017/CF2SO/17US_CF2SO_R6_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R6_202.web.mp4', '2017/CF2SO/17US_CF2SO_R6_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R6_203.web.mp4', '2017/CF2SO/17US_CF2SO_R6_203.sd.mp4']
+    ]},
+    { r: '7', d: 'A B B E F', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R7_201.web.mp4', '2017/CF2SO/17US_CF2SO_R7_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R7_202.web.mp4', '2017/CF2SO/17US_CF2SO_R7_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R7_203.web.mp4', '2017/CF2SO/17US_CF2SO_R7_203.sd.mp4']
+    ]},
+    { r: '8', d: 'A E D D F', v: [
+      ['Slotswitch', '2017/CF2SO/17US_CF2SO_R8_201.web.mp4', '2017/CF2SO/17US_CF2SO_R8_201.sd.mp4'],
+      ['Elsinore Two Wrapped Up', '2017/CF2SO/17US_CF2SO_R8_202.web.mp4', '2017/CF2SO/17US_CF2SO_R8_202.sd.mp4'],
+      ['Talus Buddies', '2017/CF2SO/17US_CF2SO_R8_203.web.mp4', '2017/CF2SO/17US_CF2SO_R8_203.sd.mp4']
+    ]},
+  ];
+
+  public videoKeys_CF2A = [
+    { r: '1', d: 'C F E F E', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R1_251.web.mp4', '2017/CF2SA/17US_CF2SA_R1_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R1_252.web.mp4', '2017/CF2SA/17US_CF2SA_R1_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R1_253.web.mp4', '2017/CF2SA/17US_CF2SA_R1_253.sd.mp4']
+    ]},
+    { r: '2', d: 'C A F A C', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R2_251.web.mp4', '2017/CF2SA/17US_CF2SA_R2_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R2_252.web.mp4', '2017/CF2SA/17US_CF2SA_R2_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R2_253.web.mp4', '2017/CF2SA/17US_CF2SA_R2_253.sd.mp4']
+    ]},
+    { r: '3', d: 'E D C B D', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R3_251.web.mp4', '2017/CF2SA/17US_CF2SA_R3_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R3_252.web.mp4', '2017/CF2SA/17US_CF2SA_R3_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R3_253.web.mp4', '2017/CF2SA/17US_CF2SA_R3_253.sd.mp4']
+    ]},
+    { r: '4', d: 'B A C F D', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R4_251.web.mp4', '2017/CF2SA/17US_CF2SA_R4_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R4_252.web.mp4', '2017/CF2SA/17US_CF2SA_R4_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R4_253.web.mp4', '2017/CF2SA/17US_CF2SA_R4_253.sd.mp4']
+    ]},
+    { r: '5', d: 'A B B E C', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R5_251.web.mp4', '2017/CF2SA/17US_CF2SA_R5_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R5_252.web.mp4', '2017/CF2SA/17US_CF2SA_R5_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R5_253.web.mp4', '2017/CF2SA/17US_CF2SA_R5_253.sd.mp4']
+    ]},
+    { r: '6', d: 'D B E D F', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R6_251.web.mp4', '2017/CF2SA/17US_CF2SA_R6_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R6_252.web.mp4', '2017/CF2SA/17US_CF2SA_R6_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R6_253.web.mp4', '2017/CF2SA/17US_CF2SA_R6_253.sd.mp4']
+    ]},
+    { r: '7', d: 'D E A C B', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R7_251.web.mp4', '2017/CF2SA/17US_CF2SA_R7_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R7_252.web.mp4', '2017/CF2SA/17US_CF2SA_R7_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R7_253.web.mp4', '2017/CF2SA/17US_CF2SA_R7_253.sd.mp4']
+    ]},
+    { r: '8', d: 'D D B F F', v: [
+      ['Parachute, Foot, WHAT?', '2017/CF2SA/17US_CF2SA_R8_251.web.mp4', '2017/CF2SA/17US_CF2SA_R8_251.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats Zero', '2017/CF2SA/17US_CF2SA_R8_252.web.mp4', '2017/CF2SA/17US_CF2SA_R8_252.sd.mp4'],
+      ['Elsinore Baaaa\'D Goats One', '2017/CF2SA/17US_CF2SA_R8_253.web.mp4', '2017/CF2SA/17US_CF2SA_R8_253.sd.mp4']
+    ]},
+  ];

@@ -1,0 +1,33 @@
+.vl.vbr.vp(style="left: 0px;width:25px;", (click)="videoRewind()")
+  fa-icon([icon]='["fas", "step-backward"]')
+
+.vl.vbr.vp(style="left: 25px;width:25px;", (click)="videoPlayerService.videoFrameMove(-1)")
+  fa-icon([icon]='["fas", "backward"]')
+
+//- <div class="vl vb"><ion-icon (click)="videoFrameMove(videoFrameRate * -3)" name="rewind"></ion-icon></div>
+
+.vl.vbr.vp(style="left: 50px;width:25px;", (click)="videoPlayerService.videoStart()")
+  fa-icon([icon]='["fas", "play"]')
+
+.vl.vbr.vp(style="left: 75px;width:25px;", (click)="videoPlayerService.videoPause()")
+  fa-icon([icon]='["fas", "pause"]')
+
+//- <div class="vl vb"><ion-icon (click)="videoFrameMove(videoFrameRate * 3)" name="fastforward"></ion-icon></div>
+.vl.vbr.vp(style="left: 100px;width:25px;", (click)="videoPlayerService.videoFrameMove(1)")
+  fa-icon([icon]='["fas", "forward"]')
+
+.vl.vbr.vp(style="left: 125px;width:25px;", (click)="videoForward()")
+  fa-icon([icon]='["fas", "step-forward"]')
+
+.dropup.vl.vbr.vp(
+  style="left: 150px;width:25px;",
+  *ngIf!="videoPlayerService.videoHls"
+)
+  .dropbtn
+    fa-icon([icon]='["fas", "film"]')
+  .dropup-content
+    a((click)="videoPlayerService.changeBitrate(-1)", [ngClass]="{'active': videoPlayerService.videoHlsLevel === -1}") Auto
+    a(*ngFor!="let lvl of videoPlayerService.videoHlsLevels;let lvlI = index;",
+      (click)="videoPlayerService.changeBitrate(lvlI)",
+      [ngClass]="{'active': videoPlayerService.videoHlsHeight === lvl.height, 'selected': videoPlayerService.videoHlsLevel === lvlI}"
+    ) {{ lvl.height }}

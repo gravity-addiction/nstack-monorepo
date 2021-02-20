@@ -1,0 +1,15 @@
+import { Event, EventSimple, ResultsEvent, ResultsEventSimple } from '@typings/event';
+import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2';
+export declare const ngEventSimple: (r: RowDataPacket | ResultsEvent) => EventSimple;
+export declare const dbEventSimple: (r: RowDataPacket | ResultsEvent) => ResultsEventSimple;
+export declare const ngEvent: (r: RowDataPacket | ResultsEvent) => Event;
+export declare const dbEvent: (r: RowDataPacket | ResultsEvent) => ResultsEvent;
+export declare const getEvents: (db?: PoolConnection) => Promise<ResultsEvent[]>;
+export declare const getEventById: (id: number, db?: PoolConnection) => Promise<ResultsEvent>;
+export declare const getEventByShortId: (shortId: string, db?: PoolConnection) => Promise<ResultsEvent>;
+export declare const getEventBySlug: (slug: string, db?: PoolConnection) => Promise<ResultsEvent>;
+export declare const getEventIdBySlug: (slug: string, db?: PoolConnection) => Promise<number>;
+export declare const getEventSheetBySlug: (slug: string, db?: PoolConnection) => Promise<string>;
+export declare const eventsCreate: (body: any, db?: PoolConnection) => Promise<ResultsEvent>;
+export declare const eventsUpdate: (body: any, id: number, db?: PoolConnection) => Promise<ResultsEvent>;
+export declare const deleteEvent: (id: number, db?: PoolConnection) => Promise<ResultSetHeader>;

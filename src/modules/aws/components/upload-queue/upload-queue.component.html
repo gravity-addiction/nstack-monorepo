@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="d-flex flex-row pt-1 flex-wrap" *ngFor="let queue of s3UploadService.uploadQueue;let queuei = index;">
+        <button class="btn btn-outline float-right" *ngIf="queue.started && !queue.finished" (click)="cancelUpload(queue)"><fa-icon [icon]="['fas', 'times']" size="lg"></fa-icon></button>
+        <div class="pl-2">File: {{ queue.f?.name }}</div>
+        <div class="pl-2" *ngIf="queue.meta?.discipline">Event: {{ queue.meta?.discipline }}</div>
+        <div class="pl-2" *ngIf="queue.meta?.rnd">Round: {{ queue.meta?.rnd }}</div>
+        <div class="pl-2"><fa-icon class="text-success ml-2" *ngIf="queue.started && !queue.finished" [icon]="['fas', 'step-forward']"></fa-icon><fa-icon class="text-success ml-2" *ngIf="queue.started && queue.finished && queue.progress === 1" [icon]="['fas', 'thumbs-up']"></fa-icon><fa-icon class="text-danger ml-2" *ngIf="queue.started && queue.finished && queue.progress !== 1" [icon]="['fas', 'thumbs-down']"></fa-icon></div>
+        <div class="pl-3" *ngIf="s3UploadService.currentTransferRate">{{ s3UploadService.currentTransferRate | byteconvert:2 }}/s</div>
+    </div>
+</div>

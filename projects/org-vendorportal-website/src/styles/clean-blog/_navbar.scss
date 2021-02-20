@@ -1,0 +1,144 @@
+// Styling for the navbar
+#mainNav {
+  position: absolute;
+  border-bottom: 1px solid $gray-800;
+  background-color: $gray-800;
+  z-index: 1030;
+  @include sans-serif-font;
+  /* (Skinny) Title */
+  .navbar-brand {
+    font-weight: 800;
+    color: $orange;
+    padding: 0 10px;
+  }
+  /* Menu Hamburger */
+  .navbar-toggler {
+    font-weight: 800;
+    padding: 13px;
+    text-transform: uppercase;
+    color: $gray-900;
+  }
+  /* (Skinny) Menu Links */
+  .navbar-nav {
+    > li.nav-item {
+      > a {
+        font-size: .7rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: lowercase;
+        padding: 10px;
+        color: $gray-900;
+      }
+    }
+  }
+  .container {
+    background-color: $gray-400;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+  }
+
+  .adminNavIcon {
+    color: $primary;
+    padding: 4px 10px;
+
+    stroke: $black;
+    stroke-width: 5%;
+    background-color: $gray-600;
+    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px; 
+    border-radius: 10px;  
+
+    &:focus,
+    &:hover {
+      color: fade-out($black, .2);
+    }
+  }
+
+  .dropdown-inherit {
+    left: inherit !important;
+    top: 50px !important;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  /* (Wide) */
+  @media only screen and (min-width: 992px) {
+    // border-bottom: 1px solid transparent;
+    // background: transparent;
+    /* (Wide) Header Title */
+    .navbar-brand {
+      padding: 10px 20px;
+      color: $primary;
+      &:focus,
+      &:hover {
+        color: fade-out($gray-800, .2);
+      }
+    }
+    /* (Wide) Nav Links */
+    .navbar-nav {
+      > li.nav-item {
+        > a {
+          padding: 10px 20px;
+          color: $gray-900;
+          &:focus,
+          &:hover {
+            color: fade-out($primary, .2);
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (min-width: 992px) {
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+    /* Force Hardware Acceleration in WebKit */
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    &.is-fixed {
+      /* when the user scrolls down, we hide the header right above the viewport */
+      position: fixed;
+      top: -67px;
+      -webkit-transition: -webkit-transform 0.2s;
+      -moz-transition: -moz-transform 0.2s;
+      transition: transform 0.2s;
+      border-bottom: 1px solid darken($gray-800, .05);
+      background-color: fade-out($gray-800, .1);
+      .navbar-brand {
+        color: $gray-900;
+        &:focus,
+        &:hover {
+          color: $primary;
+        }
+      }
+      .navbar-nav {
+        > li.nav-item {
+          > a {
+            padding: 5px 10px;
+            font-size: .8rem;
+            color: $gray-900;
+            &:focus,
+            &:hover {
+              color: $primary;
+            }
+          }
+        }
+      }
+    }
+    &.is-visible {
+      /* if the user changes the scrolling direction, we show the header */
+      -webkit-transform: translate3d(0, 100%, 0);
+      -moz-transform: translate3d(0, 100%, 0);
+      -ms-transform: translate3d(0, 100%, 0);
+      -o-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+    }
+  }
+}
+

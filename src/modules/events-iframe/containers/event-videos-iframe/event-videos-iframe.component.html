@@ -1,0 +1,50 @@
+<div (onresize)="sendHeight()">
+    <div class="row text-center m-5" id="loadingReg" *ngIf="!regCode && !errorRegLookup">
+        <div class="col-12 text-center">
+            <div class="spinner-border text-center" role="status"><div class="sr-only">Loading</div></div>
+            <p class="h1">Loading Registration</p>
+        </div>
+    </div>
+    <div class="row text-center m-5" id="loadingReg" *ngIf="errorRegLookup">
+        <div class="col-12 text-center"><p class="h1">No Registration Found</p></div>
+    </div>
+    <div class="h4" *ngIf="regCode">Uploading For {{ regCode }}</div>
+    <form #uploadForm="ngForm" name="form" novalidate></form>
+    <div class="row" [hidden]="!regCode">
+        <div class="col p-3 text-danger" *ngIf="videoHasError">Video format not supported. Upload and we can transcode it for you.</div>
+        <div class="form-row align-items-end">
+            <div class="col-auto">
+                <label>Event:</label><br /><select class="form-control" [(ngModel)]="uploadingDiscipline"
+                    ><option value="CF2S">2-way Seq Open</option
+                    ><option value="CF2SPA">2-way Seq Pro/Am</option
+                    ><option value="CF4S">4-way Seq Open</option
+                    ><option value="CF4R">4-way Rotes Open</option></select
+                >
+            </div>
+            <div class="col-auto">
+                <label>Round:</label><br /><select class="form-control" [(ngModel)]="uploadingRound"
+                    ><option value="1">1</option
+                    ><option value="2">2</option
+                    ><option value="3">3</option
+                    ><option value="4">4</option
+                    ><option value="5">5</option
+                    ><option value="6">6</option
+                    ><option value="7">7</option
+                    ><option value="8">8</option></select
+                >
+            </div>
+            <div class="col-auto"><label>File:</label><br /><input [hidden]="!acceptFile" #FileInput type="file" (click)="FileInput.value = ''" style="border:1px solid black;width: 70%;" /></div>
+            <div class="col-auto"><button class="btn btn-outline-primary" type="button" (click)="playFile(videoPlayers[selectedPlayer])">Play File</button></div>
+            <div class="col-auto"><button class="btn btn-outline-primary upload-button" [hidden]="isUploading || !acceptFile" type="button" (click)="uploadFile()">Upload File</button><button class="btn btn-outline-danger" *ngIf="isUploading" (click)="cancelUpload()">Cancel - {{ progressLoaded | byteconvert:2 }} / {{ progressTotal | byteconvert:2 }}</button></div>
+        </div>
+    </div>
+    <div class="row" [hidden]="!regCode">
+        <div class="col col-12"><app-aws-upload-queue></app-aws-upload-queue></div>
+    </div>
+    <div class="row mt-1" [hidden]="!regCode">
+        <div class="col" *ngFor="let videoPlayer of videoPlayers;let vpI = index;">
+            <div class="videoPlayerDiv" [ngStyle]="{'width': videoPlayer.player.videoBoxWidth}" #VideoBox><app-video-player [videoPlayerService]="videoPlayer.player" (videoLoaded)="videoLoaded()" (videoError)="videoError($event)"></app-video-player><app-video-controls #VideoControls *ngIf="videoPlayer.player.showPlayer" [videoPlayerService]="videoPlayer.player" [videoTimeline]="videoTimelineItem" [videoControlsStart]="videoControlsStartItem"></app-video-controls></div>
+        </div>
+    </div>
+    <div class="row mt-5"><div class="col-12">If there are any errors or issues with video upload to video player please contact Gary, gravity.addiction@gmail.com</div></div>
+</div>

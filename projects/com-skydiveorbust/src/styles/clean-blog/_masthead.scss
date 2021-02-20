@@ -1,0 +1,63 @@
+// Styling for the masthead
+header.masthead {
+  // TIP: Background images are set within the HTML using inline CSS!
+  margin-bottom: 0px;
+  background: no-repeat center center;
+  background-color: $gray-600;
+  background-attachment: scroll;
+  position: relative;
+  @include background-cover;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $gray-900;
+    opacity: 0.3;
+  }
+  .page-heading,
+  .post-heading,
+  .site-heading {
+    margin: 100px 0 50px;
+    padding: 10px;
+    @media only screen and (min-width: 768px) {
+      margin: 150px 0;
+    }
+    
+    background-color: rgba(60, 60, 60, 0.8);
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    text-align: center;
+    h1 {
+      color: $light;
+      margin-top: 0;
+    }
+    .subheading {
+      color: $cyan;
+      font-weight: 300;
+      line-height: 1.1;
+      display: block;
+      margin: 10px 0 0;
+      padding: 0 15px;
+      @include sans-serif-font;
+    }
+    .meta {
+      font-weight: 300;
+      font-style: italic;
+      @include serif-font;
+      a {
+        color: $secondary;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+
+      }
+      .subheading {
+        
+      }
+    }
+  }
+}

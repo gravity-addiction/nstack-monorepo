@@ -1,0 +1,23 @@
+nav.navbar.navbar-expand-lg.navbar-light.fixed-top#mainNav
+  .container
+    button.navbar-toggler.navbar-toggler-left(
+      type='button',
+      (click)='isMenuCollapsed = !isMenuCollapsed',
+      aria-controls='navbarResponsive',
+      aria-expanded='false',
+      aria-label='Toggle navigation'
+    )
+      fa-icon.ml-1([icon]='["fas", "bars"]')
+    a.navbar-brand(routerLink='/') Vendor Portal
+
+    .collapse.navbar-collapse([ngbCollapse]='isMenuCollapsed')
+      ul.navbar-nav.ml-auto
+
+        //- Start Default
+        li.nav-item
+          a.nav-link(routerLink='/') Home
+
+        li.nav-item
+          a.nav-link((click)='redirectTo("/payments")') Pay Online
+
+

@@ -1,0 +1,55 @@
+{
+  "apiServer": "http://10.0.2.2/",
+  "apiPath": "/api/latest",
+  "authTokenKey": "_SDOBID",
+  "recaptchaKey": "***",
+  "videoInfractions": [
+    "Incomplete Formation",
+    "Inter Penalty",
+    "Non-Stationary Contact",
+    "Incorrect Formation",
+    "Broken Subgroup"
+  ],
+  "videoTimesheetSettings": {
+    "fs": {
+      "currentPreset": "FS, VFS, MFS",
+      "currentPresetId": "fs",
+      "prestartTime": 0,
+      "workingTime": 35,
+      "postFreezeFrameTime": 0,
+      "tossStartCount": 0
+    },
+    "cfRotations": {
+      "currentPreset": "CF 4way Rotations",
+      "currentPresetId": "cfRotations",
+      "prestartTime": 30,
+      "workingTime": 90,
+      "postFreezeFrameTime": 0,
+      "tossStartCount": 0
+    },
+    "cf2WaySequentials": {
+      "currentPreset": "CF 2way Sequentials",
+      "currentPresetId": "cf2WaySequentials",
+      "prestartTime": 30,
+      "workingTime": 60,
+      "postFreezeFrameTime": 0,
+      "tossStartCount": 0
+    },
+    "cf4WaySequentials": {
+      "currentPreset": "CF 4way Sequentials",
+      "currentPresetId": "cf4WaySequentials",
+      "prestartTime": 30,
+      "workingTime": 120,
+      "postFreezeFrameTime": 0,
+      "tossStartCount": 0
+    },
+    "fsSpeed": {
+      "currentPreset": "FS Speed",
+      "currentPresetId": "fsSpeed",
+      "prestartTime": 45,
+      "workingTime": 0,
+      "postFreezeFrameTime": 0,
+      "tossStartCount": 0
+    }
+  }
+}

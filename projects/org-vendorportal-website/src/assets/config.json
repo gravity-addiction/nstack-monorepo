@@ -1,0 +1,15 @@
+{
+  "apiServer": "",
+  "apiPath": "/api/latest",
+  "authTokenKey": "_VPID",
+  "recaptchaKey": "***",
+  "sqUseSandbox": false,
+  "sqSandbox": {
+    "app_id": "***",
+    "api_version": "2020-12-16"
+  },
+  "sqProduction": {
+    "app_id": "***",
+    "api_version": "2020-12-16"
+  }
+}

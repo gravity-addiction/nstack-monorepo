@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.tns.json",
+  "compilerOptions": {
+    "paths": {
+      "@app/*": [ "src/app/*.ts"],
+      "@classes/*": [ "classes/*.ts"],
+      "@src/*": [ "src/*.ts" ],
+      "@modules/*": [ "src/modules/*" ],
+      "@typings/*": [ "typings/*" ]
+    },
+    "project": "projects/com-skydiveorbust",
+    "typeRoots": [ "../../typings", "../../node_modules/@types" ]
+  },
+  "files": [
+    "src/main.tns.ts",
+  ]
+}

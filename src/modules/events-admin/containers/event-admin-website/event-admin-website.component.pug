@@ -1,0 +1,45 @@
+app-layout-blog
+  app-header(
+    backgroundImage='https://source.unsplash.com/1900x1200/',
+    heading='2020 CF Ghost Nationals',
+    subHeading='Nov. 3rd - Nov 8th, 2020',
+  )
+
+  ng-container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    app-event-admin-header
+
+    .container.mb-3
+      .row([hidden]="!showEditor")
+        .col-12
+          angular-editor(
+            [placeholder]="'Loading Page'",
+            [(ngModel)]="eventHtml",
+          )
+
+      .row
+        .col-12.text-center(*ngIf!="!showEditor") Loading Event Page
+          app-spinner([textSpinner]="'Loading Event Page'")
+
+      .row(*ngIf="eventHistoryDate")
+        .text-left.h4.p-4.bg-danger Using History of {{ eventHistoryDate | date:'medium' }}
+
+      .row
+        .col.col-4.text-center
+          button.btn.btn-outline-primary.m-2.h5(type="button", (click)="reloadHtml()") Reload
+        .col.col-4.text-center([hidden]="!showEditor")
+          button.btn.btn-outline-primary.m-2.h5(type="button", (click)="saveHtml()") {{ saveTxt }}
+        .col.col-4.text-center([hidden]="!showEditor")
+          button.btn.btn-outline-primary.m-2.h5(type="button", (click)="publishHtml()") Publish
+
+      .row
+        .col-12
+          app-event-admin-page-history(
+              [eventSlug]="eventSlug",
+              [pageHistory$]="eapService.pageHistory$",
+              (openPage)="loadHtmlPage($event)"
+          )
+
+
+ng-template(#navLoadingEle)
+  div Changing Pages
+  app-spinner([textSpinner]="'Changing Pages'")

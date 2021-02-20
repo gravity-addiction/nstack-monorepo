@@ -1,0 +1,77 @@
+div.pdfWysiwygControlsContainer.mx-auto(#toolPanel)
+  div.controls_wrapper(style="display: flex;flex-direction: row;flex-wrap: wrap;align-content: center;justify-content: end;")
+
+    div.vp.vbr.vc.noselect(style="width:25px;", [class.active]="pdfService.showLayers", (click)="pdfService.showLayers = !pdfService.showLayers")
+      fa-icon([icon]='["fas", "layer-group"]')
+
+    div.vbr.vp.vc.noselect(style="width:25px;", [class.active]="pdfService.toolType === 'selection'")
+      fa-icon([icon]='["fas", "hand-pointer"]', (click)="setTool('selection')")
+
+    div.vbr.vp.vc.noselect(style="width:25px;", [class.active]="pdfService.toolType === 'line'")
+      fa-icon([icon]='["fas", "pencil-alt"]', (click)="setTool('line')")
+
+    //- div.vbr.vp.vc.noselect(style="width:25px;", [class.active]="pdfService.toolType === 'ellipse'")
+      fa-icon([icon]='["far", "circle"]', (click)="setTool('ellipse')")
+
+    div.vbr.vp.vc.noselect(style="width:25px;", [class.active]="pdfService.toolType === 'textbox'")
+      fa-icon([icon]='["fas", "font"]', (click)="setTool('textbox')")
+      
+    //- ng-container(*ngIf!="pdfService.toolType === 'textbox'")
+      div.vbr(style="width: 45px;")
+        input.p-0(
+          type="number",
+          style="width: 40px;position: relative; top: -1px;",
+          [(ngModel)]="settingItem?.obj.fontSize",
+          (change)="draw()",
+          placeholder="15"
+        )
+      div.vbr.noselect(style="width: 60px;")
+        select(
+          style="width: 55px;",
+          [(ngModel)]="settingItem?.obj.fontStyle",
+          (change)="draw()"
+        )
+          option(value="Courier", selected) Courier
+          option(value="Helvetica") Helvetica
+          option(value="Times") Times
+
+    div.vp.vc.vbr.noselect(style="width:70px;", (click)="pdfService.changePage(0)") Template
+
+    div.vbr.vp.vc.noselect(style="width:25px;", (click)="fontSizeChange(-1)", *ngIf!="pdfService.activeItem?.t === 'textbox'")
+      fa-icon([icon]='["fas", "minus"]')
+    div.vbr(style="width: auto;", *ngIf!="pdfService.activeItem?.t === 'textbox'")
+      input.p-0(
+        type="text",
+        style="width: 100%;position: relative;",
+        [(ngModel)]="pdfService.activeItem?.obj.txt",
+        (keyup)="txtChange()",
+        (change)="txtChange()",
+        placeholder="Text Input"
+      )
+    div.vbr.vp.vc.noselect(style="width:25px;", (click)="fontSizeChange(1)", *ngIf!="pdfService.activeItem?.t === 'textbox'")
+      fa-icon([icon]='["fas", "plus"]')
+
+    div.vp.vc.noselect(style="width:25px;", *ngIf!="pdfService.activeItem")
+       fa-icon([icon]='["fas", "times"]', (click)="removeItem(pdfService.activeItem)")
+
+    div.vl.vbl.vbr.vp.vc.noselect(style="right: 140px;width:25px;", (click)="pdfService.prevPage()")
+      fa-icon([icon]='["fas", "minus"]')
+    div.vl.vp.vbr.text-center.noselect(
+      style="right: 80px;width:60px;"
+    ) {{ pdfService.pageNum }} of {{ pdfService.pagesOfItems.length - 1 }}
+      //- input.mx-auto.py-0.px-1(
+        name="pdfUrl",
+        type="text",
+        standalone,
+        [(ngModel)]="pdfService.pageNum",
+        size="3"
+       )
+    div.vl.vbr.vp.vc.noselect(style="right: 55px;width:25px;", (click)="pdfService.nextPage()")
+      fa-icon([icon]='["fas", "plus"]')
+
+    div.vl.vbr.vp.vc.noselect(style="right: 30px;width:25px;", (click)="pdfService.newPage()")
+      fa-icon([icon]='["far", "file-alt"]')
+
+    div.vl.vp.vc.noselect(style="right: 0px;width:25px;")
+       fa-icon([icon]='["fas", "download"]', (click)="pdfService.makePDF()")
+

@@ -1,0 +1,219 @@
+// Global styling for this template
+body {
+  font-size: 1em;
+  color: $gray-200;
+  @include serif-font;
+  background-color: $gray-900;
+}
+
+p {
+  line-height: 1.5;
+  margin: 30px 0;
+  a {
+    text-decoration: underline;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 800;
+  @include sans-serif-font;
+}
+
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.4rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.0rem; }
+h6 { font-size: 0.8rem; }
+
+.row { margin: 0; }
+
+a, a:not([href]):not([tabindex]) {
+  color: $yellow;
+  @include transition-all;
+  &:focus,
+  &:hover{
+    color: $primary;
+  }
+}
+
+blockquote {
+  font-style: italic;
+  color: $gray-200;
+}
+
+.section-heading {
+  font-weight: 700;
+  margin-top: 60px;
+}
+
+.caption {
+  font-style: italic;
+  display: block;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+::-moz-selection {
+  color: $white;
+  background: $primary;
+  text-shadow: none;
+}
+
+::selection {
+  color: $white;
+  background: $primary;
+  text-shadow: none;
+}
+
+img::selection {
+  color: $white;
+  background: transparent;
+}
+
+img::-moz-selection {
+  color: $white;
+  background: transparent;
+}
+
+.nopointer {
+  pointer-events: none;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.controls_wrapper {
+  position: relative;
+  height: 100%;
+
+  .video_timestamp {
+    color: $gray-200;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+
+  .vc {
+    cursor: pointer;
+  }
+  .vbr {
+    border-right: 1px solid black;
+  }
+  .vbl {
+    border-left: 1px solid black;
+  }
+  .vb {
+    border: 1px solid black;
+  }
+
+  .vp {
+    padding-top: 2px;
+    text-align: center;
+  }
+
+  .vl {
+    height: inherit;
+    position: absolute;
+  }
+}
+
+div > .active {
+  background-color: $success;
+}
+
+
+/* Dropup Button */
+/* The container <div> - needed to position the dropup content */
+.dropup {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropup content (Hidden by Default) */
+.dropup-content {
+  display: none;
+  position: absolute;
+  bottom: 20px;
+  background-color: black;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 40;
+
+  -moz-transition-property: visibility;
+  -moz-transition-duration: 2s;
+  -webkit-transition-property: visibility;
+  -webkit-transition-duration: 2s;
+  transition-property: visibility;
+  transition-duration: 2s;
+}
+
+.dropup:hover .dropup-content {
+  display: block;
+}
+
+/* Links inside the dropup */
+.dropup-content a {
+  color: $primary;
+  padding: 6px;
+  text-decoration: none;
+  text-align: right;
+  display: block;
+  &.active {
+    background-color: rgba(0,0,0,0.5);
+  }
+}
+
+
+@include media-breakpoint-up(sm) {
+  html {
+    font-size: 1.1rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  html {
+    font-size: 1.2rem;
+  }
+}
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .hidden-xs { display: none; }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {
+  .hidden-sm { display: none; }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+  .hidden-md { display: none; }
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {
+  .hidden-lg { display: none; }
+}

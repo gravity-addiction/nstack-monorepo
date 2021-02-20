@@ -1,0 +1,63 @@
+                  
+//-      
+<header-default [title-suffix]="" [page]="'/video'"></header-default>
+
+<ion-content no-padding no-margin>
+  <ion-grid no-padding class="main_page">
+    <ion-row>
+      <ion-col class="hidden-xs-down" size-sm="4" size-lg="3">
+        <div class="main-wrapper pointer sidebar1" style="padding:4px;">
+          <div class="t-rad content" style="padding: 0px">
+
+          </div>
+        </div> 
+
+
+        <div [isLoggedIn]="true" class="main-wrapper pointer sidebar1" style="padding:4px;" (click)="uploadModal()">
+          <div class="t-rad content" style="padding: 0px">
+            <p>Upload File</p>
+          </div>
+        </div>
+
+        <profile-sidebar [isLoggedIn]="true"></profile-sidebar>
+        <div class="main-wrapper pointer">
+          <div class="t-rad content" style="padding: 0px">
+
+            <folder-threads [FolderService]="folderService" [folderList]="folderService.folderList"></folder-threads>
+
+          </div>
+        </div>              
+      </ion-col>
+
+      <ion-col size="12" size-sm="8" size-lg="9"  class="main_col">
+        <!-- Start Main Content-->
+        <!--
+        <div class="fileList">
+          <ion-grid no-padding no-margin style="background-color: unset;font-size:10pt;">
+            <ion-row class="fileHeader">
+              <ion-col class="header-shadow" size="3" no-margin>Competition</ion-col>
+              <ion-col size="1" class="header-shadow hidden-xs-down" no-margin>Class</ion-col>
+              <ion-col class="header-shadow" no-margin>Team</ion-col>
+            </ion-row>            
+            <ion-row class="fileEntry" *ngFor="let file of fileList | async" routerLink="player" [queryParams]="{key: file.web, preset: file.preset}">
+              <ion-col size="3" no-margin>{{ file.comp }}</ion-col>
+              <ion-col size="1" class="hidden-xs-down" no-margin>{{ file.class }}</ion-col>
+              <ion-col no-margin>{{ file.team_num }} - {{ file.team }}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        -->
+        <comp-listing *ngIf="showCompLayout" [FolderService]="folderService"></comp-listing>
+        <s3-file-listing *ngIf="!showCompLayout" [FolderService]="folderService"></s3-file-listing>
+        
+        <!-- End Main Content -->
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+  <div class="footer">
+    &copy; Gary Taylor, Skydive or Bust Team
+  </div>
+
+</ion-content>
+//

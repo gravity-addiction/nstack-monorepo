@@ -1,0 +1,35 @@
+app-layout-blog
+    
+  app-header(
+    #appHeader,
+    backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")',
+    heading='Videos',
+    subHeading='Tool For Judging Videos Online',
+    meta='Drag and Drop Videos Here To Play From Your Computer',
+    [siteHeading]="!dragAndDropSupported"
+  )
+
+  ng-container
+    .container
+      .mt-3
+        .float-right
+          input.localInput(
+            #LocalFile,
+            type="file",
+            name="localFile",
+            style="width: 100%",
+            accept=".mp4,.webm,.ogg",
+            (click)="LocalFile.value = ''"
+          )
+          label(for="localFile", (click)="LocalFile.click()") Open Local Files
+
+        .listingHeader Videos Hosted By SkydiveOrBust.com
+        
+        app-aws-s3-file-listing(
+          [folderService]="videoFolderService.folderService"
+        )
+  
+
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

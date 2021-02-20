@@ -1,0 +1,36 @@
+<app-layout-blog
+    ><app-header backgroundImage='url("assets/img/ron_shipp/16-way-2-bg.jpg")' heading="Records Admin" [siteHeading]="false"></app-header>
+    <div class="container" *ngIf="!actionCtrl.navLoading; else navLoadingEle">
+        <h3>Records Admin</h3>
+        <table class="w-100">
+            <thead>
+                <tr>
+                    <td colspan="8">Record List</td>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let record of records | async"
+                    ><tr>
+                        <td class="px-2"><button *ngIf="record.found !== null &amp;&amp; !record.found" (click)="updateRecord(record)">Add</button><button *ngIf="record.dirty" (click)="updateRecord(record)">Update</button></td>
+                        <td class="px-2">{{ record.recordno }}</td>
+                        <td class="px-2">{{ record.status }}</td>
+                        <td class="px-2">{{ record.uspadate }}</td>
+                        <td class="px-2">{{ record.zone }}</td>
+                        <td class="px-2">{{ record.category }}</td>
+                        <td class="px-2">{{ record.record }}</td>
+                        <td class="px-2">{{ record.performance }}</td>
+                    </tr>
+                    <ng-container *ngIf="record.dirty"
+                        ><tr *ngFor="let dirty of record.dirtynotes">
+                            <td class="text-center">{{ dirty.key }}</td>
+                            <td colspan="8">
+                                <pre class="small">{{ dirty.old }}</pre>
+                                <pre class="small">{{ dirty.new }}</pre>
+                            </td>
+                        </tr></ng-container
+                    ></ng-container
+                >
+            </tbody>
+        </table>
+        <div><textarea [(ngModel)]="inputxt" rows="2" style="font-size: 11px; width: 60%;" (change)="processLineByLine()"></textarea></div></div></app-layout-blog
+><ng-template #navLoadingEle><app-spinner [textSpinner]="'Changing Pages'"></app-spinner></ng-template>

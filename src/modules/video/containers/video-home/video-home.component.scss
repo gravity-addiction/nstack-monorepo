@@ -1,0 +1,39 @@
+@import 'styles/variables.scss';
+
+.listingHeader {
+  font-size: 1.5em;
+  font-weight: 800;
+  padding-top: 3px;
+  min-height: 60px;
+}
+.localInput {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+
+  & + label {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: $light;
+    background-color: $dark;
+    display: inline-block;
+    text-align: center;
+    padding: 6px 20px;
+    outline: 2px dashed $primary;
+    outline-offset: -5px;
+    cursor: pointer;
+  }
+
+
+  &:focus + label,
+  & + label:hover {
+    background-color: $primary;
+  }
+
+  & + label * {
+    pointer-events: none;
+  }
+}

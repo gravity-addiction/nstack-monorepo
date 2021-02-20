@@ -1,0 +1,23 @@
+app-layout-blog
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/2019-uspa-group-1.jpg")',
+    heading='Events',
+    subHeading='Upcoming Competitions',
+    [siteHeading]='true'
+  )
+
+  ng-container
+    .container
+      .row
+        .col-lg-8.col-md-10.mx-auto
+          .post-preview(
+            *ngFor!='let event of events'
+          )
+            a([routerLink]='"/e/" + (event.slug | encodeURIComponent)')
+              h2.post-title {{event.heading}}
+              h3.post-subtitle {{event.subHeading}}
+                    
+            p.post-meta {{event.meta}}
+
+          app-spinner([showSpinner]="loading", textSpinner="Loading ...")

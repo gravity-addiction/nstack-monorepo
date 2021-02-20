@@ -1,0 +1,77 @@
+app-layout-blog
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-2-bg.jpg")',
+    heading='Records',
+    subHeading='Skydiving Record & Performance Database',
+    [siteHeading]='true'
+  )
+
+  ng-container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    div.text-center(
+      (click)='stateClicked($event)',
+      #pageTop
+    )
+      p.text-center Click On The Map For State Records
+      .text-center
+        a(style="cursor: pointer;") Click Here For National Records
+      include usa.svg
+
+    div.recordsContainer(
+      #recordsTop
+    )
+      h2.record-header-title {{ recordState | sbStateAbbr }} Records
+
+      .container
+        .row.mx-3
+          .col-lg-3.col-sm-4.col-6.record-subclass-link(
+            style='text-align: left; white-space: nowrap;',
+            *ngFor!='let recordGroup of records;let ri = index;'
+          )
+            a(
+              style='cursor: pointer;text-decoration:underline;',
+              (click)='scrollToSubclass(ri)'
+            ) {{ recordGroup.subclass }}
+        hr
+        .row
+          .col-xl-12
+            .record-preview(
+              *ngFor!='let recordGroup of records'
+            )
+              .row(
+                #recordSubclass
+              )
+                .col-xl-12
+                  h3.record-title 
+                    fa-stack(
+                      style='float: left;',
+                      size='xs',
+                      (click)='scrollToTop()'
+                    )
+                      fa-icon.fa-stack-2x([icon]='["fas", "circle"]', stackItemSize="2x")
+                      fa-icon.fa-stack-1x.fa-inverse([icon]='["fas", "chevron-up"]', stackItemSize='1x')
+                    p.record-subclass {{ recordGroup.subclass }}
+              .row.record-subclass-row(
+                *ngFor!='let recordSubgroup of recordGroup.records'
+              )
+                .col-xs-12.col-lg-11.mx-auto.record-subtitle-header
+                  p.record-subtitle {{ recordSubgroup.record }}
+                .col-xs-12.col-lg-11.mx-auto
+
+                  .row.record-entry(
+                    *ngFor!='let record of recordSubgroup.records'
+                  )
+                    .col-7
+                      p.record-performance {{ record.performance }}
+                    .col-5
+                      p.record-category {{ record.category }}
+                    .col-8
+                      p.record-dropzone {{ record.location }}
+                    .col-4
+                      p.record-date {{ record.uspadate | date }}
+              hr
+
+      app-spinner([showSpinner]='loadingState', [textSpinner]="'Loading Records'")
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

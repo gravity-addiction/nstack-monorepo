@@ -1,0 +1,34 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-left noselect">id</th>
+            <th class="text-left noselect">srcBucket</th>
+            <th class="text-left noselect">srcKey</th>
+            <th class="text-left noselect">destBucket</th>
+            <th class="text-left noselect">destKey</th>
+            <th class="text-left noselect">splices</th>
+            <th class="text-left noselect">status</th>
+            <th class="text-left noselect">360p</th>
+            <th class="text-left noselect">480p</th>
+            <th class="text-left noselect">720p</th>
+            <th class="text-left noselect">1080p</th>
+            <th class="text-left noselect">datestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let qEntry of videoQueueListArr; let tI = index; let tOdd = odd; let tEven = even;">
+            <td class="small">{{ qEntry.id }}</td>
+            <td class="small">{{ qEntry.s3BucketSrc }}</td>
+            <td class="small pointer" (click)="playFile(qEntry)">{{ qEntry.s3KeySrc }}</td>
+            <td class="small">{{ qEntry.s3BucketDest }}</td>
+            <td class="small">{{ qEntry.s3KeyDest }}</td>
+            <td class="small">{{ qEntry.spliceArr | json }}</td>
+            <td class="small">{{ qEntry.status }}</td>
+            <td class="small">{{ qEntry.do360 }}</td>
+            <td class="small">{{ qEntry.do480 }}</td>
+            <td class="small">{{ qEntry.do720 }}</td>
+            <td class="small">{{ qEntry.do1080 }}</td>
+            <td class="small">{{ qEntry.datestamp | date:'short' }}</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+app-top-nav
+
+.full-background
+    .container(
+        *ngIf!='(post$ | async) as post;'
+    )
+        .row
+            .col-lg-8.col-md-10.mx-auto
+                            
+                app-post-form([post]='post')

@@ -1,0 +1,22 @@
+<div class="container header_content" style="width:100%; border-bottom:2px solid black;"></div>
+<div *ngIf="noEventFound" style="border-bottom:2px solid black;padding-top:16px;">
+    <h4>Event Not Found</h4>
+    <p>No event was found here.</p>
+</div>
+<div class="container" *ngIf="eventInfo" style="border-bottom:2px solid black;">
+    <div class="row">
+        <div class="col" size="12" size-lg="9"><button expand="full" size="small" (click)="scroll(formComponentElem);"></button></div>
+        <div class="col" size="12" size-lg="3">
+            <div class="container no-padding">
+                <div class="row">
+                    <div class="col" size="11" size-lg="10"><input class="searchElem search-padding" #searchElem [(ngModel)]="searchVal" (keyup.enter)="openShort(searchElem.value);" style="border:1px solid #ccc;margin-top: 5px;padding-right:100px" placeholder="SHORT CODE" /></div>
+                    <div class="col" size="1" size-lg="2">
+                        <button size="small" (click)="openShort(searchElem.value);"><i name="search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="eventInfo" style="border-bottom:2px solid black;padding-top:16px;"><h4>Current Registrations</h4></div>
+<div class="container" *ngIf="eventInfo" #formComponentElem style="padding-top:16px;"><app-events-form-component #formComponent [hidden]="showEditor"></app-events-form-component></div>

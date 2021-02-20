@@ -1,0 +1,58 @@
+// Variables
+
+$white:    #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+$blue:    #007bff;
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #e83e8c;
+$red:     #dc3545;
+$orange:  #DD904A;
+$orangeLt:  #fa9b67;
+$orangeDk:  #862f00;
+$yellow:  #fcff52;
+$yellowLt:  #feffd3;
+$green:   #2bb84b;
+$teal:    #0085A1;
+$cyan:    #17a2b8;
+
+$primary:       $orange;
+$secondary:     $white;
+$success:       $green;
+$info:          $orange;
+$warning:       $yellow;
+$danger:        $red;
+$light:         $gray-100;
+$light-odd:     $gray-200;
+$dark:          $gray-900;
+
+
+// Override Bootstrap code variables
+
+$code-font-size: 1rem;
+$code-font-size-sm: 85%;
+$pre-color: $gray-600;
+
+// Code variables
+$code-font-family: "Open Sans", Verdana, Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+// Variables for <pre> element
+$pre-bg: $gray-100;
+$pre-line-height: 1.5rem;
+$pre-margin-x: 0;
+$pre-margin-y: 0.5rem;
+$pre-padding-x: 1rem;
+$pre-padding-y: 1.5rem;
+
+$border-radius: 0;
+$input-border-width: 0;

@@ -1,0 +1,122 @@
+@import 'styles/variables.scss';
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid rgb(32, 32, 32);
+}
+table {
+  border: 0px;
+
+  thead {
+    color: $primary;
+    tr {
+      th {
+        border: 0px;
+        cursor: pointer;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        padding: 4px 8px;
+        vertical-align: middle;
+      }
+      td.scorebox {
+        width:35px;
+        color: black;
+      }
+      td.event-notes, td.event-status {
+        background-color: #000000;
+      }
+
+      td.event-draw {
+        border-right:1px solid gray;
+        border-left:1px solid gray;
+        font-size:.75rem;
+        background-color:rgb(77, 77, 77)
+      }
+
+      /* background-color: rgba(0, 100, 0, 0.25); */
+      background-color: rgba(255, 255, 255, 0.6);
+      vertical-align: middle;
+      border-top: 1px dashed rgb(32, 32, 32);
+      border-bottom: 1px dashed rgb(32, 32, 32);
+    }
+    tr.stripedTr {
+      /* background-color: rgba(139,0,139,0.25); */
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    tr.comp-header {
+      td.event-status {
+        color: $orangeLt;
+        border: 0px;
+      }
+      border-top: 3px;
+      border-bottom: 3px;
+      background-color: #000000;
+
+    }
+
+    .teamscore-line {
+      td {
+        border-top: 0px;
+        border-bottom: 0px;
+        div {
+          min-height: 1rem;
+        }
+      }
+    }
+    .team-total {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.8);
+      background-color: #862f00;
+    }
+    .team-name {
+      font-size: 0.8rem;
+      letter-spacing: .08rem;
+      line-height: 1.5;
+      border: 0;
+      vertical-align: middle;
+      color: black;
+    }
+    .team-avg {
+      font-size:.75rem;
+      font-weight: normal;
+    }
+    .firstPlaceTr {
+      background-color: #FFd700 !important;
+      color: black;
+    }
+    .secondPlaceTr {
+      background-color: #C0C0C0 !important;
+      color: black;
+    }
+    .thirdPlaceTr {
+      background-color: #cd7f32 !important;
+      color: black;
+    }
+  }
+}
+
+.event-subheader {
+  padding: 8px 4px;
+  font-weight: 800;
+  color: $secondary;
+  background-color: $orangeDk;
+}
+
+@media (max-width: 575.98px) {
+  table {
+    tbody {
+      tr {
+        td {
+          padding: 2px 4px;
+        }
+        border-top: 1px solid rgb(32, 32, 32);
+        border-bottom: 1px solid rgb(32, 32, 32);
+      }
+    }
+  }
+}

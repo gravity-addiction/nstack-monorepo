@@ -1,0 +1,102 @@
+app-top-nav
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")',
+    heading='Videos',
+    subHeading='Tool For Judging Videos Online',
+    [siteHeading]='true'
+  )
+
+ng-container
+  div(style="margin-top: 90px;")
+    div.videoPlayerDiv(
+      *ngFor!="let player of videoPlayers;let i = index;",
+      (click)="selectPlayer(i)",
+      dndDropzone,
+      (dndDrop)="dropVideo($event, i)",
+      [ngStyle]="{'width': player.player.videoBoxWidth}",
+      #VideoBoxes
+    )
+      app-video-player(
+        [videoPlayerService]="player.player"
+      )
+
+      app-video-controls(
+        [videoPlayerService]="player.player",
+        [videoTimeline]="player.timeline",
+        [videoControlsStart]="player.startbtns",
+        [videoControlsEnd]="player.endbtns"
+      )
+
+  .clear
+    button.btn.btn-outline-primary(
+      type="button",
+      (click)="addPlayer()"
+    ) Add Player
+
+    button.btn.btn-outline-primary(
+      type="button",
+      (click)="syncVideos()"
+    ) Sync Setup
+
+    button.btn.btn-outline-primary(
+      type="button",
+      (click)="playStart()"
+    ) Play Start
+
+  .container.noselect([isLoggedIn]="true")
+    app-aws-s3-file-listing(
+      [folderService]="videoFolderService.folderService",
+      (PlayFile)="playFile($event)"
+    )
+
+    //- app-video-timesheet(
+      [hidden]="!videoPlayerService.showTimesheet || !videoPlayerService",
+      [videoPlayer]="videoPlayerService",
+      [videoTimesheet]="videoTimesheetService"
+     )
+
+    //- .container([hidden]="!videoPlayerService.showTimesheet || !videoPlayerService")
+      .row
+        .col Scorecard Settings
+          pre {{ videoTimesheetService.videoSettings | json }}
+        //- .col-6
+          pre {{ videoFileData | json }}
+
+    //- .container.clear
+      .row
+        .col.text-center(
+          (click)="videoTimesheetService.isFreezing = !videoTimesheetService.isFreezing"
+        )
+          fa-icon.fa-2x.p-4(
+            [icon]="[(videoTimesheetService.isFreezing)?'fas':'far', 'snowflake']",
+            [ngStyle]="{'color': (videoTimesheetService.isFreezing)?'white':'', 'background-color': (videoTimesheetService.isFreezing)?'blue':''}"
+          )
+        .col(
+          *ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.prestartTime && videoTimesheetService.prestartTimeStart",
+          (click)="videoPlayerService.videoGoto(videoTimesheetService.prestartTimeStart)"
+        ) E
+        .col(
+          *ngIf!="videoTimesheetService.videoSettings && videoTimesheetService.videoSettings.workingTime && videoTimesheetService.workingTimeStart",
+          (click)="videoPlayerService.videoGoto(videoTimesheetService.workingTimeStart)"
+        ) S
+        .col(
+          *ngIf!="videoTimesheetService.workingTimeEnd",
+          (click)="videoPlayerService.videoGoto(((videoTimesheetService.workingTimeEnd > 0)?videoTimesheetService.workingTimeEnd:videoTimesheetService.totalDuration))"
+        ) F
+
+        .col(style="background-color:rgba(0, 255, 242, 0.5)", (click)="cleanWorkingTime()")
+          fa-icon([icon]="['fas', 'times-circle']", size="md")
+        
+  //- .videoLocalInput(
+      style="max-width: 720px;margin: 0 auto;"
+    )
+      .sub-header Play A Video From Your Computer
+        input(
+          #LocalFile,
+          type="file",
+          style="width: 100%",
+          accept=".mp4,.webm,.ogg",
+          (click)="LocalFile.value = ''"
+        )
+app-footer

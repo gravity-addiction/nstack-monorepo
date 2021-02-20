@@ -1,0 +1,157 @@
+app-top-nav
+
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")',
+    heading='Videos',
+    subHeading='Tool For Creating PDF Divesheets',
+    [siteHeading]='true'
+  )
+
+ng-container
+  .container(
+    style="margin-top: 90px;"
+  )
+    .row
+      .col.mb-1(
+        *ngFor!="let cI of capturedImages;",
+        style="flex-grow: 0;"
+      )
+        img(
+          [dndDraggable]="cI",
+          style="max-width:100px;max-height:100px;",
+          [src]="cI.uri",
+          (dndStart)="imgDragStart($event)"
+        )
+
+    .row
+      .col-6.noselect
+        div.pdfWysiwygControlsContainer.mx-auto(style="height: auto;")
+          div.controls_wrapper(style="display: flex;flex-direction: row;flex-wrap: wrap;align-content: center;justify-content: end;")
+
+            div.vp.vbr.vc(style="width:25px;", [class.active]="leftPane === 'grab'", (click)="leftPane = 'grab'")
+              fa-icon([icon]='["fas", "hand-pointer"]')
+
+            div.vp.vbr.vc.px-1(
+              *ngFor!="let preDKey of preDefinedSetsKeys;",
+              [class.active]="leftPane === preDKey",
+              (click)="leftPane = preDKey"
+            ) {{ preDefinedSets[preDKey]?.title }}
+
+        ng-container(*ngFor!="let preDKey of preDefinedSetsKeys;")
+          .presetContainer(*ngIf!="leftPane === preDKey")
+            div(*ngIf!="!preDefinedSets[preDKey]?._showGenerator")
+              a((click)="preDefinedSets[preDKey]._showGenerator = true") Draw Generator
+            
+            .container.mb-2(*ngIf!="preDefinedSets[preDKey]?._showGenerator")
+              .row
+                .col.no-wrap Rounds:
+                  input.mx-auto.py-0.px-1(
+                    type="number",
+                    standalone,
+                    value="10",
+                    [(ngModel)]="preDefinedSets[preDKey]._dgRounds",
+                    style="width: 3em;",
+                    min="1"
+                  )
+                
+                .col.no-wrap Min:
+                  input.mx-auto.py-0.px-1(
+                    type="number",
+                    standalone,
+                    value="10",
+                    [(ngModel)]="preDefinedSets[preDKey].min",
+                    style="width: 3em;",
+                    min="1"
+                  )
+
+                .col
+                  button.btn.btn-outline-primary(
+                    (click)="generateDraw(preDKey)"
+                  ) Generate Draw
+
+                .col
+                  button.btn.btn-outline-primary(
+                    (click)="pastePDF(preDKey)"
+                  ) Paste PDF
+              
+              //- .row(*ngFor!="let gD of preDefinedSets[preDKey]?._dgDraw;let gInd = index;")
+              .row.mt-2
+                div.mr-2(*ngFor!="let gD of [].constructor(preDefinedSets[preDKey]._dgRounds);let gInd = index;") Round: {{ gInd + 1 }}
+                  input.ml-2.py-0.px-1(
+                    type="text",
+                    standalone,
+                    [(ngModel)]="preDefinedSets[preDKey]._dgDraw[gInd]",
+                    style="width: auto;"
+                  )
+
+            div(style="display: flex;flex-direction: row;flex-wrap: wrap;")
+              img.singleBlock(
+                *ngFor!="let imgName of preDefinedSets[preDKey]?.randoms",
+                [src]="preDefinedSets[preDKey]?.assets + imgName + '.png'",
+                [dndDraggable]="{url: preDefinedSets[preDKey]?.assets + imgName + '.png'}",
+                (dndStart)="imgDragStart($event)"
+              )
+
+            div.mt-2(style="display: flex;flex-direction: row;flex-wrap: wrap;")
+              img.tripleBlock(
+                *ngFor!="let imgName of preDefinedSets[preDKey]?.blocks",
+                [src]="preDefinedSets[preDKey]?.assets + imgName + '.png'",
+                [dndDraggable]="{url: preDefinedSets[preDKey]?.assets + imgName + '.png'}",
+                (dndStart)="imgDragStart($event)"
+              )
+
+
+        .container([hidden]="leftPane !== 'grab'")
+          div.pdfWysiwygControlsContainer.mx-auto(#toolPanel)
+            div.controls_wrapper
+              div.vl(style="left: 0px;width:125px;")
+                input.localInput(
+                  #LocalFile,
+                  type="file",
+                  name="localFile",
+                  accept=".pdf",
+                  (click)="LocalFile.value = ''"
+                )
+
+
+              div.vl.vbl.vp.vc(style="right: 90px;width:25px;", (click)="prevPage()")
+                fa-icon([icon]='["fas", "minus"]')
+              div.vl(
+                style="right: 50px;width:40px;font-size: 10pt;"
+              )
+                input.mx-auto.py-0.px-1(
+                  name="pdfUrl",
+                  type="text",
+                  standalone,
+                  [(ngModel)]="pageNum",
+                  size="3"
+                )
+              div.vl.vbr.vp.vc(style="right: 25px;width:25px;", (click)="nextPage()")
+                fa-icon([icon]='["fas", "plus"]')
+                
+              div.vl.vp.vc(style="right: 170px;width:25px;")
+                fa-icon([icon]='["fas", "download"]', (click)="captureImage()") Capture
+              
+              div.vl.vp.vc(style="right: 0px;width:25px;", (click)="leftPane = 'assets'")
+                fa-icon([icon]='["fas", "times"]')
+                
+          div(style="background-color: #FFFFFF;position: relative;")
+            canvas#the-canvas.mt-2(
+              #TheCanvas,
+              style="direction: ltr;width:1px;height:1px;",
+            )
+
+      .col-6(#WysiwygElem)
+        app-pdf-wysiwyg(
+          [pdfService]="pdfService",
+          (save)="saveDataset($event)",
+          [svg]="svg",
+          [width]="viewWidth", [height]="viewHeight",
+          [viewScale]="viewScale", [pdfScale]="pdfScale"
+        )
+
+
+  app-pdf-wysiwyg-layers.print_hide(
+    #layerbox,
+    [pdfService]="pdfService"
+  )

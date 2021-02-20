@@ -1,0 +1,15 @@
+<app-layout-blog
+    ><app-header backgroundImage='url("assets/img/ron_shipp/16-way-2-bg.jpg")' heading="Search Profiles" subHeading="Skydiving Record &amp; Performance Database" [siteHeading]="true" [profileSearching]="true"></app-header
+    ><ng-container *ngIf="!actionCtrl.navLoading; else navLoadingEle"
+        ><div *ngIf="profileService.profileSearch$ | async as profiles; else noEntry">
+            <div class="container" *ngIf="profiles.results.length; else noEntry"></div>
+            <div class="row">
+                <div class="col"><h3 class="text-left">Select Profile:</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12" style="text-align: left; white-space: nowrap;" *ngFor="let profile of profiles.results;let pi = index;"><a [routerLink]='"/p/" + profile.slug'>{{ profile.name }}</a></div>
+            </div>
+            <hr />
+        </div>
+        <app-spinner [showSpinner]="profileService.profileSearching" textSpinner="Loading Profile Details"></app-spinner></ng-container></app-layout-blog
+><ng-template #noEntry><div class="text-center">Enter a name into the box above to find profiles</div></ng-template><ng-template #navLoadingEle><app-spinner [textSpinner]="'Changing Pages'"></app-spinner></ng-template>

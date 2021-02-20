@@ -1,0 +1,21 @@
+app-layout-blog
+    
+  app-header(
+    [backgroundImage]='post?.backgroundImage',
+    [heading]='post?.heading',
+    [subHeading]='post?.subHeading',
+    [meta]='post?.meta'
+  )
+
+  article(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    .container
+      .row
+        .col-lg-8.col-md-10.mx-auto {{ post?.body }}
+            button.btn.btn-primary(
+                [isLoggedIn]="true",
+                type='button',
+                (click)='editPost()'
+            ) Edit Post
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

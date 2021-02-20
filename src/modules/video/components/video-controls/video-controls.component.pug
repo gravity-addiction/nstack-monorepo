@@ -1,0 +1,57 @@
+.videoControlsContainer.mx-auto(
+  #VideoControls,
+  [hidden]="!videoPlayerService.showControls",
+  [class.fsControls]="videoService.isFullscreen"
+)
+  .controls_wrapper
+    ng-template(videoControlsStartHost)
+
+    .vl.vbr(#VideoTimelineWrap,
+      [style.left]="videoControlsTimelineLeft + 'px'",
+      style="width: 100%;"
+    )
+      ng-template(videoTimelineHost)
+
+    ng-template(videoControlsEndHost)
+
+    //- .vl.vp.video_timestamp.noselect.nopointer(
+      *ngIf!="showTimestamp",
+      style="right: 100px;width:75px;font-size:12pt;font-weight:800;padding-top:5px;"
+     ) {{ playbackTimestamp }}
+    
+    //- .vl.vbr.vp(style="right: 90px;width:25px;", (click)="videoPlayerService.videoPlaybackRateMove(-5)")
+      fa-icon([icon]='["fas", "minus"]')
+    //- .vl.vbr.vp(
+      style="right: 25px;width:40px;font-size: 10pt;",
+      (click)="videoPlayerService.videoPlaybackRate(1)"
+     ) {{ videoPlayerService.playbackRate }}%
+    //- .vl.vbr.vp(style="right: 25px;width:25px;", (click)="videoPlayerService.videoPlaybackRateMove(5)")
+      fa-icon([icon]='["fas", "plus"]')
+
+    //- .dropup.vl.vbr.vp(style="right: 25px;width:40px;")
+      .dropbtn((click)="videoPlayerService.videoPlaybackRate(1)") {{ videoPlayerService.playbackRate }}%
+      .dropup-content(style="background-color: rgba(0,0,0,0.8)")
+        a((click)="videoPlayerService.videoPlaybackRateMove(5)")
+          fa-icon([icon]='["fas", "plus"]')
+        a((click)="videoPlayerService.videoPlaybackRateMove(-5)")
+          fa-icon([icon]='["fas", "minus"]')
+
+    //- div.vl.vp(
+      *ngIf!="!videoService.isFullscreen",
+      style="right: 0px;width:25px;",
+      (click)="goFullscreen()"
+     )
+      fa-icon([icon]='["fas", "expand-arrows-alt"]')
+
+    //- div.vl.vp(
+      *ngIf!="videoService.isFullscreen",
+      style="right: 0px;width:25px;",
+      (click)="videoService.exitFullscreen()"
+     )
+       fa-icon([icon]='["fas", "compress-arrows-alt"]')
+
+    //- div.vl.vp(
+      style="right: 0px;width:25px;",
+      (click)="videoPlayerService.saveSyncMark()"
+     )
+       fa-icon([icon]='["fas", "map-marker"]', [ngClass]="{'text-success': videoPlayerService.videoLastPause}")

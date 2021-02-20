@@ -1,0 +1,10 @@
+<div class="row info_window print_hide" #layersPanel [draggable]="true" [draggable-position]="draggablePosition" style="cursor: pointer;">
+    <div class="header draggable_handlebar">
+        Layers
+        <div style="float: right;" (click)="showLayers = !showLayers"><fa-icon *ngIf="showLayers" [icon]='["fas", "minus"]'></fa-icon><fa-icon *ngIf="!showLayers" [icon]='["fas", "plus"]'></fa-icon></div>
+        <div class="toolbox" style="float: right;" (click)="setDraggablePosition()"><fa-icon *ngIf="draggablePosition === 'fixed'" [icon]='["fas", "minus"]'></fa-icon><fa-icon *ngIf="draggablePosition === 'absolute'" [icon]='["fas", "plus"]'></fa-icon></div>
+    </div>
+    <div class="content" *ngIf="showLayers">
+        <div class="layer_item" *ngFor="let layer of service.allItems; let i = index; let first = first; let last = last" [class.highlight]="service.activeItem == layer" (click)="selectItem(layer)">{{ layer.id }} [{{ layer.t }}]<fa-icon (click)="layerDown(i, $event)" [icon]='["fas", "minus"]'></fa-icon><fa-icon (click)="layerUp(i, $event)" [icon]='["fas", "plus"]'></fa-icon></div>
+    </div>
+</div>

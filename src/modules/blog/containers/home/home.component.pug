@@ -1,0 +1,26 @@
+app-layout-blog
+    
+  app-header(
+    backgroundImage='url("assets/img/ron_shipp/16-way-1-bg.jpg")',
+    heading='Skydive Or Bust',
+    subHeading='Striving to be your source for World Skydiving and Indoor Freefall Info',
+    [siteHeading]='true'
+  )
+
+  ng-container(*ngIf!='!actionCtrl.navLoading; else navLoadingEle')
+    .container
+      .row
+        .col-lg-8.col-md-10.mx-auto
+          .post-preview(
+            *ngFor!='let post of posts'
+          )
+            a([routerLink]='"blog/" + post.slug')
+              h2.post-title {{post.heading}}
+              h3.post-subtitle {{post.subHeading}}
+                    
+            p.post-meta {{post.meta}}
+
+          app-spinner([showSpinner]='loading', textSpinner='Loading ...')
+
+ng-template(#navLoadingEle)
+  app-spinner([textSpinner]="'Changing Pages'")

@@ -1,0 +1,13 @@
+<app-layout-blog
+    ><app-header [backgroundImage]="event?.backgroundImage" [heading]="event?.heading" [subHeading]="event?.sub_heading" [meta]="event?.meta"></app-header
+    ><ng-container *ngIf="!actionCtrl.navLoading; else navLoadingEle"
+        ><div class="container mb-3" [isLoggedIn]="true">
+            <div class="row"><div class="col-12">Event Admin Functions</div></div>
+            <div class="row">
+                <div class="col-4" [rolePermission]="['admin', 'user']"><button class="btn btn-outline-primary" type="button" routerLink="judging">Judging</button></div>
+                <div class="col-4" rolePermission="admin" *ngIf="event?.short_id"><button class="btn btn-outline-primary" type="button" (click)="editEvent()">Edit Event</button></div>
+                <div class="col-4" rolePermission="admin" *ngIf="event?.sheet_id"><button class="btn btn-outline-primary" type="button" (click)="openEventSheet()">Open Google Sheet</button></div>
+            </div>
+        </div>
+        <app-event-comp-layout [eventSlug]="eventSlug" [EventComps]="event?.comps"></app-event-comp-layout><app-spinner [showSpinner]="loading" textSpinner="Loading Event"></app-spinner></ng-container></app-layout-blog
+><ng-template #navLoadingEle><app-spinner [textSpinner]="'Changing Pages'"></app-spinner></ng-template>

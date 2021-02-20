@@ -1,0 +1,214 @@
+<div #toolPanel [draggable]="true" [draggable-position]="draggablePosition"
+     class="info_window row print_hide" [ngStyle]="boxStyle">
+
+  <div class="header draggable_handlebar">Displays
+    <div style="float: right;cursor: pointer;"
+        (click)="showDisplays = !showDisplays">
+      <i class="glyphicon"
+          [class.glyphicon-triangle-top]="!showDisplays"
+          [class.glyphicon-triangle-bottom]="showDisplays"
+      ></i>
+    </div>
+    <div class="toolbox" style="float: right;"
+        (click)="setDraggablePosition()">
+      <i class="fa"
+          [class.fa-arrows-v]="draggablePosition === 'fixed'"
+          [class.fa-lock]="draggablePosition === 'absolute'"
+      ></i>
+    </div>
+  </div>
+  <div class="content" *ngIf="showDisplays">
+    <button type="button" class="btn" (click)="setEditMode()">Edit</button>
+    <button type="button" class="btn" (click)="setInputMode()">Input</button>
+    <button type="button" class="btn" (click)="makePDF()">PDF</button>
+    <button type="button" class="btn" (click)="printPDF()">Print</button>
+  </div>
+
+  <ng-container *ngIf="service.displayMode === 'edit'">
+    <div class="header" (click)="showTools = !showTools">Tools
+      <div style="float: right;cursor: pointer;">
+        Show
+        <i class="glyphicon"
+            [class.glyphicon-triangle-top]="!showTools"
+            [class.glyphicon-triangle-bottom]="showTools"
+        ></i>
+      </div>    
+    </div>
+
+    <div class="content" *ngIf="showTools">
+      <div class="toolbox" style="float: right"
+          [class.active]="service.showInfo === 'coords'"
+          (click)="setDisplay('coords')">
+        Coords
+      </div>
+      <div class="toolbox" style="float: right"
+          [class.active]="service.showInfo === 'text'"
+          (click)="setDisplay('text')">
+        Text
+      </div>
+
+      <div class="toolbox" [class.active]="service.toolType === 'selection'"
+          (click)="setTool('selection')">
+        Selection
+      </div>
+      <div class="toolbox" [class.active]="service.toolType === 'textbox'"
+          (click)="setTool('textbox')">
+        Textbox
+      </div>
+      <div class="toolbox" [class.active]="service.toolType === 'cross'"
+          (click)="setTool('cross')">
+        Cross
+      </div>
+      <div class="toolbox" [class.active]="service.toolType === 'line'"
+          (click)="setTool('line')">
+        Line
+      </div>
+      <div class="toolbox" [class.active]="service.toolType === 'ellipse'"
+          (click)="setTool('ellipse')">
+        Ellipse
+      </div>
+    </div>
+
+    <div class="header" (click)="showSize = !showSize"
+        style="cursor: pointer;">Size
+      <div style="float: right;">
+        <i class="glyphicon"
+            [class.glyphicon-triangle-top]="!showSize"
+            [class.glyphicon-triangle-bottom]="showSize"
+        ></i>
+      </div>
+    </div>
+    <div class="content" *ngIf="showSize && settingItem">    
+      <div style="clear: left;" class="row">
+        <div class="col col-md-6" style="text-align: center;width: 50%;float: left;">
+          Width:<br />
+          <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+              (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+              [(ngModel)]="settingItem.obj.w"
+              (change)="draw()"
+          />
+        </div>
+        <div class="col col-md-6" style="text-align: center;width: 50%;float: left;">
+          Height:<br />
+          <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+              (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+              [(ngModel)]="settingItem.obj.h"
+              (change)="draw()"
+          />
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="header" (click)="showPlacement = !showPlacement"
+        style="cursor: pointer;">Placement
+      <div style="float: right;">
+        <i class="glyphicon"
+            [class.glyphicon-triangle-top]="!showPlacement"
+            [class.glyphicon-triangle-bottom]="showPlacement"
+        ></i>
+      </div>
+    </div>
+    <div class="content" *ngIf="showPlacement && settingItem">
+      <div>
+        <div style="float: left;width: 33%;">
+          <div style="text-align: center;padding-top: 25px;">
+            Left<br />
+            <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+                (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+                [(ngModel)]="settingItem.obj.x"
+                (change)="draw()"
+            />
+          </div>
+        </div>
+        <div style="float: left; width: 33%;">
+          <div style="text-align: center;">
+            Top<br />
+            <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+                (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+                [(ngModel)]="settingItem.obj.y"
+                (change)="draw()"
+            />
+          </div>
+          <div style="text-align: center;padding-top: 5px;">
+            Bottom<br />
+            <input type="text" maxlength="4" readonly style="width: 60px;"
+                [value]="settingItem.obj.y + settingItem.obj.h"
+            />
+          </div>
+        </div>
+        <div style="float: left; width: 33%;padding-top: 25px;">
+          <div style="text-align: center;">
+            Right<br />
+            <input type="text" maxlength="4" readonly style="width: 60px;"
+                [value]="settingItem.obj.x + settingItem.obj.w"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="header" (click)="showPadding = !showPadding"
+        style="cursor: pointer;">Padding
+      <div style="float: right;">
+        <i class="glyphicon"
+            [class.glyphicon-triangle-top]="!showPadding"
+            [class.glyphicon-triangle-bottom]="showPadding"
+        ></i>
+      </div>
+    </div>
+    <div class="content" *ngIf="showPadding && settingItem">
+      <div>
+        <div style="float: left;width: 33%;">
+          <div style="text-align: center;padding-top: 25px;">
+            Left<br />
+            <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+                (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+                [(ngModel)]="settingItem.obj.pL" (change)="draw()"
+                
+            />
+          </div>
+        </div>
+        <div style="float: left; width: 33%;">
+          <div style="text-align: center;">
+            Top<br />
+            <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+                (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+                [(ngModel)]="settingItem.obj.pT" (change)="draw()"
+            />
+          </div>
+          <div style="text-align: center;padding-top: 5px;">
+            Bottom<br />
+            <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+                (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+                [(ngModel)]="settingItem.obj.pB" (change)="draw()"
+            />
+          </div>
+        </div>
+        <div style="float: left; width: 33%;padding-top: 25px;">
+          <div style="text-align: center;">
+            Right<br />
+            <input type="number" maxlength="4" style="width: 60px;" step="0.25"
+              (focus)="stopArrows.emit(true)" (blur)="stopArrows.emit(false)"
+              [(ngModel)]="settingItem.obj.pR" (change)="draw()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer" *ngIf="settingItem">
+      <!--<button type="button" class="btn" (click)="transferPanel.openModal('import');">Import</button>-->
+      <button type="button" class="btn" (click)="transferPanel.openModal();">Save</button>
+      <button type="button" class="btn" (click)="confirmClear();">Clear</button>
+      <button type="button" class="btn" (click)="copyItem(settingItem);">Copy</button>
+      <button type="button" class="btn" (click)="removeItem(settingItem);">Remove</button>
+    </div>
+  </ng-container>
+
+</div>
+
+<!-- <app-pdf-wysiwyg-transfer #transferPanel [pdfService]="service" (runDraw)="draw()"></app-pdf-wysiwyg-transfer> -->

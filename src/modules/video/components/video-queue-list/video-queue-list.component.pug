@@ -1,0 +1,30 @@
+table.table
+  thead
+    tr
+      th.text-left.noselect id
+      th.text-left.noselect srcBucket
+      th.text-left.noselect srcKey
+      th.text-left.noselect destBucket
+      th.text-left.noselect destKey
+      th.text-left.noselect splices
+      th.text-left.noselect status
+      th.text-left.noselect 360p
+      th.text-left.noselect 480p
+      th.text-left.noselect 720p
+      th.text-left.noselect 1080p
+      th.text-left.noselect datestamp
+
+  tbody
+    tr(*ngFor!="let qEntry of videoQueueListArr; let tI = index; let tOdd = odd; let tEven = even;")
+      td.small {{ qEntry.id }}
+      td.small {{ qEntry.s3BucketSrc }}
+      td.small.pointer((click)="playFile(qEntry)") {{ qEntry.s3KeySrc }}
+      td.small {{ qEntry.s3BucketDest }}
+      td.small {{ qEntry.s3KeyDest }}
+      td.small {{ qEntry.spliceArr | json }}
+      td.small {{ qEntry.status }}
+      td.small {{ qEntry.do360 }}
+      td.small {{ qEntry.do480 }}
+      td.small {{ qEntry.do720 }}
+      td.small {{ qEntry.do1080 }}
+      td.small {{ qEntry.datestamp | date:'short' }}

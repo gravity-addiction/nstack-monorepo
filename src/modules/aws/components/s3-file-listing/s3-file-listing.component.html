@@ -1,0 +1,55 @@
+<div class="fileList" #FileList>
+    <div class="container" style="padding: 0px 0px 2px 0px;">
+        <div class="pathHeader">
+            <div class="row" style="min-height: 50px;">
+                <div class="col-12">
+                    Current Folder: /<span *ngIf="folderService.shownBucket"
+                        ><select [(ngModel)]="selectedBucket" (ngModelChange)="changeBucket($event, folderList)" *ngIf="folderService.folderList | async as folderList"
+                            ><option [value]="folder.bucket" *ngFor="let folder of folderList">{{ folder.title }}</option></select
+                        ></span
+                    ><span class="pl-1">/{{ folderService.shownFolder }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="background-color: unset;">
+        <div class="row justify-content-center fileHeader">
+            <div class="col header-shadow">File</div>
+            <div class="col-md-2 hidden-md header-shadow">Size</div>
+            <div class="col-md-3 hidden-md header-shadow">Modified</div>
+        </div>
+        <div class="row systemEntry" *ngIf="folderService.shownFolder" (click)="folderService.upFolder($event)">
+            <div class="col"><fa-icon class="mr-1" [icon]='["fas", "reply"]' size="xs"></fa-icon><span>Previous Folder</span></div>
+            <div class="col-md-2 hidden-md">&nbsp;</div>
+            <div class="col-md-3 hidden-md">&nbsp;</div>
+        </div>
+        <div class="row" *ngIf="folderService.isLoadingFiles"><div class="col-12" style="text-align: center;padding-top:20px;">Loading</div></div>
+        <div class="row" *ngIf="folderService.isAccessDenied">
+            <div class="col-12" style="text-align: center;padding-top:20px;">
+                <fa-icon [icon]='["fas", "times-circle"]'></fa-icon><br />
+                <div style="font-size: 28px;color: red;">Access Denied</div>
+            </div>
+        </div>
+        <div class="row" *ngIf="folderService.isLoadingError">
+            <div class="col-12" style="text-align: center;padding-top:20px;">
+                <div style="font-size: 28px;color: black;">Loading Error</div>
+                <div style="font-size: 16px;color: black;padding-top:10px;">Please try selecting a different folder</div>
+            </div>
+        </div>
+        <div class="row" *ngIf="folderService.hasNoFiles">
+            <div class="col-12" style="text-align: center;padding-top:20px;"><div style="font-size: 28px;color: black;">No Files</div></div>
+        </div>
+        <ng-container *ngFor="let file of fileList | async"
+            ><div class="row justify-content-center folderEntry entry" *ngIf="!folderService.isLoadingFiles && !file.Size" (click)="folderService.execFolder($event, file)">
+                <div class="col"><fa-icon class="mr-1" [icon]='["fas", "folder"]' size="xs"></fa-icon><span>{{ file.name }}</span></div>
+                <div class="col-md-2 hidden-md">&nbsp;</div>
+                <div class="col-md-3 hidden-md">{{ file.LastModified | date:'short' }}</div>
+            </div>
+            <div class="row justify-content-center fileEntry entry" [dndDraggable]="file" (dblclick)="playFile($event, file)" *ngIf="!folderService.isLoadingFiles && file.Size > 0">
+                <div class="col" draggable="true"><fa-icon class="mr-1" [icon]='["fas", "file-video"]' size="xs"></fa-icon><span>{{ file.name }}</span></div>
+                <div class="col-md-2 hidden-md" style="text-align: right;">{{ file.Size | byteconvert:2 }}</div>
+                <div class="col-md-3 hidden-md"><span>{{ file.LastModified.replace(' ', 'T').substr(0, file.LastModified.indexOf('.')) | date:'short' }}</span></div>
+            </div></ng-container
+        >
+    </div>
+</div>

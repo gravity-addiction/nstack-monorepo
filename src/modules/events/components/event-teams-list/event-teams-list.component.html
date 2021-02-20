@@ -1,0 +1,57 @@
+<table class="table table-bordered table-fixed">
+    <thead>
+        <tr>
+            <th class="text-left h2 noselect" [attr.colspan]="rndInfo.length + 2" (click)="eventComp.shown = !eventComp.shown"><fa-icon class="fa-sm pr-2" *ngIf="eventComp.shown" [icon]='["fas", "caret-down"]'></fa-icon><fa-icon class="fa-sm pr-2" *ngIf="!eventComp.shown" [icon]='["fas", "caret-right"]'></fa-icon>{{ eventComp?.name }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr rolePermission="admin">
+            <td [attr.colspan]="rndInfo.length + 2"><app-event-admin-team-add [eventSlug]="eventSlug" [eventComp]="eventComp" (eventTeamNew)="eventTeamNew($event)"></app-event-admin-team-add></td>
+        </tr>
+        <tr class="d-md-none">
+            <td class="text-left event-status" [attr.colspan]="rndInfo.length + 2">{{ eventComp?.status }}</td>
+        </tr>
+        <ng-container *ngFor="let team of eventComp?.teams; let tI = index; let tOdd = odd; let tEven = even;"
+            ><tr class="py-3 comp-header" *ngIf="(tI < 3 || eventComp.shown) && (tI == 0 || tI % 5 == 0)">
+                <td class="text-nowrap text-center event-subheader noselect" *ngFor="let rnd of rndInfo$ | async;" style="width:35px;">{{ rnd.name }}</td>
+                <td class="text-nowrap text-left event-subheader noselect" style="width:35px;" [attr.colspan]="(tI == 0) ? 1 : 2">Total</td>
+                <td class="text-left d-none d-md-block px-2 event-status noselect" *ngIf="tI == 0">{{ eventComp?.status }}</td>
+            </tr>
+            <tr class="d-md-none" [ngClass]="{ stripedTr: tEven, firstPlaceTr: (eventComp.complete &amp;&amp; tI == 0), secondPlaceTr: (eventComp.complete &amp;&amp; tI == 1), thirdPlaceTr: (eventComp.complete &amp;&amp; tI == 2) }" *ngIf="tI &lt; 3 || eventComp.shown">
+                <td class="team-name flex-1 noselect" [attr.colspan]="rndInfo.length + 2">
+                    <div class="d-flex justify-content-between">
+                        <div class="pr-2" style="font-size:.75rem;" *ngIf="eventComp.complete">{{ tI + 1 }}<sup>{{ tI + 1 | ordinal: false }}</sup></div>
+                        {{ team.name }}
+                        <div class="pl-2" style="font-size:.75rem">Avg: ({{ team.compAvg }})</div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="teamscore-line" [ngClass]="{ stripedTr: tEven, firstPlaceTr: (eventComp.complete &amp;&amp; tI == 0), secondPlaceTr: (eventComp.complete &amp;&amp; tI == 1), thirdPlaceTr: (eventComp.complete &amp;&amp; tI == 2) }" *ngIf="tI &lt; 3 || eventComp.shown">
+                <td class="text-nowrap scorebox pointer noselect" [ngClass]="{scoreboxfilled: team.scores[rI] !== null}" *ngFor="let rnd of rndInfo$ | async;let rI = index;" (click)="fetchScorePacket(team, rI + 1)"><div class="text-center" *ngIf="team.scores[rI] !== null">{{ team.scores[rI] | number:'1.0-2' }}</div></td>
+                <td class="text-nowrap text-center team-total noselect" style="width:35px;">{{ team.compTotal | number :'1.0-1' }}</td>
+                <td class="text-left d-none d-md-block px-2 team-name flex-1 noselect">
+                    <div class="d-flex justify-content-between">
+                        <div class="pr-2" style="font-size:.75rem;" *ngIf="eventComp.complete">{{ tI + 1 }}<sup>{{ tI + 1 | ordinal: false }}</sup></div>
+                        {{ team.name }}
+                        <div class="pl-2 team-avg">Avg: ({{ team.compAvg }})</div>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="team.scorePacket && team.scorePacket.length" style="min-height: 5em;height: 5em;">
+                <td class="noselect" [attr.colspan]="rndInfo.length + 2">
+                    <div class="d-flex flex-fill flex-row">
+                        <div class="p-0 flex-grow-1 text-dark">Scores for {{ team.name }}, {{ team.scorePacketRndStr }}</div>
+                        <div class="ml-auto pointer text-danger" (click)="team.scorePacket = []"><fa-icon [icon]='["fas", "times-circle"]'></fa-icon></div>
+                    </div>
+                    <app-event-scoresheet [scoreSheets]="team.scorePacket"></app-event-scoresheet>
+                </td></tr
+        ></ng-container>
+        <tr [hidden]="!eventComp.shown">
+            <td class="p-0 text-nowrap text-center noselect event-draw" *ngFor="let rnd of rndInfo$ | async;let rI = index;" style="width:35px;"><div *ngFor="let rndDraw of rnd.draw">{{ rndDraw }}</div></td>
+            <td class="event-notes d-none d-md-table-cell" colspan="3">Notes: {{ eventComp.notes }}</td>
+        </tr>
+        <tr class="d-md-none" [hidden]="!eventComp.shown">
+            <td class="event-notes" [attr.colspan]="rndInfo.length + 2">Notes: {{ eventComp.notes }}</td>
+        </tr>
+    </tbody>
+</table>

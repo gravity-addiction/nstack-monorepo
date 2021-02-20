@@ -1,0 +1,70 @@
+// Styling for the post page
+.card {
+  width: 100%;
+
+  .card-body {
+    border:1px solid white;
+    color: $primary;
+
+    .card-title, p {
+      color: black;
+    }
+    input {
+      border-top: 1px solid black;
+      border-left: 1px solid black;
+      border-right: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+  }
+
+  .card-header {
+    font-size: 1em;
+    font-weight: 800;
+    color: $purple;
+
+    .price_only {
+      font-size: 1.5em;
+    }
+
+    button {
+      font-size: 1.6em;
+      line-height: 1em;
+      font-weight: 800;
+      padding: 3px 6px;
+      border: 1px solid black;
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .card {
+    .card-header {
+      font-size: 1.1rem;
+      button {
+        font-size: 1.4em;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .card {
+    .card-header {
+      font-size: 1.2rem;
+      button {
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .card {
+    .card-header {
+      font-size: 1.4rem;
+      button {
+        font-size: 1.1em;
+      }
+    }
+  }
+}

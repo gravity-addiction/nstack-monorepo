@@ -1,0 +1,7 @@
+<div class="videoControlsContainer mx-auto" #VideoControls [hidden]="!videoPlayerService.showControls" [class.fsControls]="videoService.isFullscreen">
+    <div class="controls_wrapper">
+        <ng-template videoControlsStartHost></ng-template>
+        <div class="vl vbr" #VideoTimelineWrap [style.left]="videoControlsTimelineLeft + 'px'" style="width: 100%;"><ng-template videoTimelineHost></ng-template></div>
+        <ng-template videoControlsEndHost></ng-template>
+    </div>
+</div>

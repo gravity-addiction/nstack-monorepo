@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "rootDir": "../",
+    "declaration": true,
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "paths": {
+      "@app/*": ["./app/*"],
+      "@classes/*": ["../classes/*.ts"],
+      "@lib/*": ["./lib/*"],
+      "@typings/*": ["../typings/*.d.ts"],
+    },
+  },
+  "files": ["./augmentations/fastify.ts"]
+}

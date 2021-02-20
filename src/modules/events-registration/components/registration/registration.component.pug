@@ -1,0 +1,78 @@
+.container.header_content(
+  style="width:100%; border-bottom:2px solid black;"
+)
+  //- quill-editor(
+    *ngIf!="showEditor",
+    [(ngModel)]="eventHtml",
+    theme="snow",
+    bounds="self"
+   )
+  //- quill-view-html(
+    *ngIf!="!showEditor",
+    [content]="eventHtml",
+    theme="snow"
+   )
+  
+div(
+  *ngIf!="noEventFound",
+  style="border-bottom:2px solid black;padding-top:16px;"
+)
+  h4 Event Not Found
+  p No event was found here.
+
+.container(
+  *ngIf!="eventInfo",
+  style="border-bottom:2px solid black;"
+)
+  .row
+    .col(
+      size="12",
+      size-lg="9"
+    )
+      button(
+        expand="full",
+        size="small",
+        (click)="scroll(formComponentElem);"
+      )
+    .col(size="12",size-lg="3")
+      .container.no-padding
+        .row
+          .col(
+            size="11",
+            size-lg="10",
+          )
+            input.searchElem.search-padding(
+              #searchElem,
+              [(ngModel)]="searchVal",
+              (keyup.enter)="openShort(searchElem.value);",
+              style="border:1px solid #ccc;margin-top: 5px;padding-right:100px",
+              placeholder="SHORT CODE"
+            )
+          .col(
+            size="1",
+            size-lg="2",
+          )
+            button(
+              size="small",
+              (click)="openShort(searchElem.value);"
+            )
+              i(
+                name="search"
+              )
+
+div.container(
+  *ngIf!="eventInfo",
+  style="border-bottom:2px solid black;padding-top:16px;"
+)
+  h4 Current Registrations
+  //- registration-list
+
+div.container(
+  *ngIf!="eventInfo",
+  #formComponentElem,
+  style="padding-top:16px;"
+)
+  app-events-form-component(
+    #formComponent,
+    [hidden]="showEditor"
+  )

@@ -1,0 +1,41 @@
+<table class="table table-bordered table-fixed mx-auto" #GroupTop>
+    <thead>
+        <th class="text-primary h5" colspan="4">
+            <fa-stack style="float: left;cursor: pointer;" size="xs" (click)="scrollTop()"><fa-icon class="fa-stack-2x" [icon]='["fas", "circle"]' stackItemSize="2x"></fa-icon><fa-icon class="fa-stack-1x fa-inverse" [icon]='["fas", "chevron-up"]' stackItemSize="1x"></fa-icon></fa-stack>{{ vGroup.name }}
+        </th>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-center">Play</td>
+            <td class="text-center" colspan="2">Title</td>
+        </tr>
+        <tr *ngFor="let qVideo of vGroup.queue;">
+            <td style="width: 20px;cursor: pointer;" (click)="emitPlayFile(qVideo)"><fa-icon class="pr-2" [icon]='["fas", "video"]'></fa-icon></td>
+            <td colspan="2">
+                <span class="pr-2" *ngIf="qVideo?.draw.length">[{{ qVideo.draw.join(', ') | uppercase }}]</span>{{ qVideo?.name }}
+                <div style="font-size:.75rem;">{{ qVideo?.notes }}</div>
+            </td>
+        </tr>
+        <tr *ngIf="vGroup.watched.length">
+            <td class="text-center p-1" style="font-size: .75rem;">Your<br />Score</td>
+            <td class="text-center">Play</td>
+            <td class="text-center">Title</td>
+        </tr>
+        <ng-container *ngFor="let qVideo of vGroup.watched;"
+            ><tr>
+                <td class="px-1 text-center text-nowrap judged" style="width: 35px;cursor: pointer;" *ngIf="qVideo.score != null" (click)="fetchScores(qVideo);">{{ qVideo?.score }} / {{ qVideo?.maxScore }}</td>
+                <td class="px-1 text-right text-nowrap not-judged" style="width: 35px;" *ngIf="qVideo.score == null">&nbsp;</td>
+                <td style="width: 20px;cursor: pointer;" (click)="emitPlayFile(qVideo)"><fa-icon class="pr-2" [icon]='["fas", "video"]'></fa-icon></td>
+                <td>
+                    <span class="pr-2" *ngIf="qVideo?.draw">[{{ qVideo.draw.join(', ') | uppercase }}]</span>{{ qVideo?.name }}
+                    <div style="font-size:.75rem;">{{ qVideo?.notes }}</div>
+                </td>
+            </tr>
+            <tr *ngIf="qVideo?.loadScores">
+                <td class="p-0 mb-3" colspan="4"><div class="px-2">... Loading Scoresheets ...</div></td>
+            </tr>
+            <tr *ngIf="qVideo?.scores">
+                <td class="p-0 mb-3" colspan="4"><app-event-scoresheet [scoreSheets]="qVideo?.scores || []"></app-event-scoresheet></td></tr
+        ></ng-container>
+    </tbody>
+</table>

@@ -1,0 +1,29 @@
+ng-container(*ngFor!="let folder of folderList | async;")
+  .thread-entry(
+    [ngClass]="{'no-icon': folder.expanded === null}",
+    [ngStyle]="folder.style",
+    (click)="folderClick($event, folder, folderParent)"
+  )
+    fa-icon.mr-1(
+      *ngIf!="folder.expanded === false",
+      [icon]='["fas", "arrow-circle-right"]', size='xs',
+      (click)="folderArrowClick($event, folder, fI)"
+    )
+    fa-icon.mr-1(
+      *ngIf!="folder.expanded === true",
+      [icon]='["fas", "arrow-circle-down"]', size='xs',
+      (click)="folderArrowClick($event, folder, fI)"
+    )
+    fa-icon.mr-1(
+      *ngIf!="folder.expanded === null",
+      [icon]='["fas", "folder"]', size='xs',
+      (click)="folderArrowClick($event, folder, fI)"
+    )
+    span {{ folder.title }}
+
+  .thread-list(*ngIf!="folder.expanded && folder.subs")
+    folder-threads(
+      [FolderService]="folderService",
+      [folderList]="folder.subs",
+      [folderParent]="folder"
+    )

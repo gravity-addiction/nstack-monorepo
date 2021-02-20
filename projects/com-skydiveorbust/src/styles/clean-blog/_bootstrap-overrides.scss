@@ -1,0 +1,18 @@
+// Bootstrap overrides for this template
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1280px,
+  xxl: 1708px
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1312px,
+  xxl: 1740px
+);

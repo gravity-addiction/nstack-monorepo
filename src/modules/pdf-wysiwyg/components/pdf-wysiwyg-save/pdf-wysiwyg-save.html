@@ -1,0 +1,6 @@
+<div class="col-md-2">
+  <button *ngIf="service.allItems.length > 0" type="button" [disabled]="saveDisabled" (click)="saveInput()">Save Input</button>
+</div>
+<div class="col-md-2">
+  <span *ngIf="showSaved">Data has been saved</span>
+</div>

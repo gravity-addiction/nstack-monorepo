@@ -1,0 +1,9 @@
+{
+  "appPath": "src",
+	"appResourcesPath": "App_Resrouces",
+	"android": {
+		"v8Flags": "--expose_gc",
+		"markingMode": "none"
+	},
+	"webpackConfigPath": "webpack-tns.config.js"
+}

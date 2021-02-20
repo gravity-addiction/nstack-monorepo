@@ -1,0 +1,39 @@
+@import 'styles/variables.scss';
+
+
+#us-map {
+  max-width: 100%;
+  max-height: 100%;
+  margin-top: -20px;
+
+  @media only screen and (min-width: 768px) {
+    max-width: 80%;
+    margin-top: -25px;
+  }
+
+  @media only screen and (min-width: 992px) {
+    max-width: 60%;
+    margin-top: -30px;
+  }
+
+  .state {
+      fill:#cccccc;
+  }
+}
+
+
+#us-map:hover:not(path:hover):not(circle:hover) {
+  stroke: #ff5e00 !important;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  fill: #ff5e00 !important;
+  cursor: pointer;
+}
+
+path:hover, circle:hover {
+  stroke: #ff5e00 !important;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  fill: #ff5e00 !important;
+  cursor: pointer;
+}

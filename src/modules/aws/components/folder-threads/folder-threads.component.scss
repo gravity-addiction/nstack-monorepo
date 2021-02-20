@@ -1,0 +1,25 @@
+
+
+
+.thread-entry {
+  padding: 4px;
+}
+
+.thread-entry:hover {
+  background-color: rgb(0, 192, 192) !important;
+}
+
+.thread-list {
+  padding-left: 6px;
+  i {
+    padding-left: 6px;
+  }
+}
+i {
+  vertical-align: text-bottom;
+  padding-bottom: 1px;
+}
+
+.no-icon {
+  padding-left: 26px !important;
+}

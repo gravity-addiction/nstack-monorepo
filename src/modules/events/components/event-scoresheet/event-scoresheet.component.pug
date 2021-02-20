@@ -1,0 +1,29 @@
+
+.timesheet_wrapper.px-2.d-flex.flex-column.flex-md-wrap.flex-md-row
+  .flex-fill.flex-column.align-content-start(*ngFor!="let scoresheet of scoreSheets;let ssI = index;")
+    .text-left.noselect {{ scoresheet.name }}
+    
+    .d-flex.flex-row.flex-wrap.score_line_wrapper.p-0.noselect
+      .score_line_entry(
+        *ngFor!="let item of scoresheet.marks; let i = index",
+        [class]="item.class",
+        [ngStyle]!="{'background-color': (markSelected === i)?'yellow':''}",
+      ) 
+        //- .score_ident(*ngIf!="i === 0", (click)="videoGoto(item)") E
+        //- .score_ident(*ngIf!="i === 1 && i <= videoSettings?.tossStartCount", (click)="videoGoto(item)") S
+        .score_ident(*ngIf!="i > videoSettings?.tossStartCount", (click)="videoGoto(item)") {{ (i - videoSettings?.tossStartCount) }}
+
+        .score_class(
+          *ngIf!="i <= videoSettings?.tossStartCount",
+        ) &nbsp;
+        .score_class(
+          *ngIf!="i > videoSettings?.tossStartCount",
+        ) {{ item.class | classToScoremark }}
+
+    .p-1.noselect(*ngIf!="scoresheet.marks.length")
+      .d-flex.flex-row.align-content-start.flex-wrap(*ngFor!="let mark of scoresheet.marks; let l = index")
+        .px-2(*ngIf!="mark.class === 'nv'") {{ (l - videoSettings?.tossStartCount) }}
+        .px-2(*ngIf!="mark.class === 'nv'") Video Distance, Not Judgable
+        .px-2(*ngIf!="mark.class === 'bust'") {{ (l - videoSettings?.tossStartCount) }}
+        .px-2(*ngIf!="mark.class === 'bust'") {{ mark.reason }}
+        .px-2(*ngIf!="mark.class === 'bust' && mark.explain") - {{ mark.explain }}

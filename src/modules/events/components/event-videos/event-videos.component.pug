@@ -1,0 +1,21 @@
+ng-container(*ngIf!="videos$ | async as videos; else videoLoadingEle")
+
+  .d-flex.flex-row.flex-wrap(#PageTop)
+    .text-left.px-3.py-1(
+      style='white-space: nowrap;',
+      *ngFor!="let vGroup of videos; let vGi = index;"
+    )
+      a(
+        style='cursor: pointer;text-decoration:underline;',
+        (click)="scrollToVGroup(vGi)"
+      ) {{ vGroup.name }}
+
+  app-event-videos-group(
+    *ngFor!="let vGroup of videos; let vGi = index;",
+    [vGroup]="vGroup",
+    (PlayFile)="emitPlayFile($event)",
+    (ScrollToTop)="scrollToTop()"
+  )
+
+ng-template(#videoLoadingEle) Loading Videos
+  app-spinner([textSpinner]="'Loading Videos'")

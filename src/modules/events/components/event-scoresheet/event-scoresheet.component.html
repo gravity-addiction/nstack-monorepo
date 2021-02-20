@@ -1,0 +1,21 @@
+<div class="timesheet_wrapper px-2 d-flex flex-column flex-md-wrap flex-md-row">
+    <div class="flex-fill flex-column align-content-start" *ngFor="let scoresheet of scoreSheets;let ssI = index;">
+        <div class="text-left noselect">{{ scoresheet.name }}</div>
+        <div class="d-flex flex-row flex-wrap score_line_wrapper p-0 noselect">
+            <div class="score_line_entry" *ngFor="let item of scoresheet.marks; let i = index" [class]="item.class" [ngStyle]="{'background-color': (markSelected === i)?'yellow':''}">
+                <div class="score_ident" *ngIf="i > videoSettings?.tossStartCount" (click)="videoGoto(item)">{{ (i - videoSettings?.tossStartCount) }}</div>
+                <div class="score_class" *ngIf="i <= videoSettings?.tossStartCount">&nbsp;</div>
+                <div class="score_class" *ngIf="i > videoSettings?.tossStartCount">{{ item.class | classToScoremark }}</div>
+            </div>
+        </div>
+        <div class="p-1 noselect" *ngIf="scoresheet.marks.length">
+            <div class="d-flex flex-row align-content-start flex-wrap" *ngFor="let mark of scoresheet.marks; let l = index">
+                <div class="px-2" *ngIf="mark.class === 'nv'">{{ (l - videoSettings?.tossStartCount) }}</div>
+                <div class="px-2" *ngIf="mark.class === 'nv'">Video Distance, Not Judgable</div>
+                <div class="px-2" *ngIf="mark.class === 'bust'">{{ (l - videoSettings?.tossStartCount) }}</div>
+                <div class="px-2" *ngIf="mark.class === 'bust'">{{ mark.reason }}</div>
+                <div class="px-2" *ngIf="mark.class === 'bust' && mark.explain">- {{ mark.explain }}</div>
+            </div>
+        </div>
+    </div>
+</div>

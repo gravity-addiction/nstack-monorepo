@@ -1,0 +1,16 @@
+<header class="masthead" [style.background-image]="safeBackgroudImage">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-10 mx-auto">
+                <ng-container
+                    ><div class="post-heading" #mastHeading>
+                        <h1>{{heading}}</h1>
+                        <h2 class="subheading">{{subHeading}}</h2>
+                        <span class="meta">{{meta}}</span><span class="meta" *ngIf="errorMsg">{{ errorMsg }}</span>
+                    </div></ng-container
+                >
+            </div>
+        </div>
+    </div>
+</header>

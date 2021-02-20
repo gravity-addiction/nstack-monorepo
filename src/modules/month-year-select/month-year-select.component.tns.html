@@ -1,0 +1,9 @@
+
+<GridLayout columns="*,*,*">
+  <ListPicker col="0" [items]="monthList" [(ngModel)]="qMonth" class="picker"></ListPicker>
+  <ListPicker col="1" [items]="yearRange" [(ngModel)]="qYear" class="picker"></ListPicker>
+  <StackLayout col="2">
+    <Button *ngIf="!noGo" class="-primary -rounded-sm" text="Go!" (tap)="clickGo()"></Button>
+    <Button class="-primary -rounded-sm" text="Cancel" (tap)="clickCancel()"></Button>
+  </StackLayout>
+</GridLayout>

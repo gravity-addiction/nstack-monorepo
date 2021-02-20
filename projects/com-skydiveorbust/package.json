@@ -1,0 +1,42 @@
+{
+  "id": "com.skydiveorbust.website.app",
+  "name": "com.skydiveorbust.website.app",
+  "scripts": {
+    "start": "npm run api:build && npm run start:all",
+    "start:all": "node ./scripts/start.js",
+    "api": "npm run api:run",
+    "api:build": "node ../../scripts/api.js ./api/sites/com-skydiveorbust/webpack-sdob.config.js",
+    "api:run": "node dist/api/website.js --confdir dist/api/config",
+    "build": "node ../../scripts/build.js com-skydiveorbust",
+    "serve": "node ../../scripts/serve.js com-skydiveorbust",
+    "ios": "npm run ios:run",
+    "android": "npm run android:run",
+    "ios:run": "ns run ios --force",
+    "android:run": "ns run android --force",
+    "ios:prepare": "ns prepare ios --force",
+    "android:prepare": "ns prepare android --force",
+    "ios:build": "ns build ios --force",
+    "android:build": "ns build android --force"
+  },
+  "main": "main.tns",
+  "discardUncaughtJsExceptions": true,
+  "android": {
+    "v8Flags": "--expose_gc",
+    "forceLog": true
+  },
+  "ios": {
+    "jscFlags": "--dumpOptions=2 --validateOptions=1"
+  },
+  "version": "1.5.0",
+  "dependencies": {
+    "@nativescript/angular": "^11.0.1",
+    "@nativescript/core": "^7.2.1",
+    "@nativescript/theme": "^3.0.1",
+    "nativescript-https": "^2.2.2",
+    "nativescript-iqkeyboardmanager": "^1.5.1",
+    "webpack": "^4.46.0"
+  },
+  "devDependencies": {
+    "@nativescript/android": "7.0.1"
+  }
+}
