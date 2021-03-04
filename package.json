@@ -8,6 +8,7 @@
     "postinstall": "ngcc --tsconfig \"./src/tsconfig.json\" && ngcc --tsconfig \"./tsconfig.spec.json\"",
     "ng": "cross-env NODE_OPTIONS=--max_old_space_size=1024 ./node_modules/.bin/ng",
     "bundle-report": "webpack-bundle-analyzer dist/html/stats.json",
+    "build:org-vendorportal-website": "ng build org-vendorportal-website --prod --source-map --build-optimizer=true --statsJson=true",
     "org-vendorportal-website": "node ./projects/org-vendorportal-website/scripts/start.js",
     "com-skydiveorbust": "node ./projects/com-skydiveorbust/scripts/start.js",
     "e2e": "npm run ng -- e2e",
