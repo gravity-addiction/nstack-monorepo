@@ -15,7 +15,6 @@ export type ReadUserErrorCodes = 'USER_NOT_FOUND' | 'ERROR_FINDING_USER';
 
 export interface IUser {
   id: number;
-  sdobn: string;
   name?: string;
   firstname: string;
   lastname?: string;
