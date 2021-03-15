@@ -1,4 +1,4 @@
-import { config } from '@lib/config';
+import { config } from '../../../lib/config';
 import { FastifyRequest, FastifyReply, HookHandlerDoneFunction } from 'fastify';
 import { RouteGenericInterface } from 'fastify/types/route';
 import { IncomingMessage, Server, ServerResponse } from 'http';
@@ -6,7 +6,7 @@ import { stripToken } from './tokens';
 
 const cookieOptions: any = {
   path: '/',
-  signed: false,
+  signed: false
 };
 
 // Fetch Authorization Token
@@ -55,6 +55,10 @@ export const setAuthToken = (
     cookieOptions.expires = new Date(new Date().setFullYear(new Date().getFullYear() + 2));
   }
 
+  if (config.auth.cookieSecure) {
+    cookieOptions.secure = true;
+  }
+
   const authToken = stripToken(token);
   if (cookieSupport) {
     request.cookies[(config.auth.authTokenKey || '_AID')] = authToken;
@@ -80,6 +84,9 @@ export const removeAuthToken = (
   }
 
   if (cookieSupport) {
+    if (config.auth.cookieSecure) {
+      cookieOptions.secure = true;
+    }
     request.cookies[(config.auth.authTokenKey || '_AID')] = '';
     reply.clearCookie((config.auth.authTokenKey || '_AID'), cookieOptions);
   }

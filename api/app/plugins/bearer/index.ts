@@ -14,7 +14,8 @@ export const bearerProcess = async (
   reply: FastifyReply
 ): Promise<any> => {
   const token = retrieveAuthToken(request);
-  console.log('B Process', token);
+  const body: any = request.body || {};
+  const rememberme = body.rememberme || false;
   /*
   if (!token) {
     throw request.generateError(
@@ -23,6 +24,7 @@ export const bearerProcess = async (
     );
   }
   */
+
   if (token) {
     request.log.debug(token);
     const [updateToken, userInfo] = await validateToken(token).
@@ -32,11 +34,14 @@ export const bearerProcess = async (
         err || 'CANNOT_VALIDATE_TOKEN'
       );
     });
+
     if (userInfo) {
       if (updateToken) {
-        setAuthToken(request, reply, resignToken(userInfo));
+        setAuthToken(request, reply, resignToken(userInfo), rememberme);
       }
       return userInfo;
+    } else {
+      throw request.generateError(498);
     }
   }
 
