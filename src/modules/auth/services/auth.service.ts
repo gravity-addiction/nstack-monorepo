@@ -55,34 +55,6 @@ export class AuthService {
         authData,
         { observe: 'response',
         headers: this.configService.httpJsonHeader() }
-      ).
-      pipe(
-        tap((resp) => {
-         if (this.tokenService.hasActiveToken()) {
-            this.authSource.next(this.tokenService.getActiveJson());
-            if (resp.status === 200) {
-              // Check for server forwarding
-              const respBody: any = resp.body || {};
-                    const forwardTo = respBody.forwardTo || '';
-                    const hardForward = respBody.hardForward || '';
-
-              // Previous Page
-              if (hardForward) {
-                (window as any).location = forwardTo;
-              }//  else if (forwardTo) {
-              //  this.router.navigateByUrl(forwardTo);
-              // }
-            }
-          } else {
-            this.authSource.next({});
-            this.authFailed.next({statusText: 'Please Try Again, Invalid Token.'});
-          }
-        }),
-        catchError((err: any) => {
-          this.authSource.next({});
-          this.authFailed.next(err);
-          return throwError(err);
-        })
       );
   }
 
@@ -103,11 +75,7 @@ export class AuthService {
     if (!apiPath) {
       apiPath = this.configService.apiPath;
     }
-    return this.http.delete<any>(apiPath + '/authenticate').subscribe(() => {
-      this.logout();
-    }, () => {
-      this.logout();
-    });
+    return this.http.delete<any>(apiPath + '/authenticate');
   }
 
   changePassword(userId: number, oldpassword: string, password: string, authToken: string) {

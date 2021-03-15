@@ -374,10 +374,9 @@ export class EventVideosIframeComponent implements OnInit, OnDestroy, AfterViewI
 
 
   playFile(singlePlayer: any) {
-    console.log(singlePlayer);
     if (this._localFile && singlePlayer && singlePlayer.player) {
       const videoInfo = singlePlayer.player.getLocalFileVideoInfo(this._localFile);
-      console.log(videoInfo);
+
       if (videoInfo && instanceOfVideoPlayerInfoUrl(videoInfo) && singlePlayer.player.changeVideo(videoInfo)) {
         singlePlayer.player.showPlayer = true;
         singlePlayer.player.showControls = true;
@@ -421,18 +420,18 @@ export class EventVideosIframeComponent implements OnInit, OnDestroy, AfterViewI
           }
 
           // Finishing Up
-          if (data.status === AwsS3UploadStatus.IDLE && data.progress >= 1) {
+          if (data.status === AwsS3UploadStatus.idle && data.progress >= 1) {
             this.isUploading = false;
             this.acceptFile = true;
 
             // Finished
-          } else if (data.status === AwsS3UploadStatus.FINISHED && this.isUploading) {
+          } else if (data.status === AwsS3UploadStatus.finished && this.isUploading) {
             this.isUploading = false;
             this.acceptFile = true;
             setTimeout(() => {
               this.ngAfterViewInit();
             }, 250);
-          } else if (data.status === AwsS3UploadStatus.ERROR) {
+          } else if (data.status === AwsS3UploadStatus.error) {
             this.videoError(data.err);
             // console.log('Upload Error!', data.err);
           }

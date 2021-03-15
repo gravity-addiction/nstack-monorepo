@@ -45,7 +45,7 @@ export class EventVideosGroupComponent implements OnInit {
         tap((data: any) => {
           qVideo.scores = data;
           qVideo.loadScores = false;
-          console.log(qVideo.scores);
+
           this.changeDetectorRef.detectChanges();
         }),
         catchError((_err: any) => {

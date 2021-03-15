@@ -94,7 +94,7 @@ export class EventScorecardComponent implements OnInit, OnDestroy, AfterViewInit
     this.subscriptions.add(
       this.authService.authRefreshed$.pipe(
         tap(() => {
-          this.userInfo = this.tokenService.getActiveJson();
+          this.userInfo = this.tokenService.authActive$.value || {};
           this.scorecardName = this.userInfo.name || 'Anonymous';
         })
       ).subscribe()

@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   addAuthHeader(request: HttpRequest<any>) {
     // console.log('Add Auth Header');
-    const authToken = this.tokenService.getActiveToken();
+    const authToken = this.tokenService.authActive$.value || '';
     const isCookie = this.tokenService.isCookieToken(authToken);
 
     // console.log('Header Is Cookie?', isCookie);
@@ -33,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const jwt = event.headers.get('x-jwt') || '';
       if (jwt) {
         // console.log('Header JWT', jwt);
-        const activeJson = this.tokenService.getActiveJson() || {};
+        // const activeJson = this.tokenService.authActive$.value || {};
         // console.log('Active', activeJson);
         // console.log('Request', request.body);
         const addedIdent = this.tokenService.addToken(jwt, (request.body || {}).rememberme, '');
@@ -42,16 +42,15 @@ export class AuthInterceptor implements HttpInterceptor {
           this.tokenService.updateAuthCollection();
           this.tokenService.setActiveIdent(addedIdent);
           this.authService.authSource.next(this.tokenService.getLoginJson(addedIdent) || {});
-        } else {
-          // console.log('Process Failed, did not add Ident');
         }
       }
     } catch (err) {
-      // console.log('Process Errored, did not add Ident', err);
+      console.log('Process Errored, did not add jwt', err);
     }
   }
 
   processErrorResponse(request: HttpRequest<any>, next: HttpHandler, error: any): Observable<HttpEvent<any>> {
+    console.log('Error Status', error.status);
     if (error.status === 401) { // No Token Force Full Login
       // this.authService.logout();
 
@@ -66,14 +65,16 @@ export class AuthInterceptor implements HttpInterceptor {
 
 
     } else if (error.status === 498) {
+      this.tokenService.remove(this.tokenService.authTokenId);
       this.authService.logout();
+      (window as any).location = '/';
 
     } else if (error.status === 500) {
       // alert('Server Error, Please try Again.');
 
     }
 
-    this.authService.authFailed.next({statusText: 'Please Try Again, Invalid Token.'});
+    this.authService.authFailed.next({statusText: ''});
     return observableThrowError(error);
   }
 

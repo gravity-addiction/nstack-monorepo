@@ -34,6 +34,10 @@ export class HelperService {
       loaded: false,
       script: 'assets/library/shortid.js',
     },
+    powerrange: {
+      loaded: false,
+      script: 'assets/library/powerrange.js',
+    },
     recaptcha: {
       loaded: false,
       script: 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&',

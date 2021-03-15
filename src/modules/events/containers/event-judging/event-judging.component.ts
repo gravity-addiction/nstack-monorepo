@@ -252,7 +252,7 @@ export class EventJudgingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.add(
       this.authService.authRefreshed$.pipe(
         map(() => {
-          const userInfo = this.tokenService.getActiveJson();
+          const userInfo = this.tokenService.authActive$.value || {};
           return userInfo;
         }),
         tap((userInfo: any) => {

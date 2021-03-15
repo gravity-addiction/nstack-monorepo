@@ -1,5 +1,5 @@
 export type HelperScripts = 'alasql' | 'pdfkit' | 'blobstream' | 'svgtopdf' | 'recaptcha' | 'facebook' |
-  'google' | 'mediainfo' | 'squareup' | 'pdfjs' | 'hlsjs' | 'shortid' | 'highlight';
+  'google' | 'mediainfo' | 'squareup' | 'pdfjs' | 'hlsjs' | 'shortid' | 'highlight' | 'powerrange';
 
 export interface IHelperScriptsData {
   loaded: boolean;

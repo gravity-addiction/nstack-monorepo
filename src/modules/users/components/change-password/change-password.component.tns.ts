@@ -26,7 +26,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changepassword() {
-    const userInfo = this.tokenService.getActiveJson();
+    const userInfo = this.tokenService.authActive$.value || {};
     this.userService.password(userInfo, this.model.oldpassword, this.model.newpassword).subscribe(() => {
       this.router.navigateByUrl(this.returnUrl);
     }, err => {

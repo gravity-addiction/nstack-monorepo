@@ -24,7 +24,7 @@ export class AuthService {
     this.authFailed = new Subject<any>();
     this.authRefreshed$ = this.authSource.asObservable();
     this.authFailed$ = this.authFailed.asObservable();
-    this.authSource.next(this.tokenService.getActiveJson());
+    this.authSource.next(this.tokenService.authActive$.value || {});
   }
 
   httpAuthHeader(authToken: string, heads?: HttpHeaders) {
@@ -78,11 +78,7 @@ export class AuthService {
     if (!apiPath) {
       apiPath = this.configService.apiPath;
     }
-    return this.http.delete<any>(apiPath + '/authenticate').subscribe(() => {
-      this.logout();
-    }, () => {
-      this.logout();
-    });
+    return this.http.delete<any>(apiPath + '/authenticate');
   }
 
   changePassword(userId: number, oldpassword: string, password: string, authToken: string) {

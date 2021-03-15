@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
+import { faSellcast } from '@fortawesome/free-brands-svg-icons';
 import { ConfigService } from '@modules/app-config/config.service';
 
 import { Observable, of } from 'rxjs';
@@ -10,12 +11,13 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { TokenService } from '../services/token.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate, CanLoad {
 
-  constructor(private router: Router,
+  constructor(
     private configService: ConfigService,
     private http: HttpClient,
     private location: Location,
+    private router: Router,
     private tokenService: TokenService
   ) { }
 
@@ -31,8 +33,21 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/']);
     }
   }
-  canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+  canLoad(_route: Route, _segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const hasToken = this.tokenService.hasActiveToken() || false;
+    // console.log('Can Load', hasToken);
 
+    if (hasToken) {
+      return true;
+    } else {
+      return this.router.createUrlTree(
+        ['/login'],
+        { queryParams: { } }
+      );
+    }
+  }
+  canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    // console.log('Can Activate');
     return of(_route.queryParams).pipe(
       map(v => v.ak),
       switchMap((ak: any) =>
@@ -69,6 +84,5 @@ export class AuthGuard implements CanActivate {
         return of(this.tokenService.hasActiveToken());
       })
     );
-
   }
 }

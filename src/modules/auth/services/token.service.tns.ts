@@ -243,19 +243,6 @@ export class TokenService extends TokenServiceCommon {
 
 
 
-  ////////////////
-  // Active Token
-  // Checks validity of active token
-  hasActiveToken(): boolean {
-    // console.log('hasActiveToken()');
-    const tokenJson = this.getActiveJson();
-
-    if ((Object.keys(tokenJson) || []).length) {
-      return this.notExpired(tokenJson);
-    }
-    return false;
-  }
-
   // Gets token from store
   resetActiveIdent() {
     // console.log('resetActiveToken()');
@@ -275,7 +262,7 @@ export class TokenService extends TokenServiceCommon {
     setString(this.authTokenId, this.getTokenByIdent(ident));
     this.authActiveIdent$.next(ident);
 
-    const activeIdent = this.getActiveJson();
+    const activeIdent = this.authActive$.value || {};
     // this.configService.apiServer = 'http://192.168.126.51:3020';
     // console.log('ActiveIdent', activeIdent);
 
@@ -293,8 +280,6 @@ export class TokenService extends TokenServiceCommon {
     this.authActiveIdent$.next('');
   }
 
-
-
   // Token Utils
   decodeToken(token: string): string {
     const baseString = token.substring(0, token.indexOf('.')) || '';
@@ -303,46 +288,12 @@ export class TokenService extends TokenServiceCommon {
     return decodedToken;
   }
 
+  useCookieToken() { }
 
+  removeCookieToken() { }
 
   // Cookie Tokens
   isCookieToken(aid: string): boolean {
     return false;
   }
-
-  removeNonCookieToken() {
-    // Blank for NS
-  }
-
-
-
-  addAuthCollection() { }
-
-
-  setPersistantToken(token) {
-  }
-
-  setSessionToken(token) {
-  }
-
-  setCookieToken(token) {
-  }
-
-  setToken(token, rememberme = false) {
-
-  }
-
-
-  removeTokens() {
-
-  }
-
-
-  removePersistentToken(ident) {
-
-  }
-
-
-
-
 }

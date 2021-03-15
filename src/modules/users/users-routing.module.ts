@@ -1,4 +1,3 @@
-/* tslint:disable: ordered-imports*/
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -21,3 +20,6 @@ export const usersRoutes: Routes = [
   exports: [RouterModule],
 })
 export class UsersRoutingModule { }
+
+
+

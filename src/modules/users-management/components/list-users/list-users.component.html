@@ -4,13 +4,14 @@
 
 <div *ngIf="!loading" class="container">
   <div class="list-group">
-    <a [routerLink]="[user.id]" class="list-group-item" *ngFor="let user of userList">
-      <div class="row">
-        <div class="col">{{ user.name }}</div>
-        <div class="col">{{ user.username }}</div>
-        <div class="col">{{ user.role }}</div>
-      </div>
-    </a>
+    <ngx-datatable [rows]="userList" [columns]="columns"
+        [sortType]="sortType.multi"
+        [columnMode]="columnMode.force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [scrollbarV]="true"
+        limit="10"
+    > </ngx-datatable>
   </div>
 </div>
         

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'sb-error-404',
+    selector: 'app-error-404',
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './error-404.component.html',
     styleUrls: ['error-404.component.scss'],

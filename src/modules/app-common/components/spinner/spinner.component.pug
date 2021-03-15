@@ -1,4 +1,4 @@
-div(
+div.ngx-spinner(
   style="position: relative;height:100px;",
   *ngIf!="showSpinner"
 )
@@ -6,6 +6,7 @@ div(
     bdColor='rgba(0,0,0,0)',
     color='#ff5e00',
     size='medium',
-    [fullScreen]='false'
+    [fullScreen]='false',
+    [zIndex]="8"
   )
     h3(*ngIf='textSpinner', style='padding-top: 100px;') {{ textSpinner }}

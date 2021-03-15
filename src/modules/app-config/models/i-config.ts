@@ -6,11 +6,7 @@ export interface IConfig {
   authCollectionId?: string;
   authCollectionPersistId?: string;
   recaptchaKey?: string;
+  defaultTitle?: string[];
 
-  videoTimesheetSettings: any;
-  videoInfractions: any;
-
-  sqUseSandbox: boolean;
-  sqSandbox: any;
-  sqProduction: any;
+  [key: string]: any;
 }

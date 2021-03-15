@@ -5,10 +5,10 @@ import { BehaviorSubject, Observable, ObservableInput, Subject, Subscription, th
 import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
 
 export enum AwsS3UploadStatus {
-  IDLE,
-  RUNNING,
-  FINISHED,
-  ERROR,
+  idle,
+  running,
+  finished,
+  error,
 }
 
 @Injectable({ providedIn: 'root' })
@@ -85,7 +85,7 @@ export class S3UploadService implements OnDestroy {
       this.uploadNext(this.uploadQueue[qI]);
     } else {
       // console.log('Upload Status Idle');
-      this.uploadStatus.next({status: AwsS3UploadStatus.IDLE, queue: null});
+      this.uploadStatus.next({status: AwsS3UploadStatus.idle, queue: null});
     }
   }
 
@@ -95,7 +95,7 @@ export class S3UploadService implements OnDestroy {
     const f = queueInfo.f;
 
     queueInfo.started = true;
-    this.uploadStatus.next({status: AwsS3UploadStatus.RUNNING, queue: queueInfo, progress: 0});
+    this.uploadStatus.next({status: AwsS3UploadStatus.running, queue: queueInfo, progress: 0});
 
     this.subscriptions.add(
       this.putFile(url, fType, f, (queueInfo.progress > -1)).
@@ -111,7 +111,7 @@ export class S3UploadService implements OnDestroy {
             if (this.withAvgBitrate) {
  this.averageBitRate(eLoaded, this.withAvgBitrate);
 }
-            this.uploadStatus.next({status: AwsS3UploadStatus.RUNNING, queue: queueInfo, progress: prog, loaded: eLoaded, total: eTotal });
+            this.uploadStatus.next({status: AwsS3UploadStatus.running, queue: queueInfo, progress: prog, loaded: eLoaded, total: eTotal });
 
           // Got Response Headers
           } else if (queueInfo.progress !== -1 && event.type === HttpEventType.ResponseHeader) {
@@ -120,29 +120,29 @@ export class S3UploadService implements OnDestroy {
           // Finished Uploading
           } else if (queueInfo.progress !== -1 && event.type === HttpEventType.Response) {
             queueInfo.finished = true;
-            this.uploadStatus.next({status: AwsS3UploadStatus.FINISHED, queue: queueInfo, body: event.body});
+            this.uploadStatus.next({status: AwsS3UploadStatus.finished, queue: queueInfo, body: event.body});
 
           // User Interrupted
           } else if (queueInfo.progress !== -1 && event.type === HttpEventType.User) {
             queueInfo.interupted = true;
-            this.uploadStatus.next({status: AwsS3UploadStatus.ERROR, queue: queueInfo, err: 'User Interrupt'});
+            this.uploadStatus.next({status: AwsS3UploadStatus.error, queue: queueInfo, err: 'User Interrupt'});
             queueInfo.cancel$.next('User Interrupt');
 
           // Totally Finished
           } else if (queueInfo.progress === -1) {
             queueInfo.finished = true;
             queueInfo.progress = 1;
-            this.uploadStatus.next({status: AwsS3UploadStatus.FINISHED, queue: queueInfo, body: event});
+            this.uploadStatus.next({status: AwsS3UploadStatus.finished, queue: queueInfo, body: event});
           }
         }),
         catchError((err: any, caught: Observable<any>): ObservableInput<any> => {
           queueInfo.err = err;
-          this.uploadStatus.next({status: AwsS3UploadStatus.ERROR, queue: queueInfo, err});
+          this.uploadStatus.next({status: AwsS3UploadStatus.error, queue: queueInfo, err});
           return throwError(err);
         }),
         finalize(() => {
           queueInfo.finished = true;
-          this.uploadStatus.next({status: AwsS3UploadStatus.FINISHED, queue: queueInfo});
+          this.uploadStatus.next({status: AwsS3UploadStatus.finished, queue: queueInfo});
           queueInfo.done$.complete();
           this.findNextReady();
         })

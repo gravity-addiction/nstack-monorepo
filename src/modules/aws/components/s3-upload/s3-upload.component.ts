@@ -101,17 +101,17 @@ export class S3UploadComponent implements OnInit, OnDestroy, AfterViewInit {
           }
 
           // Finishing Up
-          if (data.status === AwsS3UploadStatus.IDLE && data.progress >= 1) {
+          if (data.status === AwsS3UploadStatus.idle && data.progress >= 1) {
             this.isUploading = false;
 
             // Finished
-          } else if (data.status === AwsS3UploadStatus.FINISHED && this.isUploading) {
+          } else if (data.status === AwsS3UploadStatus.finished && this.isUploading) {
             this.isUploading = false;
             this.acceptFile = true;
             setTimeout(() => {
               this.ngAfterViewInit();
             }, 250);
-          } else if (data.status === AwsS3UploadStatus.ERROR) {
+          } else if (data.status === AwsS3UploadStatus.error) {
             // console.log('Upload Error!', data.err);
             this.isUploading = false;
             this.acceptFile = true;

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+import { AppCommonModule } from '@modules/app-common/app-common.module';
 import { UserService } from '@modules/users-shared/services/user.service';
 
 import * as userComponents from './components/index';
@@ -15,6 +16,8 @@ import * as userComponents from './components/index';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
+
+    AppCommonModule,
   ],
   declarations: [...userComponents.components],
   exports: [...userComponents.components]

@@ -8,13 +8,14 @@ import { IConfig } from './models/i-config';
 export class ConfigService {
   public config: IConfig = {} as IConfig;
   private http: HttpClient;
+  private configVersion = '2';
 
   constructor(handler: HttpBackend) {
     this.http = new HttpClient(handler);
   }
 
   loadConfig(conf: IConfig): Promise<IConfig> {
-    return this.http.get<IConfig>(`assets/config.json`).pipe(
+    return this.http.get<IConfig>(`assets/config.json?version=${this.configVersion}`).pipe(
       tap(config => {
         this.config = Object.assign({}, config as IConfig, conf as IConfig, {
           ////// Hardcoded config variables, use with caution

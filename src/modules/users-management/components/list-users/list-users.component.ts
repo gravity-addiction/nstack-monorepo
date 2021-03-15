@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ColumnMode, SortType } from '@swimlane/ngx-datatable';
 
 import { Subscription } from 'rxjs';
 import { UserService } from '@modules/users-shared/services/user.service';
@@ -12,6 +13,11 @@ export class ListUsersComponent implements OnInit, OnDestroy {
 
   getAllUsers!: Subscription;
   userList: any[] = [];
+
+  columnMode = ColumnMode;
+  sortType = SortType;
+
+  columns = [{prop: 'name'},{prop: 'username'},{prop: 'role'}];
 
   constructor(private userService: UserService) { }
 

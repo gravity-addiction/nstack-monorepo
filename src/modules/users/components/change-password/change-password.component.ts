@@ -1,7 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TokenService } from '@modules/auth/services/token.service';
+import { Subscription } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
+import { TokenService } from '@modules/auth/services/token.service';
 import { UserService } from '@modules/users-shared/services/user.service';
 
 @Component({
@@ -28,16 +30,17 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changepassword() {
-    const userInfo = this.tokenService.getActiveJson();
-    this.userService.password(userInfo, this.model.oldpassword, this.model.newpassword).subscribe(() => {
-      this.router.navigateByUrl(this.returnUrl);
-    }, err => {
-      // console.log('Change Password Error', err);
-      this.changeErr = err.error.replace('_', ' ');
-      if (this.changeErr === 'bad password') {
-        this.model.oldpassword = '';
-        this.changeErr = 'Wrong Old Password';
-      }
-    });
+    console.log('Change Pass');
+    const userInfo = this.tokenService.authActive$.value || {};
+    this.userService.password(userInfo, this.model.oldpassword, this.model.newpassword).pipe(
+      tap((resp) => {
+        console.log('Resp', resp);
+        this.router.navigateByUrl(this.returnUrl);
+      }),
+      catchError((err: any) => {
+        console.log('Change Password Error', err);
+        throw err;
+      })
+    ).subscribe();
   }
 }

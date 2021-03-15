@@ -120,8 +120,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     const mPass = this.model.password;
     const mUser = this.model.username;
     if (!mUser || !mPass) {
- return;
-}
+      return;
+    }
 
     this.loading = true;
     const apiPath = this.configService.customApiPath(`https://${encodeURIComponent((this.model.store || '').trim())}.vendorportal.org`);

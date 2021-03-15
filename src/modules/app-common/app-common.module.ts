@@ -14,6 +14,9 @@ const otherProviders = [ DatePipe, DecimalPipe ];
 /* Components */
 import { SpinnerComponentModule } from './components';
 
+/* Components */
+import * as appCommonDirectives from './directives';
+
 /* Pipes */
 import * as appCommonPipes from './pipes';
 
@@ -28,7 +31,11 @@ import * as appCommonServices from './services';
     ...appCommonPipes.modules,
     SpinnerComponentModule,
   ],
-  exports: [...thirdParty],
+  declarations: [...appCommonDirectives.directives],
+  exports: [
+    ...appCommonDirectives.directives,
+    ...thirdParty
+  ],
 })
 export class AppCommonModule {
   static forRoot(): ModuleWithProviders<AppCommonModule> {

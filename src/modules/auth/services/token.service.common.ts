@@ -12,8 +12,10 @@ export class TokenServiceCommon {
 
   public loginToken$!: BehaviorSubject<any[]>; // Holds array of filled login tokens
   public authActiveIdent$!: BehaviorSubject<string>; // Identifier for the action login token ident
+  public authActive$!: BehaviorSubject<any>; // User JSON of active user
 
   public cookiesEnabled = false;
+  public persistEnabled = true;
 
   constructor(public configService: ConfigService) {
     // console.log('Token Service Common');
@@ -23,6 +25,7 @@ export class TokenServiceCommon {
 
     this.loginToken$ = new BehaviorSubject<any>([]);
     this.authActiveIdent$ = new BehaviorSubject<string>('');
+    this.authActive$ = new BehaviorSubject<any>({});
   }
 
   // Returns true if expired
@@ -49,15 +52,21 @@ export class TokenServiceCommon {
     }
   }
 
-  getActiveJson(): any {
-    // console.log('getActiveJson()');
-    // find in loginTokens
-    const authIdent = this.authActiveIdent$.value || '';
-    // console.log('Lookup', authIdent);
-    if (!authIdent) {
-      return {};
-    }
-    return this.getLoginJson(authIdent);
+  setActiveJson(authInfo: any) {
+    // console.log('Settings', authInfo);
+    this.authActive$.next(authInfo || {});
+  }
+
+  hasActiveToken(): boolean {
+    // console.log('hasActiveToken()');
+    const tokenJson = this.authActive$.value || {};
+    return this.notExpired(tokenJson);
+  }
+
+  setActiveIdent(authIdent: string) {
+    const userInfo = this.getLoginJson(authIdent || '') || {};
+    userInfo.ident = authIdent;
+    this.setActiveJson(userInfo);
   }
 
   // Parse Auth JSON String into authJson

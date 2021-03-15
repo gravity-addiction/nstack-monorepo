@@ -22,7 +22,7 @@ export class RolePermissionDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscriptions.add(this.authService.authRefreshed$.subscribe((userInfo) => this.setupPermission(userInfo)));
-    this.setupPermission(this.tokenService.getActiveJson());
+    this.setupPermission(this.tokenService.authActive$.value || {});
   }
 
   ngOnDestroy() {
@@ -31,7 +31,7 @@ export class RolePermissionDirective implements OnInit, OnDestroy {
 
   setupPermission(userInfo: any) {
     let checkOk = false;
-    const role = userInfo.role || '';
+    const role = (((userInfo || {}).role || []).find(r => r.area === '') || {}).role || '';
     const roleP = (this.rolePermission && Array.isArray(this.rolePermission)) ?
       this.rolePermission :
       [(this.rolePermission || '')];
