@@ -14,27 +14,14 @@ export const addRole = (id: number, role: string, area: string = '', db?: PoolCo
        db
   );
 
-export const getRole = async (id: number, area: string = '', db?: PoolConnection): Promise<RowDataPacket> => {
+export const getRoles = async (id: number, db?: PoolConnection): Promise<RowDataPacket[]> => {
 
   if (!id) {
-    return Promise.resolve({ role: '' } as RowDataPacket);
+    return Promise.resolve([] as RowDataPacket[]);
   }
 
-  return query<RowDataPacket[]>('SELECT `role` ' +
-                    'FROM ?? ' +
-                    'WHERE (`user` = ? and `area` = ?) ' +
-                    'UNION ALL ' +
-                      'SELECT `role` FROM ?? ' +
-                      'WHERE (`user` = ? and `area` = ?) ' +
-                      'and not exists (' +
-                        'SELECT 1 from ?? ' +
-                        'WHERE (`user` = ? and `area` = ?)' +
-                      ') ' +
-                  'LIMIT 1',
-        [ config.auth.dbTables.roles, id, area,
-          config.auth.dbTables.roles, id, area,
-          config.auth.dbTables.roles, id, area,
-        ],
-        db
-  ).then((resp: any) => first(resp));
+  return query<RowDataPacket[]>('SELECT `role`, `area` FROM ?? WHERE `user` = ?',
+    [ config.auth.dbTables.roles, id],
+    db
+  );
 };

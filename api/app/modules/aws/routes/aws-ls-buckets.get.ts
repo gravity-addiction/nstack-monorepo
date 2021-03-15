@@ -10,8 +10,9 @@ export const awsLsBucketsGet: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<any> => {
-
-  if (!await request.rbac.can((request.user || {}).role || '', 'video:url-sign')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'video:url-sign')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
   const query: any = request.query || {},

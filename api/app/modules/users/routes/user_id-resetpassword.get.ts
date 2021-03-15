@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { resetChangePassword } from '../controllers/users.password';
@@ -14,7 +15,9 @@ export const userIdResetpasswordGet: RouteHandlerMethod = async (
           id: userId,
         };
 
-  if (!await request.rbac.can((request.user || {}).role || '', 'user:resetpassword', rbacParams)) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'user:resetpassword', rbacParams)) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 

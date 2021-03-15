@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { getEventBySlug } from '../controllers/event.info';
@@ -18,7 +19,9 @@ export const eventIdTeamsPost: RouteHandlerMethod = async (
     throw request.generateError(500, 'Cannot Get Event Information', _err);
   });
 
-  if (!await request.rbac.can((request.user || {}).role || '', 'event:create:team', { user: eventInfo.user, id: request.user.id})) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'event:create:team', { user: eventInfo.user, id: request.user.id})) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 

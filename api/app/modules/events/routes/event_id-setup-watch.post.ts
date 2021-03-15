@@ -1,5 +1,6 @@
 import { createGoogleChannel } from '@app/modules/google/controllers/google-channels.v3';
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { generateRandomString } from '@lib/fisher-yates-shuffle';
 import { GoogleRequests } from '@lib/google/google.requests';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
@@ -15,7 +16,9 @@ export const eventIdSetupWatchPost: RouteHandlerMethod = async (
         body: any = request.body || {},
         gReq = new GoogleRequests(request.gTokens);
 
-  // if (!await request.rbac.can((request.user || {}).role || '', 'event:create')) {
+  // const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  // if (!await request.rbac.can(role, 'event:create')) {
   //  throw request.generateError(httpCodes.UNAUTHORIZED);
   // }
 

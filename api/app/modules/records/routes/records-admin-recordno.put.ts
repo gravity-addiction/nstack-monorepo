@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { putRecordByRecordno } from '../controllers/records';
@@ -8,7 +9,9 @@ export const recordsAdminRecordnoPut: RouteHandlerMethod = async (
     reply: FastifyReply
 ): Promise<any> => {
 
-  if (!await request.rbac.can((request.user || {}).role || '', 'records:update')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'records:update')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 

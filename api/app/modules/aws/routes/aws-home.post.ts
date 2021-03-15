@@ -11,8 +11,9 @@ export const awsHomePost: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<any> => {
-
-  if (!await request.rbac.can((request.user || {}).role || '', 's3:cloud-home')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 's3:cloud-home')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 
@@ -34,7 +35,7 @@ export const awsHomePost: RouteHandlerMethod = async (
     AwsKeys.IAM(userCreds),
     AwsKeys.S3(userCreds),
     userId,
-    userInfo.sdobn,
+    userInfo.username,
     'cli-only',
     server,
     config.aws.aws_user_id

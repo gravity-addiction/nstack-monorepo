@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { IEventVideoQueue, ResultsEvent, ResultsEventVideoQueue } from '@typings/event';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
@@ -18,7 +19,8 @@ export const eventIdVideoQueueGet: RouteHandlerMethod = async (
     throw request.generateError(httpCodes.INTERNAL_SERVER_ERROR, 'ERROR_FINDING_EVENT_SLUG', _err);
   });
 
-  const userRole = (request.user || {}).role || '';
+  const userRole = request.rbac.getRole(request.user);
+  // const userRole = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
   if (!await request.rbac.can(userRole, 'event:video-queue')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }

@@ -7,7 +7,7 @@ import { hashPassword } from './users.password';
 // Get All Roles for User
 export const getUserById = (id: number, db?: PoolConnection): Promise<RowDataPacket> =>
   query<RowDataPacket[]>(
-      'SELECT `id`, `sdobn`, `name`, `username`, `changepass` FROM ?? WHERE `id` = ? LIMIT 1',
+      'SELECT `id`, `name`, `username`, `changepass` FROM ?? WHERE `id` = ? LIMIT 1',
       [config.auth.dbTables.users, id],
       db
   ).
@@ -17,7 +17,7 @@ export const getUserById = (id: number, db?: PoolConnection): Promise<RowDataPac
 // Get list of All Users
 export const getAllUsers = (db?: PoolConnection): Promise<RowDataPacket[]> =>
   query<RowDataPacket[]>(
-    'SELECT `id`, `sdobn`, `name`, `username` FROM ?? ORDER BY `name`',
+    'SELECT `id`, `name`, `username` FROM ?? ORDER BY `name`',
     [config.auth.dbTables.users],
     db
   );
@@ -48,8 +48,8 @@ export const userCheck = async (username: string, id?: number, db?: PoolConnecti
 
 export const createUser = async (body: any, db?: PoolConnection): Promise<RowDataPacket> => {
   if (!body.password) {
-    body.password = Math.floor(Math.random() * 1000000).toString();
-    while (body.password.length < 8) {
+    body.dpassword = Math.floor(Math.random() * 1000000).toString();
+    while (body.dpassword.length < 5) {
       body.dpassword = body.dpassword + '0';
     }
   } else {
@@ -58,7 +58,6 @@ export const createUser = async (body: any, db?: PoolConnection): Promise<RowDat
 
   const insertData: any = {
     name: body.name || '',
-    sdobn: body.sdobn || '',
     password: hashPassword(body.dpassword),
     username: body.username,
   };
@@ -83,9 +82,6 @@ export const updateUserInfo = async (id: number, body: any, db?: PoolConnection)
 
   if (body.hasOwnProperty('name') && body.name !== '') {
     updateData.name = body.name;
-  }
-  if (body.hasOwnProperty('sdobn')) {
-    updateData.sdobn = body.sdobn;
   }
   if (body.hasOwnProperty('username') && body.username !== '') {
     updateData.username = body.username;

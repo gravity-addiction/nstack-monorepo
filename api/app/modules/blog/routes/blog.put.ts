@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { paramCase } from 'change-case';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
@@ -8,8 +9,9 @@ export const blogPut: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<any> => {
-
-  if (!await request.rbac.can((request.user || {}).role || '', 'blog:create')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'blog:create')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
   const params: any = request.params || {},

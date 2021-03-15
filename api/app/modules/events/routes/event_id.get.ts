@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { Event, EventSimple } from '@typings/event';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
@@ -17,7 +18,8 @@ export const eventIdGet: RouteHandlerMethod = async (
     throw request.generateError(500, 'Get User Error, getUserById()', _err);
   });
 
-  const userRole = (request.user || {}).role || '';
+  const userRole = request.rbac.getRole(request.user);
+  // const userRole = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
   if (userRole && await request.rbac.can(userRole, 'event:create')) {
     reply.code(httpCodes.OK);
     return ngEvent(regInfo);
