@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { addVideoQueueSplice } from '../controllers/video-queue';
@@ -13,7 +14,7 @@ export const videoQueueIdSplicePut: RouteHandlerMethod = async (
   const videoQueueId = parseInt(params.video_queue_id, 10) || 0;
 
   const userId = (request.user || {}).id || null;
-  const userRole = (request.user || {}).role || '';
+  const userRole = request.rbac.getRole(request.user);
   if (!await request.rbac.can(userRole, 'video-queue:splice')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }

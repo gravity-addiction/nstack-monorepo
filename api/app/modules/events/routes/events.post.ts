@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { Event } from '@typings/event';
 import { paramCase } from 'change-case';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
@@ -10,7 +11,9 @@ export const eventsPost: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<Event> => {
-  if (!await request.rbac.can((request.user || {}).role || '', 'event:create')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'event:create')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
   const body: any = request.body || {},

@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 import { RowDataPacket } from 'mysql2';
 
@@ -9,7 +10,7 @@ export const videoQueueGet: RouteHandlerMethod = async (
   reply: FastifyReply
 ): Promise<any> => {
 
-  const userRole = (request.user || {}).role || '';
+  const userRole = request.rbac.getRole(request.user);
   if (!await request.rbac.can(userRole, 'video-queue:get')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }

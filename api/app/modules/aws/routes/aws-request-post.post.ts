@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 import { join as pathJoin } from 'path';
 
@@ -11,7 +12,9 @@ export const awsRequestPostPost: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<any> => {
-  if (!await request.rbac.can((request.user || {}).role || '', 'video:url-sign')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'video:url-sign')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 

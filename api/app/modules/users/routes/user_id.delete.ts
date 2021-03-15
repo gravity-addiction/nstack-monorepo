@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { deleteUser } from '../controllers/users.info';
@@ -7,7 +8,9 @@ export const userIdDelete: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<any> => {
-  if (!await request.rbac.can((request.user || {}).role || '', 'user:delete')) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'user:delete')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 

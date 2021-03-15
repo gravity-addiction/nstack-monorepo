@@ -5,7 +5,7 @@ import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { getUserById } from '../controllers/users.info';
 import { authenticateUser, authenticateUserKey, setUserChangePassword } from '../controllers/users.password';
-import { getRole } from '../controllers/users.roles';
+import { getRoles } from '../controllers/users.roles';
 
 export const authenticatePost: RouteHandlerMethod = async (
     request: FastifyRequest,
@@ -43,7 +43,7 @@ export const authenticatePost: RouteHandlerMethod = async (
   const userInfo: any = await getUserById(id).catch((_err: Error) => {
     throw request.generateError(httpCodes.BAD_REQUEST, 'Cannot get User By Id', _err);
   });
-  const userRole = await getRole(userInfo.id).catch((_err: Error) => {
+  const userRole = await getRoles(userInfo.id).catch((_err: Error) => {
     throw request.generateError(httpCodes.BAD_REQUEST, 'Cannot find user roles', _err);
   });
 
@@ -51,9 +51,8 @@ export const authenticatePost: RouteHandlerMethod = async (
   const jwtBody = {
     id: userInfo.id,
     name: userInfo.name,
-    sdobn: userInfo.sdobn,
     username: userInfo.username,
-    role: (userRole || {} as any).role || '' || config.rbac.defaultUserRole || '',
+    role: userRole || config.rbac.defaultUserRole || [{ area: '', role: ''}],
   };
 
   // Save Token to Database

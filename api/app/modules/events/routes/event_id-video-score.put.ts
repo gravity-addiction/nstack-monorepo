@@ -1,5 +1,6 @@
 import { FsScoringClass } from '@classes/sdob-scoring/fs-scoring.class';
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { calcScorecardTotal, insertEventScorecard } from '../controllers/event.scores';
@@ -16,7 +17,8 @@ export const eventIdVideoScorePut: RouteHandlerMethod = async (
   let videoId = parseInt(params.video_id, 10) || 0;
 
   const userId = (request.user || {}).id || null;
-  const userRole = (request.user || {}).role || '';
+  const userRole = request.rbac.getRole(request.user);
+  // const userRole = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
   if (!await request.rbac.can(userRole, 'event:video-score')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }

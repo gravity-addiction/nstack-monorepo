@@ -1,6 +1,6 @@
-import { config } from '@lib/config';
-import { first, query } from '@lib/db';
-import { uuidv4 } from '@lib/uuid';
+import { config } from '../../../lib/config';
+import { first, query } from '../../../lib/db';
+import { uuidv4 } from '../../../lib/uuid';
 import { sign as jwtSign, verify as jwtVerify } from 'jsonwebtoken';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
@@ -100,24 +100,27 @@ export const validateToken = async (token: string): Promise<any> => {
           tokenExp = userInfo.exp || 0;
 
     const tokenInfo = await findToken(userInfo.jti);
-
-    if (tokenInfo && userInfo && (tokenExp > curTime)) {
+    if (tokenInfo && tokenInfo.user && userInfo && (tokenExp > curTime)) {
       // Token Valid, Not Expired
+      // console.log('Not Expired');
       return Promise.resolve([false, userInfo]);
 
-    } else if (tokenInfo && userInfo && tokenExp <= curTime) {
+    } else if (tokenInfo && tokenInfo.user && userInfo && tokenExp <= curTime) {
       // Refresh Token
+      // console.log('Needs Refreshing');
       const updateInfo: ResultSetHeader = await updateToken(userInfo.jti);
 
       if ((updateInfo || {}).affectedRows) {
         return Promise.resolve([true, userInfo]);
       } else {
+        // console.log('Cannot Update Token');
         throw new Error('Token Server Failure');
       }
 
     } else {
       // Token is Dead
-      throw new Error('Token Dead');
+      // console.log('Token Dead!');
+      return Promise.resolve([false, false]);
     }
 
   }

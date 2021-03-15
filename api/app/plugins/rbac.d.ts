@@ -11,4 +11,5 @@ export declare class RBAC {
     _parseRoleMap(roles: any): Map<any, any>;
     asyncInit(roles: any): Promise<void>;
     can(role: any, operation: string, params?: any): Promise<any>;
+    getRole(user: any, area?: string, role?: string): any;
 }

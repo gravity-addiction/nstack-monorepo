@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
 import { getUserById } from '../controllers/users.info';
@@ -15,7 +16,9 @@ export const userIdGet: RouteHandlerMethod = async (
           id: userId,
         };
 
-  if (!await request.rbac.can((request.user || {}).role || '', 'user:view', rbacParams)) {
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  if (!await request.rbac.can(role, 'user:view', rbacParams)) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
 

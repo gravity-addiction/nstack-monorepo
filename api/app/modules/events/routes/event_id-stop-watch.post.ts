@@ -1,6 +1,7 @@
 // eslint-disable-next-line max-len
 import { cancelGoogleChannel, getGoogleChannelByEventId, googleChannelsStopFileWatch } from '@app/modules/google/controllers/google-channels.v3';
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { GoogleRequests } from '@lib/google/google.requests';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
@@ -12,7 +13,9 @@ export const eventIdStopWatchPost: RouteHandlerMethod = async (
         eventId = params.event_id || '',
         gReq = new GoogleRequests(request.gTokens);
 
-  // if (!await request.rbac.can((request.user || {}).role || '', 'event:create')) {
+  // const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
+  // if (!await request.rbac.can(role, 'event:create')) {
   //  throw request.generateError(httpCodes.UNAUTHORIZED);
   // }
 

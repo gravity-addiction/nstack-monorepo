@@ -1,4 +1,4 @@
-import { loadConfig, config } from '@lib/config';
+import { loadConfig, config } from '../lib/config';
 
 import { fastify, FastifyInstance } from 'fastify';
 import fastifyCors from 'fastify-cors';

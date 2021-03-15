@@ -1,4 +1,5 @@
 import { FsScoringClass } from '@classes/sdob-scoring/fs-scoring.class';
+import { config } from '@lib/config';
 import httpCodes from '@inip/http-codes';
 // import { ResultsEvent } from '@typings/index';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
@@ -15,7 +16,8 @@ export const eventIdVideoScoreSubmitPost: RouteHandlerMethod = async (
         body: any = request.body || {};
 
   // const userId = (request.user || {}).id || null;
-  // const userRole = (request.user || {}).role || '';
+  // const userRole = request.rbac.getRole(request.user);
+  // const userRole = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
   // if (!await request.rbac.can(userRole, 'event:video-score')) {
   //   throw request.generateError(httpCodes.UNAUTHORIZED);
   // }

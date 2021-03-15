@@ -1,5 +1,6 @@
 // Original Code By: https://github.com/DeadAlready/easy-rbac.git
 import { FastifyInstance } from 'fastify';
+import { config } from '../../lib/config';
 
 interface RBACObj {
   can: any;
@@ -69,7 +70,7 @@ export class RBAC {
       const roleObj: RBACObj = {
         can: {},
         canGlob: [],
-        inherits: [],
+        inherits: []
       };
       // Check can definition
       if (!Array.isArray(roles[role].can)) {
@@ -152,6 +153,7 @@ export class RBAC {
       this.fastify.log.debug('Init complete, continue');
     }
 
+
     if (Array.isArray(role)) {
       this.fastify.log.trace('array of roles, try all');
       return isMatch(role.map(r => this.can(r, operation, params)));
@@ -170,7 +172,7 @@ export class RBAC {
     const $role = this.roles.get(role);
 
     if (!$role) {
-      if ($role !== '') {
+      if (role !== '') {
         this.fastify.log.error('Undefined role');
       }
       return false;
@@ -227,5 +229,18 @@ export class RBAC {
     this.fastify.log.error('Shouldnt have reached here, something wrong, reject');
     return false;
 //    throw new Error('something went wrong');
+  }
+
+  getRole(user, area = '', role = '') {
+    let roleList = (user) ? [...config.rbac.defaultUserRole, ...user.role] : config.rbac.defaultRole;
+    return roleList.filter(r => {
+      if (area && role) {
+        return (r.area === area && r.role === role);
+      } else if (area) {
+        return (r.area === area);
+      } else {
+        return r.area === '';
+      }
+    }).map(r => r = r.role);
   }
 }

@@ -1,4 +1,5 @@
 import httpCodes from '@inip/http-codes';
+import { config } from '@lib/config';
 import { ResultsEvent } from '@typings/event';
 import { FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 
@@ -9,7 +10,8 @@ export const eventIdPagesPut: RouteHandlerMethod = async (
     request: FastifyRequest,
     reply: FastifyReply
 ): Promise<any> => {
-
+  const role = request.rbac.getRole(request.user);
+  // const role = (((request.user || {}).role || []).find(r => r.area === '') || config.rbac.defaultRole || { role: ''}).role;
   if (!await request.rbac.can((request.user || {}).role || '', 'event:edit')) {
     throw request.generateError(httpCodes.UNAUTHORIZED);
   }
