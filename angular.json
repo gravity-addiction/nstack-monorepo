@@ -31,6 +31,11 @@
             "assets": [
               {
                 "glob": "**/*",
+                "input": "./src/assets",
+                "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
                 "input": "./projects/org-vendorportal-website/src/assets",
                 "output": "/assets/"
               },
@@ -126,6 +131,11 @@
             "assets": [
               {
                 "glob": "**/*",
+                "input": "./src/assets",
+                "output": "/assets/"
+              },
+              {
+                "glob": "**/*",
                 "input": "./projects/org-vendorportal-website/src/assets",
                 "output": "/assets/"
               },
@@ -169,6 +179,11 @@
             "polyfills": "projects/com-skydiveorbust/src/polyfills.ts",
             "tsConfig": "projects/com-skydiveorbust/tsconfig.web.json",
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "./src/assets",
+                "output": "/assets/"
+              },
               {
                 "glob": "**/*",
                 "input": "./projects/com-skydiveorbust/src/assets",
@@ -264,6 +279,11 @@
               ]
             },
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "./src/assets",
+                "output": "/assets/"
+              },
               {
                 "glob": "**/*",
                 "input": "./projects/com-skydiveorbust/src/assets",
