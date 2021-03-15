@@ -8,7 +8,7 @@ console.log('cwd', process.cwd());
 console.log('Running', projectName);
 concurrently([
   {
-    command: `npm run ng -- build "${projectName}" --prod --source-map --build-optimizer=true --statsJson=true`,
+    command: `npm run ng -- build "${projectName}" --prod --build-optimizer=true`,
     name: 'NG_BUILD',
     prefixColor: 'bgBlue.orange',
   }

@@ -3,7 +3,7 @@ const path = require('path');
 const sh = require('shelljs');
 const renderPug = require('./render-pug');
 
-process.chdir(resolve(__dirname, '../')); // path from this script to root folder
+process.chdir(path.resolve(__dirname, '../')); // path from this script to root folder
 
 console.log('cwd', process.cwd());
 const projectName = process.argv[2] || '';
